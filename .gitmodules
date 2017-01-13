@@ -1,0 +1,3 @@
+[submodule "package/arm-assembler-latex-listings"]
+	path = package/arm-assembler-latex-listings
+	url = https://github.com/frosc/arm-assembler-latex-listings.git
