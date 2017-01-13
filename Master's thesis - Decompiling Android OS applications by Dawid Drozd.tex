@@ -1,0 +1,348 @@
+%Szablon przygotowany przez mgr Marcina Hanca, z drobnymi zmianami dr Michała Rena
+
+\documentclass[12pt,a4paper,leqno,oneside,titlepage]{book}
+
+% Wczytanie pakietów: kodowania, czcionki i języki.
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[english,polish]{babel}
+% Wczytanie pakietu 'polski' w celu zapewnienia polskich nazw.
+\usepackage{polski}
+% Czcionki matematyczne.
+\usepackage{amsfonts}
+\usepackage{amsmath}
+
+% Ładne początki rozdziałów (pakiet fncychap).
+% Polecam Sonny i Conny. Bjornstrup najładniejszy, ale mi się bugował.
+\usepackage[Sonny]{fncychap}
+% Ładne i klikalne odnośniki.
+\usepackage{url}
+% Odnośniki dla adresów z polskimi znakami.
+\usepackage[]{hyperref}
+% Możliwość tworzenia łączonych pól (wg. rzędów) w tabelach.
+\usepackage{multirow}
+% Pakiet do cytowania kodów źródłowych.
+\usepackage{listings}
+% Pakiet do ładnego wstawiania grafik.
+\usepackage{graphicx}
+% Pakiet dodający możliwość wstawienia rozdziału "Akronimy".
+\usepackage{acronym}
+% Pakiet dodający kolory
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
+% Pakiet rozwiązujący problem z underscore w Section.
+\usepackage[T1]{fontenc}
+% Pakiet dodający definicje i twierdzenia.
+\usepackage{amsthm}
+
+\frenchspacing
+
+\author{Dawid Drozd}
+\title{Dekompilacja aplikacji działających w systemie Android OS.}
+
+% \imod{k} Ładny zapis dzielenia modulo.
+\makeatletter
+\def\imod#1{\allowbreak\mkern10mu({\operator@font mod}\,\,#1)}
+\makeatother
+
+% \rom{n} Liczba n zapisana rzymsko.
+\makeatletter
+\newcommand*{\rom}[1]{\expandafter\@slowromancap\romannumeral #1@}
+\makeatother
+
+% Własne definicje.
+% \begin{mydef}
+%     Treść definicji.
+% \end{mydef}
+\newtheorem{mydef}{Definicja}
+
+% Ładny sposób wstawiania cytatu rozpoczynającego rozdział.
+% \begin{chapquote}{KTO}
+%     CO ONA POWIEDZIAŁA?
+% \end{chapquote}
+\makeatletter
+\renewcommand{\@chapapp}{}
+\newenvironment{chapquote}[2][2em]
+  {\setlength{\@tempdima}{#1}%
+   \def\chapquote@author{#2}%
+   \parshape 1 \@tempdima \dimexpr\textwidth-2\@tempdima\relax%
+   \itshape}
+  {\par\normalfont\hfill--\ \chapquote@author\hspace*{\@tempdima}\par\bigskip}
+\makeatother
+
+% Zmiana tekstów w listingach kodów źródłowych na j. polski.
+\renewcommand\lstlistingname{Kod źródłowy}
+\renewcommand\lstlistlistingname{Spis kodów źródłowych}
+
+% Redefinicja Abstract'ów.
+% W celu możliwości wstawienia dwóch na jedną stronę.
+\newenvironment{abstractpage}
+  {\cleardoublepage\vspace*{\fill}\thispagestyle{empty}}
+  {\vfill\cleardoublepage}
+\newenvironment{abstract}[1]
+  {\bigskip\selectlanguage{#1}%
+   \begin{center}\bfseries\abstractname\end{center}}
+  {\par\bigskip}
+
+% Dodatkowe definicje stylu stron.
+\lstset{
+  basicstyle={\small\ttfamily},
+  breaklines=true,
+  columns=flexible
+}
+
+\setlength{\oddsidemargin}{0.5in}
+\setlength{\textwidth}{5.7in}
+\setlength{\topmargin}{0in}
+\setlength{\textheight}{8.5in}
+\linespread{1.05}
+
+% Tu rozpoczyna się zawartość pracy!
+\begin{document}
+
+% Strona tytułowa zgodna z wymaganiami:
+% http://www.wmi.amu.edu.pl/pl/prace-dyplomowe
+\begin{titlepage}
+\let\footnotesize\small
+\let\footnoterule\relax
+\let \footnote \thanks
+
+\begin{center}
+{\large \bf Uniwersytet im. Adama Mickiewicza w Poznaniu \\ Wydział Matematyki i~Informatyki \par}
+\vspace{0.5cm plus 1mm minus 2mm}
+{{\bf Kierunek: Informatyka} \\ \small Specjalizacja:\par}
+\end{center}%
+
+\vspace{1.5cm plus 1fill}
+\begin{flushleft}
+{\center {\bf \Large Dawid Patryk Drozd} \\ \normalsize Nr albumu: \bf 362617\par}
+\end{flushleft}
+\vspace{1.5cm plus 1mm minus 2mm}
+
+\begin{center}
+{\huge\textbf{Dekompilacja aplikacji działających w systemie Android~OS}\par}
+\vspace{0.5cm plus 1mm minus 2mm}
+{\large Decompiling Android OS applications}
+\par
+\vspace{1.5cm plus 1.5fill}
+
+\begin{flushright}\large
+\begin{tabular}{l}
+Praca magisterska\\[3pt]
+\MakeUppercase{ }\\[3pt]
+Promotor: \\[3pt]
+\bfseries dr Michał Ren \\[3pt]
+\end{tabular}
+\end{flushright}
+\vspace{4cm plus .1fill}
+{\large 2017\par}
+\end{center}
+\end{titlepage}
+
+% Zgłoszenie braku numerowania kolejnych stron.
+\pagenumbering{gobble}
+
+\begin{flushright}{
+Poznań, dnia 25 czerwca 2017
+}\end{flushright}
+\begin{center}{
+\par
+\vspace{1.5cm plus 1.5fill}
+{\large OŚWIADCZENIE}
+}\end{center}
+\par
+\vspace{1.5cm plus 1.5fill}
+Ja, niżej podpisany Dawid Patryk Drozd student Wydziału Matematyki i~Informatyki Uniwersytetu im. Adama Mickiewicza w Poznaniu oświadczam, że przedkładaną pracę dyplomową pt: ``Dekompilacja aplikacji działających w systemie Android OS'' napisałem samodzielnie. Oznacza to, że przy pisaniu pracy, poza niezbędnymi konsultacjami, nie korzystałem z pomocy innych osób, a~w~szczególności nie zlecałem opracowania rozprawy lub jej części innym osobom, ani nie odpisywałem tej rozprawy lub jej części od innych osób.\\
+
+Oświadczam również, że egzemplarz pracy dyplomowej w~wersji drukowanej jest całkowicie zgodny z~egzemplarzem pracy dyplomowej w~wersji elektronicznej.\\
+
+Jednocześnie przyjmuję do wiadomości, że przypisanie sobie, w~pracy dyplomowej, autorstwa istotnego fragmentu lub innych elementów cudzego utworu lub ustalenia naukowego stanowi podstawę  stwierdzenia  nieważności postępowania w~sprawie nadania tytułu zawodowego.\\
+
+Wyrażam zgodę na udostępnianie mojej pracy w czytelni Archiwum UAM.\\
+
+Wyrażam zgodę na udostępnianie mojej pracy w zakresie koniecznym do ochrony mojego prawa do autorstwa lub praw osób trzecich.
+\par
+\vspace{1.5cm plus 1.5fill}
+\begin{center}{
+..............................................\\
+{\footnotesize(czytelny podpis studenta)}
+}\end{center}
+
+\newpage
+
+\phantom{.}
+
+\vspace{12cm} \hspace{1cm}\phantom{.}\\
+\phantom{.}\hspace{5cm}{Składam serdeczne podziękowania}\\
+\phantom{.}\hspace{5cm}{doktorowi }\\
+\phantom{.}\hspace{5cm}{Michałowi Renowi }\\
+\phantom{.}\hspace{5cm}{za jego nieocenioną pomoc }\\
+\phantom{.}\hspace{5cm}{przy pisaniu tej pracy.}\\
+\phantom{.}\hspace{5cm}{}\\
+\phantom{.}\hspace{5cm}{Dziękuję również}\\
+\phantom{.}\hspace{5cm}{Marcinowi Hancowi za szablon i }\\
+\phantom{.}\hspace{5cm}{za owocną, naukową współpracę}\\
+\phantom{.}\hspace{5cm}{przy tworzeniu wyników z tej pracy.}\\
+
+\newpage
+% Przód pracy - spisy i abstrakty.
+\frontmatter
+% Spis treści ze specjalnym uwzględnieniem podkreśleń w tytułach sekcji.
+\pagestyle{plain}
+{
+    \catcode`\_=12
+    \tableofcontents
+}
+% Spis ilustracji.
+\listoffigures
+% Spis tabeli.
+\listoftables
+% Spis listingów kodów źródłowych.
+\begingroup
+\let\clearpage\relax
+\lstlistoflistings
+\endgroup
+
+% Strona z abstraktami.
+\begin{abstractpage}
+% Abstrakt w języku polskim.
+\begin{abstract}{polish}
+Streszczenie wstępu jest dobrym pomysłem na abstrakt. Dobre praktyki tworzenia abstraktów znajdują się na stronie\footnote{
+\url{http://www.editage.com/insights/how-to-write-an-effective-title-and-abstract-and-choose-appropriate-keywords}}.
+\end{abstract}
+\smallskip
+\noindent \textbf{Słowa~kluczowe:} schemat pracy dyplomowej
+
+%Abstrakt w języku angielskim.
+\begin{abstract}{english}
+Translation of your polish abstract.
+\end{abstract}
+\smallskip
+\noindent \textbf{Keywords:} thesis schema
+\end{abstractpage}
+
+% Finally - PRACA!
+\mainmatter
+
+% Wstęp jest uwzględniony w spisie treści jako rozdział bez numeru.
+\addcontentsline{toc}{chapter}{Wstęp}
+\chapter*{Wstęp}
+
+Krótkie omówienie -- skąd pomysł na pracę, być może kilka słów wprowadzenia w historię badań nad podobnymi tematami.\\
+
+Wstęp powinien być przewodnikiem po własnych wynikach. Czyli w~pracy takiej zrobiono takie owakie cuda. W rozdziale tym to, a w tamtym tamto.
+
+\chapter{Typowy rozdział}
+
+Blablabla.
+
+\section{O! Podrozdział!}
+
+% Wstawianie ilustracji o określonej szerokości.
+\begin{figure}[h!]
+  % Centrowanie obrazu w poziomie.
+  \centering
+    \includegraphics[width=0.35\textwidth]{logo_wersja-podstawowa_granat_1.jpg}
+  % Warto podawać źródło - np. z pomocą cite w podpisie.
+  \caption{TRNG\cite{Stallings11kryptografia}}
+\end{figure}
+
+Dobrze jest cytować\footnote{Inaczej przytaczać. A to jest przypis dolny.} artykuły naukowe w taki sposób, aby czytający nie musiał co chwilę szukać bibliografii, np. książka ``\textit{Kryptografia i bezpieczeństwo sieci komputerowych. Matematyka szyfrów i techniki kryptologii}''\cite{Stallings11kryptografia}, strona internetowa ``\textit{Seminarium ZATABEDA}''\cite{Gogolewski13seminarium}, artykuł zamieszczony w Internecie ``\textit{How to write an effective title and abstract and choose appropriate keywords}''\cite{Rodrigues13howtowrite}, wiadomość z grup dyskusyjnych ``\textit{Random numbers for C: The END?}''\cite{Marsaglia99randomnum} i prezentacja lub wykład zamieszczone w Internecie ``\textit{Szumy pseudolosowych map.}''\cite{Hanc15szumy}.\\
+
+``Brzydki sposób na wstawianie cytatu.''.
+
+% Lista nienumerowana.
+\begin{itemize}
+\item \textbf{Wymieniany} -- element może mieć zagnieżdżenia:
+    \begin{itemize}
+    \item \textbf{Przykład}, faktycznie tu jest.
+    \end{itemize}
+\end{itemize}
+
+% Własna definicja
+\begin{mydef}
+\textbf{Można pogrubić nazwę określanego pojęcia} aby było jasne co definiujemy.
+\end{mydef}
+
+\chapter{Inny rozdział}
+
+% Ilustracje mogą zawierać naraz kilka plików.
+% Pamiętaj o podawaniu źródła wykorzystywanych obrazów.
+% Nawet jeśli stworzyłaś/-eś reprodukcję.
+\begin{figure}[h!]
+  \centering
+    \includegraphics[height=0.3\textheight]{PM5544_with_non-PAL_signals.png}
+    \includegraphics[height=0.3\textheight]{logo_wersja-uzupeniajca_czarny_2.pdf}
+  \caption{Obrazki rastrowe i wektorowe}
+\end{figure}
+
+Rysunek 2.1 pochodzi z takiej tam strony\footnote{\url{http://siw.amu.edu.pl/siw/strona-glowna/strona-glowna}}.
+
+\section{Znów podrozdział}
+
+Przykład inline'owego trybu matematycznego: $X_{n+1} = a X_n + c \imod{m}$.
+
+\subsection{Ostatni poziom zagłębienia uwzględniany w domyślnym spisie treści.}
+
+% Cytat na wstęp sekcji.
+\begin{chapquote}{Marcin Mateusz Hanc}
+gracze na szczęście nie przejmowali się dotarciem do ``końca świata'' \cite{Hanc15szumy}
+\end{chapquote}
+
+% Przykład tabeli z danymi.
+\begin{table}[h]
+\centering
+\label{tab:RNG_examples}
+\begin{tabular}{l|c}
+ Nagłówek & Coś innego \\
+ \hline \hline
+ Pierwszy rząd & 100 \\
+ \hline
+ Rząd & \multirow{2}{*}{TAK} \\
+ podwójny & \\
+\end{tabular}
+\caption{Przykładowa tabela}
+\end{table}
+
+% Przykład wstawienia listingu kodu w języku C++ z podpisem.
+\lstinputlisting[language=C++, captionpos=b, belowcaptionskip=4pt, caption={Ułamkowy Ruch Browna}]{fBm.cpp}
+
+\section{Sekcja ze znakiem \_ działa}
+
+% Wyliczenie elementów.
+\begin{enumerate}
+\item Elementy mogą być dłuższe niż jedna linia.
+
+FAKTYCZNIE.
+
+\item Drugi element.
+
+\end{enumerate}
+
+\chapter{Ostatni rozdział}
+
+Jakieś treści podsumowujące pracę. Być może wnioski i pomysły na badania możliwe do przeprowadzenia na podstawie owej pracy.
+
+\newpage
+% Dodanie wpisu Bibliografia do Spisu Treści.
+\addcontentsline{toc}{chapter}{Bibliografia}
+% Styl bibliografii: unsrt lub plain
+\bibliographystyle{plain}
+\bibliography{bibliografia}
+
+% W przypadku dodawania dodatków:
+\appendix
+\addcontentsline{toc}{chapter}{Dodatki}
+
+% Pojedyńczy dodatek.
+\addcontentsline{toc}{section}{Dodatek A: Cośtam dodatkowego}
+\chapter*{Dodatek A: Cośtam dodatkowego}
+
+Zawartość tego czegoś dodatkowego.
+
+% Spis akronimów użytych w pracy
+\chapter*{Akronimy}
+\begin{acronym}
+\acro{KISS}{Keep It Simple Stupid}
+\acro{IT}{Information Technology}
+\end{acronym}
+\end{document}
