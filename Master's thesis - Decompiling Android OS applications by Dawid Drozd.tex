@@ -129,7 +129,7 @@
 \begin{center}
 {\large \bf Uniwersytet im. Adama Mickiewicza w Poznaniu \\ Wydział Matematyki i~Informatyki \par}
 \vspace{0.5cm plus 1mm minus 2mm}
-{{\bf Kierunek: Informatyka} \\ \small Specjalizacja:\par}
+{{\bf Kierunek: Informatyka} \\ \small Specjalizacja:\todo{MISSING!}\par}
 \end{center}%
 
 \vspace{1.5cm plus 1fill}
@@ -246,18 +246,19 @@ Wyrażam zgodę na udostępnianie mojej pracy w zakresie koniecznym do ochrony m
 \begin{abstractpage}
 % Abstrakt w języku polskim.
 \begin{abstract}{polish}
-Streszczenie wstępu jest dobrym pomysłem na abstrakt. Dobre praktyki tworzenia abstraktów znajdują się na stronie\footnote{
-\url{http://www.editage.com/insights/how-to-write-an-effective-title-and-abstract-and-choose-appropriate-keywords}}.
+Celem pracy jest omówienie procesu dekompilacji aplikacji mobilnych pisanych na system operacyjny Android.
+Na początku poznamy budowę aplikacji androidowej. Korzystając z tej wiedzy nauczymy się obsługi narzędzi które ułatwiają proces dekompilacji. Dzięki narzędzią otrzymamy wynik desasemblacji i nauczymy się go interpretować. Z tak otrzymanego wyniku postaramy się poskładać wszystko z powrotem do działającej aplikacji. Dowiemy się jak system Android identyfikuje i weryfikuje pochodzenie aplikacji. Na koniec dowiemy się jakie niebezpieczeństwo niesie za sobą źle zabezpieczony kod aplikacji. Prześledzimy proces który utrudnia odzyskiwanie kodu źródłowego za pomocę technik odwrotnej inżynierii.
+ 
 \end{abstract}
 \smallskip
-\noindent \textbf{Słowa~kluczowe:} schemat pracy dyplomowej
+\noindent \textbf{Słowa~kluczowe:} RE, reverse engineering, inżynieria odwrotna, dekompilacja, android, apk, apktool, smali, obfuskacja, zaciemnianie kodu, dezasemblacja, deasembler, disassembler, objdump, asembler, dekompilator
 
 %Abstrakt w języku angielskim.
 \begin{abstract}{english}
-Translation of your polish abstract.
+\todo{translate when PL is done}
 \end{abstract}
 \smallskip
-\noindent \textbf{Keywords:} thesis schema
+\noindent \textbf{Keywords:} \todo{translate when PL is done}
 \end{abstractpage}
 
 % Finally - PRACA!
@@ -273,101 +274,105 @@ Translation of your polish abstract.
 \addcontentsline{toc}{chapter}{Wstęp}
 \chapter*{Wstęp}
 
-Krótkie omówienie -- skąd pomysł na pracę, być może kilka słów wprowadzenia w historię badań nad podobnymi tematami.\\
+Inżynieria wsteczna (ang. \emph{reverse engineering}, w skrócie RE) jest procesem analizy budowy i sposobu działania oprogramowania. Proces ten jest często długim procesem ze względu na to, że analizujemy kod który poprzednio został przekształcony przez inne programy (kompilatory, preprocesory, itp.) do formy mniej czytelnej. Takim przykładem może być skompilowany program napisany w C++.
 
-Wstęp powinien być przewodnikiem po własnych wynikach. Czyli w~pracy takiej zrobiono takie owakie cuda. W rozdziale tym to, a w tamtym tamto.
 
-\chapter{Typowy rozdział}
+\lstinputlisting[language=C++, captionpos=b, belowcaptionskip=4pt, caption={Przykładowy program w C++}]{src/sample.cpp}
 
-Blablabla.
+Uproszczony kod po odwrotnej inzynierii dla platformy ARM. 
 
-\section{O! Podrozdział!}
+\lstinputlisting[language={[ARM]Assembler}, captionpos=b, belowcaptionskip=4pt, caption={Zdesasemblowany przykładowy kod}]{src/sample.s}
 
-% Wstawianie ilustracji o określonej szerokości.
+Przykład choć krótki to już pokazuje jak mamy utrudnione zadanie. Często analizujemy kod który jest bardziej zrozumiały dla maszyny niż człowieka.
+
+Proces inżynieri wstecznej jest dodatkowo utrudniany przez programistów którzy nie chcą by ktoś podglądał jak pewna funkcjonalność zastała zrealizowana. W tym celu stosowana jest obfuskacja kodu. Jednak inżynieria wsteczna czasem jest jedynym sposobem na dowiedzenie się jak coś działa. Przykładem może być brak kodu źródłowgo pewnej biblioteki jak i brak dokumentacji do niej. Innym przykładem może być chęć dodania lub naprawienia pewnej funkcjonalności. Producent mógł porzucić rozwój oprogramowania a nasza organizacja z pewnych powodów nie może zmienić tej biblioteki.
+
+Celem tej pracy jest przedstawienie narzędzi jak i procesu dekompilacji zbudowanych aplikacji i ponownej kompilacji zmodyfikowanej aplikacji na system operacyjny Android.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                      chapter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Jak zbudowana jest aplikacja na Android'a}
+\section{Format .apk}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                      chapter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Narzędzia do dekompilacji}
+\section{apktool}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                      chapter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%- Zabezpieczenia przed modyfikowaniem aplikacji (podpisywanie apki certyfikatem,nazwa package apki)
+
+\chapter{Identyfikacja i weryfikowanie aplikacji}
+\section{Cyfrowy podpis}
+\section{Nazwa paczki}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                      chapter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Wynik desasemblacji}
+
 \begin{figure}[h!]
-  % Centrowanie obrazu w poziomie.
-  \centering
-    \includegraphics[width=0.35\textwidth]{logo_wersja-podstawowa_granat_1.jpg}
-  % Warto podawać źródło - np. z pomocą cite w podpisie.
-  \caption{TRNG\cite{Stallings11kryptografia}}
+	\centering
+	\includegraphics[height=0.3\textheight]{img/Screenshot_godbolt_org-sample.png}
+	\caption{Wygenerowany przykład z strony \url{godbolt.org}}
 \end{figure}
 
-Dobrze jest cytować\footnote{Inaczej przytaczać. A to jest przypis dolny.} artykuły naukowe w taki sposób, aby czytający nie musiał co chwilę szukać bibliografii, np. książka ``\textit{Kryptografia i bezpieczeństwo sieci komputerowych. Matematyka szyfrów i techniki kryptologii}''\cite{Stallings11kryptografia}, strona internetowa ``\textit{Seminarium ZATABEDA}''\cite{Gogolewski13seminarium}, artykuł zamieszczony w Internecie ``\textit{How to write an effective title and abstract and choose appropriate keywords}''\cite{Rodrigues13howtowrite}, wiadomość z grup dyskusyjnych ``\textit{Random numbers for C: The END?}''\cite{Marsaglia99randomnum} i prezentacja lub wykład zamieszczone w Internecie ``\textit{Szumy pseudolosowych map.}''\cite{Hanc15szumy}.\\
 
-``Brzydki sposób na wstawianie cytatu.''.
+\section{SMALI}
+\section{Dalvik/ART bytecode}
 
-% Lista nienumerowana.
-\begin{itemize}
-\item \textbf{Wymieniany} -- element może mieć zagnieżdżenia:
-    \begin{itemize}
-    \item \textbf{Przykład}, faktycznie tu jest.
-    \end{itemize}
-\end{itemize}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                      chapter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Własna definicja
-\begin{mydef}
-\textbf{Można pogrubić nazwę określanego pojęcia} aby było jasne co definiujemy.
-\end{mydef}
+\chapter{Sposoby ochrony przed desasemblacją}
+\section{Obfuskacja}
+\section{Proguard}
+\section{Natywny kod}
 
-\chapter{Inny rozdział}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                      chapter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Ilustracje mogą zawierać naraz kilka plików.
-% Pamiętaj o podawaniu źródła wykorzystywanych obrazów.
-% Nawet jeśli stworzyłaś/-eś reprodukcję.
-\begin{figure}[h!]
-  \centering
-    \includegraphics[height=0.3\textheight]{PM5544_with_non-PAL_signals.png}
-    \includegraphics[height=0.3\textheight]{logo_wersja-uzupeniajca_czarny_2.pdf}
-  \caption{Obrazki rastrowe i wektorowe}
-\end{figure}
+%- Zabezpieczenia / Niebezpieczeństwa. Np wstrzykiwanie w zapytania do serwera. (Ogólnie omówić czemu warto/trzeba zabezpieczyć kod przed dekompilacją)
+\chapter{Niebezpieczeństwa źle zabezpieczonego kodu}
 
-Rysunek 2.1 pochodzi z takiej tam strony\footnote{\url{http://siw.amu.edu.pl/siw/strona-glowna/strona-glowna}}.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                      chapter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Znów podrozdział}
+\chapter{Projekt}
 
-Przykład inline'owego trybu matematycznego: $X_{n+1} = a X_n + c \imod{m}$.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                      chapter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Ostatni poziom zagłębienia uwzględniany w domyślnym spisie treści.}
-
-% Cytat na wstęp sekcji.
-\begin{chapquote}{Marcin Mateusz Hanc}
-gracze na szczęście nie przejmowali się dotarciem do ``końca świata'' \cite{Hanc15szumy}
-\end{chapquote}
-
-% Przykład tabeli z danymi.
-\begin{table}[h]
-\centering
-\label{tab:RNG_examples}
-\begin{tabular}{l|c}
- Nagłówek & Coś innego \\
- \hline \hline
- Pierwszy rząd & 100 \\
- \hline
- Rząd & \multirow{2}{*}{TAK} \\
- podwójny & \\
-\end{tabular}
-\caption{Przykładowa tabela}
-\end{table}
-
-% Przykład wstawienia listingu kodu w języku C++ z podpisem.
-\lstinputlisting[language=C++, captionpos=b, belowcaptionskip=4pt, caption={Ułamkowy Ruch Browna}]{fBm.cpp}
-
-\section{Sekcja ze znakiem \_ działa}
-
-% Wyliczenie elementów.
-\begin{enumerate}
-\item Elementy mogą być dłuższe niż jedna linia.
-
-FAKTYCZNIE.
-
-\item Drugi element.
-
-\end{enumerate}
-
-\chapter{Ostatni rozdział}
-
-Jakieś treści podsumowujące pracę. Być może wnioski i pomysły na badania możliwe do przeprowadzenia na podstawie owej pracy.
-
+%\chapter{Bibliografia}
 \newpage
 % Dodanie wpisu Bibliografia do Spisu Treści.
 \addcontentsline{toc}{chapter}{Bibliografia}
@@ -375,20 +380,21 @@ Jakieś treści podsumowujące pracę. Być może wnioski i pomysły na badania 
 \bibliographystyle{plain}
 \bibliography{bibliografia}
 
-% W przypadku dodawania dodatków:
-\appendix
-\addcontentsline{toc}{chapter}{Dodatki}
-
-% Pojedyńczy dodatek.
-\addcontentsline{toc}{section}{Dodatek A: Cośtam dodatkowego}
-\chapter*{Dodatek A: Cośtam dodatkowego}
-
-Zawartość tego czegoś dodatkowego.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Spis akronimów użytych w pracy
 \chapter*{Akronimy}
 \begin{acronym}
 \acro{KISS}{Keep It Simple Stupid}
+\acro{RE}{reverse engineering}
 \acro{IT}{Information Technology}
+\acro{APK}{Android Package}
 \end{acronym}
 \end{document}
