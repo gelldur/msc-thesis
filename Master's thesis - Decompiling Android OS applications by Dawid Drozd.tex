@@ -299,6 +299,79 @@ Celem tej pracy jest przedstawienie narzędzi jak i procesu dekompilacji zbudowa
 \chapter{Jak zbudowana jest aplikacja na Android'a}
 \section{Format .apk}
 
+Rozszerzenie nazwy pliku bierze sie z \emph{Android Package Kit (APK)}.
+Format pliku przypomina ten znany z plików .jar
+Pliki oznaczone tym rozszerzeniem slużą do rozpowszechniania aplikacji na system android. Na skład paczki .apk wchodzą:
+
+\begin{itemize}
+\item skompilowany kod Java w formacie .dex
+\item zasoby takie jak png czy mp3
+\item certyfikaty
+\item plik manifestu
+\end{itemize}
+
+Nazwa pliku jest dowolna pod warunkiem, że jest zakończona przez .apk
+Pliki APK są pewnego roadzaju archiwum które bazuje na formacie ZIP.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[height=0.3\textheight]{img/apk_content_as_zip.png}
+	\caption{Otworzony plik .apk za pomocą programu ark}
+\end{figure}
+
+Szczegółowa budowa paczki apk:
+\begin{itemize}
+\item Katalog META_INF
+
+%\begin{figure}[h!]
+%	\centering
+%	\includegraphics[height=0.3\textheight]{img/apk_content_as_zip_meta_inf.png}
+%	\caption{META_INF w ark}
+%\end{figure}
+
+W katalogu znajduje się plik MANIFEST.MF. Plik ten zawiera metadane doyczące zawartości paczki:
+
+Przykład:
+
+\begin{lstlisting}
+Manifest-Version: 1.0
+Built-By: Generated-by-ADT
+Created-By: Android Gradle 2.3.3
+
+Name: res/drawable-hdpi-v4/abc_list_longpressed_holo.9.png
+SHA1-Digest: KQunCQh0E4bP0utgN0cHdQr9OwA=
+
+Name: res/drawable-xxhdpi-v4/abc_ic_star_half_black_16dp.png
+SHA1-Digest: EikVyBT5I7pmbJO2k8qF0V5hUc0=
+
+Name: res/drawable-hdpi-v4/com_facebook_tooltip_black_background.9.png
+SHA1-Digest: +DxTpyUKpT11iz68MG1Q0iB2EvA=
+
+Name: res/drawable/common_google_signin_btn_icon_dark_normal.xml
+SHA1-Digest: Qa00to2cn7JphS3q33GWp3lxTUs=
+\end{lstlisting}
+
+\item CERT.RSA - certyfikat aplikacji
+\item CERT.SF
+Lista zasobów i ich SHA-1 skład jest taki sam jak w przypadku MANIFEST.MF
+
+
+\item Folder lib
+Katalog opcjonalny w którym powinny znajdować się skompilowane biblioteki natywne na daną platformę np. armeabi, x86, mips
+
+\item AndroidManifest.xml - dodatkowy plik manifestu który zawiera między innymi nazwy, wersję i prawa aplikacji. Plik ten często jest binarnym XML który łatwo zamienić na formę czytelną dla człowieka.
+
+\item resources.arsc - plik zawierający prekompilowane zasoby takie jak binarne XML
+
+\item folder assets
+Folder który zawiera zasoby które nie są poddane dodatkowym obróbką przez proces budowania apk.
+
+\item folder res
+Folder zawiera zasoby które nie zostały przetworzone i dołączone do pliku resources.arsc
+
+\item classes.dex Skompilowane pliki Java do formatu .dex które rozumie Dalvik virtual machine
+
+\end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
