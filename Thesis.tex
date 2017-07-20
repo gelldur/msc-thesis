@@ -380,7 +380,91 @@ Folder zawiera zasoby które nie zostały przetworzone i dołączone do pliku re
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chapter{Narzędzia do dekompilacji}
+
 \section{apktool}
+
+Narzędzie to służy do przeprowadzenia odwrotnej inżynierii na wskazanym pliku apk. Potrafi zdekodować źródła aplikacji do formy zbliżonej przed jej zbudowaniem. Wiele procesów zostało zautomatyzowanych takich jak zbudowanie ponowne aplikacji z zdekompilowanych źródeł. \\
+\lstinline|apktool| jest otwarto źródłowym oprogramowaniem na licencji \mbox{Apache 2.0 License.} \\
+\\
+Kod narzędzia jest dostępny na: \url{https://github.com/iBotPeaches/Apktool} \newline
+Strona narzędzia: \url{https://ibotpeaches.github.io/Apktool/}
+\newline
+\newline
+Aplikacja jest napisana w języku Java dzięki czemu działa bezproblemowo na większości systemach operacyjnych. Jest to aplikacja bez interfejsu graficznego. Działa w konsoli.
+\newline
+\subsection{Dekompilacja}
+Przykład użycia zostanie zaprezentowany na przykładowej aplikacji. Zakładając, że mamy już dostępną naszą \lstinline|.apk|\\
+\begin{lstlisting}[language=bash]
+{master} ~/Projects/UAM/
+$ cd apktool
+{master} ~/Projects/UAM/msc/apktool
+$ ./apktool d ../sample-android-app/Thesis/app/app-release.apk 
+I: Using Apktool 2.2.3 on app-release.apk
+I: Loading resource table...
+I: Decoding AndroidManifest.xml with resources...
+I: Loading resource table from file: /home/gelldur/.local/share/apktool/framework/1.apk
+I: Regular manifest package...
+I: Decoding file-resources...
+I: Decoding values */* XMLs...
+I: Baksmaling classes.dex...
+I: Copying assets and libs...
+I: Copying unknown files...
+I: Copying original files...
+\end{lstlisting}
+Dzięki tej komendzie uzyskamy źródła z naszej aplikacji. 
+\begin{figure}[h!]
+	\centering
+	\includegraphics[height=0.3\textheight]{img/apktool/sample_apk.png}
+	\caption{Wynik pracy \lstinline|apktool d app-release.apk|}
+\end{figure}
+\begin{itemize}
+\item{Folder smali}\\
+Zawiera odzyskane inżynierią wsteczną kody źródłowe naszej aplikacji. Kody jednak nie będą w języku Java a w Smali. Smali jest omówiony w \ref{smali}.
+\item{Folder original}\\
+Zawiera oryginalne źródła z naszego \lstinline|.apk| takie jak oryginalny \lstinline|AndroidManifest.xml| czy  \lstinline|META-INF|
+\item{Folder lib}\\
+Zwiera natywne biblioteki wykorzystywane przez aplikację. W naszym przykładzie jest to skompilowana dynamiczna biblioteka z jedną prostą funkcją. Oby odzyskać kod natywny musielibyśmy sięgnąć do innych narzędzi.
+\item{Folder res}\\
+Zawiera wszystkie oryginalne zasoby naszej aplikacji które zostały wcześniej przetworzone i w odpowiedni sposób upakowane.
+\item{AndroidManifest.xml}\\
+Zdekodowany \lstinline|AndroidManifest.xml|. Tak prezentuje się diff manifestu przed i po zdekodowaniu:
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[height=0.3\textheight]
+	{img/apktool/sample_diff_manifest.png}
+	\caption{Diff między AndroidManifest.xml z źródeł a odzyskanym z pliku .apk}
+\end{figure}
+
+\item{apktool.yml}\\
+Plik z metadanymi od apktool.
+\end{itemize}
+
+\subsection{Budowanie z powrotem}
+Aplikację możemy zbudować ponownie z naszych zasobów. Przykład tego zastosowania znajduje się poniżej.
+
+\begin{lstlisting}[language=bash]
+{master} ~/Projects/UAM/msc/apktool
+$ ./apktool b ./app-release/
+I: Using Apktool 2.2.3
+I: Checking whether sources has changed...
+I: Smaling smali folder into classes.dex...
+I: Checking whether resources has changed...
+I: Building resources...
+I: Copying libs... (/lib)
+I: Building apk file...
+I: Copying unknown files/dir...
+\end{lstlisting}
+W taki sposób otrzymamy znowu zbudowaną aplikację jednak nie będzie ona podpisana tym samym kluczem. Jaki wpływ na aplikację ma podpisaniem kluczem jest omówione w \ref{signing} rozdziale.
+
+\section{dex2jar}
+
+% https://github.com/pxb1988/dex2jar
+
+\section{apkToJava}
+
+% https://github.com/ajitsing/apkToJava
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -390,8 +474,12 @@ Folder zawiera zasoby które nie zostały przetworzone i dołączone do pliku re
 %- Zabezpieczenia przed modyfikowaniem aplikacji (podpisywanie apki certyfikatem,nazwa package apki)
 
 \chapter{Identyfikacja i weryfikowanie aplikacji}
-\section{Cyfrowy podpis}
 \section{Nazwa paczki}
+
+
+
+\section{Cyfrowy podpis}
+\label{signing}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -409,6 +497,8 @@ Folder zawiera zasoby które nie zostały przetworzone i dołączone do pliku re
 
 
 \section{SMALI}
+\label{smali}
+
 \section{Dalvik/ART bytecode}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
