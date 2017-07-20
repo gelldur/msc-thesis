@@ -459,11 +459,19 @@ I: Copying unknown files/dir...
 W taki sposób otrzymamy znowu zbudowaną aplikację jednak nie będzie ona podpisana tym samym kluczem. Jaki wpływ na aplikację ma podpisaniem kluczem jest omówione w \ref{signing} rozdziale.
 
 \section{dex2jar}
-
 % https://github.com/pxb1988/dex2jar
+Narzędzie to służy do przeprowadzenia odwrotnej inżynierii na pliku \lstinline|.dex|. Program jest troszkę mniej wygodny w porównaniu do apktool ponieważ sami musimy wywołać odpowiednie skrypty i wydobyć to co chcemy.
+
+\begin{lstlisting}[language=bash]
+{master} ~/Projects/UAM/msc
+$ cd dex2jar/dex2jar-2.0
+{master} ~/Projects/UAM/msc/dex2jar/dex2jar-2.0
+$ ./d2j-dex2smali.sh ../../sample-android-app/Thesis/app/app-release.apk
+baksmali ../../sample-android-app/Thesis/app/app-release.apk -> app-release-out
+\end{lstlisting}
+W taki sposób uzyskamy nasze zdekompilowane pliki \lstinline|.smali|. Narzędzie to też umożliwia odzyskanie plików \lstinline|.class| które później mogą posłużyć do analizy przez inne programy np. \verb|JD-GUI|
 
 \section{apkToJava}
-
 % https://github.com/ajitsing/apkToJava
 
 
