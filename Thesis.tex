@@ -487,9 +487,27 @@ Jednym z narzędzi wartych zainteresowania może być \href{http://vaibhavpandey
 %- Zabezpieczenia przed modyfikowaniem aplikacji (podpisywanie apki certyfikatem,nazwa package apki)
 
 \chapter{Identyfikacja i weryfikowanie aplikacji}
+
+W systemie Android możemy wydzielić 2 sposoby weryfikacji aplikacji. Sposoby te służą do identyfikacji aplikacji wśród wszystkich innych aplikacji zainstalowanych w systemie.
+
 \section{Nazwa paczki}
-
-
+Nazwa paczki aplikacji jest podstawowym sposobem na zidentyfikowanie aplikacji w całym systemie. Założenie jest proste. Nazwa aplikacji musi być unikatowa w skali systemu. Przez co jednocześnie nie możemy mieć aplikacji o takiej samej nazwie paczki. Oczywiście w sklepie z aplikacjami Google Play ta zasada również obowiązuje. Jednak w naszym systemie możemy mieć zupełnie inną aplikację niż ta która znajduje się w sklepie a będą miały taką samą nazwę paczki. Oczywiście nie będziemy mogli zainstalować ze sklepu takiej aplikacji póki nie usuniemy jej pierw z systemu.\\
+Jest to bardzo prymitywna metoda identyfikacji którą łatwo oszukać i podszyć się pod inną aplikację. Obrona przed tego typem oszustwa poruszymy w \ref{signing}. Dobrą praktyką i ogólnie przyjętą konwencja jest by nazwa paczki była odwróconą domeną. Tak samo jak to ma miejsce w zwykłym nazewnictwie paczek przy projektach Javowych.
+\begin{center}
+	\centering	\includegraphics[height=0.3\textheight]
+	{img/signing/google_play_app_name.png}
+\end{center}
+Na powyższym rysunku możemy zobaczyć nazwę paczki która jest bezpośrednio widoczna w URL strony. Więc na tej podstawie możemy też dokonać wstępnej weryfikacji.
+\begin{center}
+	\includegraphics[height=0.3\textheight,keepaspectratio]
+	{img/signing/two_same_aps.png}
+\end{center}
+Na powyższym rysunku możemy zobaczyć, że zostały zainstalowane dwie takie same aplikacje. Oczywiście zgodnie z zasadą co służy do identyfikacji aplikacji jest nazwa paczki. W tym przypadku nazwa aplikacji i ikonka są takie same. Różnią się tylko nazwą paczki:
+\begin{lstlisting}
+com.f2zentertainment.pandemic
+com.f2zentertainment.pandemic.qa
+\end{lstlisting}
+Podsumowując nazwa paczki służy tylko identyfikacji. Tak jak w bazie danych \verb|ID| identyfikuje nam wiersz. 
 
 \section{Cyfrowy podpis}
 \label{signing}
