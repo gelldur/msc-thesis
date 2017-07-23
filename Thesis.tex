@@ -680,6 +680,74 @@ Inne techniki często bazują na bezpośrednim ataku w narzędzia których się 
 
 \chapter{Niebezpieczeństwa źle zabezpieczonego kodu}
 %- Zabezpieczenia / Niebezpieczeństwa. Np wstrzykiwanie w zapytania do serwera. (Ogólnie omówić czemu warto/trzeba zabezpieczyć kod przed dekompilacją)
+% http://esec-lab.sogeti.com/static/publications/10-hitbkl-drm.pdf
+Źle zabezpieczonego lub też w ogóle nie zabezpieczonego kodu. Często developerzy nie myślą o skutkach jakie niesie z sobą odwrotna inżynieria na ich aplikacjach. Często API serwisów internetowych nie jest zabezpieczone w żaden sposób i to właśnie z pomocą inżynierii wstecznej można uzyskać pełne REST'owe API danego serwisu.
+\par
+Jako przykładem posłużę się trzema aplikacjami w przypadku których odwrotna inżynieria może nam dostarczyć wielu ciekawych informacji. W ich przypadku włączenie zaciemniania kodu nie przyniosło zadowalających wyników. Jednak nie należy winić obfuskacji samej w sobie a zwykłe niedbalstwo ze strony programistów.
+
+\section{Hasła bez obfuskacji}
+% https://docs.google.com/presentation/d/1EI8cfZ5Vl5fiC03C5dogrM5GRHfcLTechk1OHBnAy6E/edit#slide=id.g10f8594d37_0_334
+\todo{Czy podawać nazwy aplikacji ?}
+\\
+Aplikacja która dostarcza nam oferty zniżkowe typu kupony, rabaty dzięki którym możemy coś kupić. Pierwszym sposobem by zagwarantować sobie dostęp do ogromnej ilości zniżek/kuponów było by wydobycie ich z API twórcy aplikacji. Możemy taki proces zautomatyzować co powinno nam dostarczyć łatwy dostęp do kodów rabatowych. Wystarczy przy użyciu narzędzia np. wireshark nasłuchać w sieci lokalnej jakie metody API są odpytywane i zreprodukować zapytania. Na szczęście twórca aplikacji zabezpieczył się przez użycie hasła do API które jest ukrytn w zapytaniu HTTPS więc nie możemy go w łatwy sposób wydobyć. Tutaj przychodzi nam na pomoc RE. Przy użyciu narzędzia apktool uzyskujemy kod który nie jest zaciemniony. Prosto możemy zgadnąć jak ktoś trzyma hasło w kodzie o ile stosuje dobre praktyki programistyczne. W tym przypadku jest to strzał w dziesiątkę. Wystarczy przeszukać kod pod frazą "password"
+%
+\begin{figure}[h!]
+	\centering
+	\includegraphics[height=0.3\textheight]
+	{img/why_secure/find_password.png}
+	\caption{Szukanie hasła w źródłach aplikacji}
+\end{figure}
+%
+Dzięki prostemu, szybkiemu przeszukaniu kodu możemy zerknąć bezpośrednio do pliku w którym znajduje się odpowiedź na nasze pytanie.
+%
+\begin{figure}[h!]
+	\centering
+	\includegraphics[height=0.3\textheight]
+	{img/why_secure/password_in_smali.png}
+	\caption{Ukryte hasło}
+\end{figure}
+%
+\section{Generator tokenów}
+Aplikacje mobilne coraz częściej służą jako metoda podwójnego uwierzytelniania czy też identyfikowania użytkownika bo ciężko jest by ktoś posiadał tysiąc komórek. W przypadku firmy Steam która prawdopodobnie miała dosyć automatycznych botów które się rejestrowały w serwisie i wykonywały pewne akcje, więc zdecydowali się wyłączyć uwierzytelnianie kodem na e-maila i zmusić użytkowników do korzystania z generatora tokenów z ich aplikacji.
+%
+\begin{figure}[h!]
+	\centering
+	\includegraphics[height=0.3\textheight]
+	{img/why_secure/steam_tokener.png}
+	\caption{Generator tokenów w aplikacji Steam}
+\end{figure}
+%
+Więc od teraz wszystkie boty musiał by posiadać swoją instancję aplikacji Steam by móc generować tokeny. Jednak znów wystarczyło wykorzystać inżynierię zwrotną by wydobyć algorytm który był odpowiedzialny za generowanie tokenów. Oczywiście w tym przypadku aplikacja była poddana obfuskacji i nie jest tak prosto znaleźć ten algorytm gdzie był ukryty. Oczywiście po żmudnej analizie nie czytelnego kodu i analizowaniu wykonywania udało się odnaleźć ów algorytm i go wyodrębnić do przyjaznej skryptowej postaci. Wystarczyło ów algorytm tylko odpowiednio zainicjalizować i gotowe. Nie potrzebujemy do tego dedykowanej aplikacji.
+
+\section{Blokady}
+Aplikacje często posiadają blokady czy pewne inne nieudogodnienia np. dla użytkowników którzy mają odblokowane urządzenie (rooted device). W przypadku aplikacji Starbucks aplikacja ta na samym starcie aplikacji sprawdza czy urządzenie jest zrootowane i jeśli tak to kończy swoje działanie, uniemożliwiając korzystanie z niej. 
+%
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.6\textwidth]
+	{img/why_secure/device_rooted_message.png}
+	\caption{Komunikat od aplikacji Starbucks}
+\end{figure}
+%
+Korzystając z RE możemy odzyskać kod ów aplikacji i usunąć sprawdzanie dzięki czemu aplikacja będzie dla nas działać. Kod aplikacji został poddany zaciemnieniu przez co ciężko było znaleźć gdzie jest sprawdzany ten warunek. Z pomocą przyszedł komunikat który wyświetlał się nam na ekranie. Jeżeli wyszukaliśmy ów tekst w plikach aplikacji to znajdziemy początek nici po której dojdziemy do naszego kłębka. 
+%
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=1\textwidth]
+	{img/why_secure/search_for_message.png}
+	\caption{Szukanie wiadomości prezentowanej przez aplikację}
+\end{figure}
+%
+Dzięki prostemu wyszukaniu gdzie jest używany komunikat jesteśmy w stanie precyzyjnie znaleźć miejsce naszej blokady i je wyłączyć.
+%
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=1\textwidth,keepaspectratio]
+	{img/why_secure/disable_block.png}
+	\caption{Wyłączenie blokady sprawdzającej czy urządzenie jest zrootowane}
+\end{figure}
+%
+Tego typu blokady tyczą się również sprawdzania czy użytkownik używa płatnej aplikacji i czy dana funkcjonalność powinna być odblokowana.
 
 \chapter{Projekt}
 \todo{Propozycje projektu}\\
