@@ -552,13 +552,14 @@ Metoda ta dostępna jest od Android'a 7.0. Zawartość naszego APK przechodzi pr
 	\caption{Wygenerowany przykład z strony \url{godbolt.org}}
 \end{figure}
 
-
 \section{SMALI}
 \label{smali}
-
+\todo{TODO}
 \section{Dalvik/ART bytecode}
+\todo{TODO}
 
 \chapter{Sposoby ochrony przed desasemblacją}
+% https://www.owasp.org/images/0/08/OWASP_SCP_Quick_Reference_Guide_v2.pdf
 Naturalnym zjawiskiem na atak jest obrona. Mając takie proste w użyciu narzędzia do RE naturalne jest, że powstały techniki utrudniające RE. Oczywiście wykorzystano w tym kierunku wiedzę z innych technologi gdzie ów problemy występują od dziesiątek lat. Temat jest na tyle szeroki, że poruszę tylko te sposoby które są powszechnie stosowane w tworzeniu aplikacji na Android'a i są stosunkowo tanie/proste do wdrożenia. Większą bazę wiedzy na temat zabezpieczenia kodu przez inżynierią odwrotną można znaleźć na stronie \hyperlink{https://www.owasp.org/index.php/OWASP_Reverse_Engineering_and_Code_Modification_Prevention_Project}{OWASP}.
 % https://stackoverflow.com/questions/43601498/protect-android-app-from-reverse-engineering
 % http://resources.infosecinstitute.com/android-hacking-and-security-part-18-introduction-to-reverse-engineering/
@@ -662,11 +663,29 @@ Jak już było wspomniane możemy konfugirować proguarda by nie zaciemniał kod
 Jednak developer sporo musi często sam skonfigurować. Do tego dochodzą problemy z wywołaniami przez refleksję czy wywołania natywnego kodu (Java Native Interface). Suma tych problemów często przewyższa zysk z obfuskacji kodu i nikt nie chce poświęcać na to czasu.
 
 \section{Natywny kod}
-%- Zabezpieczenia / Niebezpieczeństwa. Np wstrzykiwanie w zapytania do serwera. (Ogólnie omówić czemu warto/trzeba zabezpieczyć kod przed dekompilacją)
+Często prostą i polecaną techniką jest ukrycie krytycznych części kodu w natywnym kodzie. Przykładem może być przepisany fragment kodu do C++. Dzięki czemu takiego kodu nie będzie mogła odczytać byle to początkująca osoba która nauczyła się używać apktool'a czy innego tego typu narzędzia. W takim przypadku będzie potrzebna nisko poziomowa wiedza jak i znajomość danej platformy.\par
+Takie rozwiązanie jednak ma też i swoje wady. Developer który będzie tego sposobu używał też musi wiedzieć jak to zaimplementować by nie wywołać tym sposobem nadmiarowej ilości błędów. Dochodzą też problemy związane z przekazywaniem informacji/danych między kodem napisanym w Javie a np C/C++. Oczywiście wykorzystanie natywnego kodu komplikuje nam zaciemnianie kodu. Sposób ten jak i obfuskacja jednak nie służą zabezpieczeniu naszego kodu a tylko utrudnieniu napastnikowi odczytania i przeanalizowania naszej implementacji.
+
+\section{Szyfrowanie}
+% http://www.javaworld.com/article/2077342/core-java/cracking-java-byte-code-encryption.html?page=2
+W poprzednich sekcjach były poruszone tylko utrudnienia jakie możemy wprowadzić w naszym programie by kod nie został odczytany/zinterpretowany. Kolejnym sposobem na znacząco utrudnienie odzyskania kodu było by szyfrowanie naszych plików. Dzięki temu aplikacja była by tylko odszyfrowana w czasie działania aplikacji. Oczywiście dla zwiększenia bezpieczeństwa klucz deszyfrujący może być dostarczany z zewnętrznego nośnika np. z serwera.
+\par
+Oczywiście ta technika też nie jest idealna i jeśli ktoś będzie bardzo zawzięty i będzie miał dużo czasu to też uda mu się ominąć to zabezpieczenie. Główną zmianą jaką developer musiał by wprowadzić by wykorzystać ów metodę jest napisanie własnego ClassLoader'a. Taka klasa wiedziała by jak stworzyć instancje naszej klasy by móc z niej skorzystać. Oczywiście nie musimy szyfrować całej aplikacji a tylko części najbardziej wrażliwe tak jak miało to miejsce z wykorzystaniem kodu natywnego.
+
+\section{Inne}
+Inne techniki często bazują na bezpośrednim ataku w narzędzia których się używa do odwrotnej inżynierii.
+\\
+\todo{Opisać tutaj przykłady takich technik z przykładowym atakiem}
+\todo{serio nie istnieją lepsze techniki ?}
+
 \chapter{Niebezpieczeństwa źle zabezpieczonego kodu}
+%- Zabezpieczenia / Niebezpieczeństwa. Np wstrzykiwanie w zapytania do serwera. (Ogólnie omówić czemu warto/trzeba zabezpieczyć kod przed dekompilacją)
 
 \chapter{Projekt}
-\todo{Propozycje projektu: 1. Aplikacja do odbierania prawa dostępu do internetu innym aplikacja zainstalowanym na telefonie użytkownika 2. TBC}
+\todo{Propozycje projektu}\\
+\todo{1. Aplikacja do odbierania prawa dostępu do internetu innym aplikacja zainstalowanym na telefonie użytkownika}
+\todo{2. Biblioteka do zabezpieczania fragmentów kodu przed RE wykorzystująca szyfrowanie}
+\todo{3. TBC}
 
 %\chapter{Bibliografia}
 \newpage
