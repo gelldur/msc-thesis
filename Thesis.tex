@@ -2,6 +2,9 @@
 %Master's thesis - Decompiling Android OS applications by Dawid Drozd
 \documentclass[12pt,a4paper,leqno,oneside,titlepage]{book}
 
+% (TIP) Your editor should fit this line:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                      config
@@ -294,14 +297,8 @@ Proces inżynieri wstecznej jest dodatkowo utrudniany przez programistów którz
 
 Celem tej pracy jest przedstawienie narzędzi jak i procesu dekompilacji zbudowanych aplikacji i ponownej kompilacji zmodyfikowanej aplikacji na system operacyjny Android.
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%                      chapter
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \chapter{Jak zbudowana jest aplikacja na Android'a}
+% https://en.wikipedia.org/wiki/Android_application_package
 \section{Format .apk}
 
 Rozszerzenie nazwy pliku bierze sie z \emph{Android Package Kit (APK)}.
@@ -378,6 +375,145 @@ Folder zawiera zasoby które nie zostały przetworzone i dołączone do pliku re
 
 \end{itemize}
 
+
+%https://en.wikipedia.org/wiki/Dalvik_(software)
+%https://source.android.com/devices/tech/dalvik/dex-format
+
+\section{Format .dex}
+
+W pliku classes.dex są przechowywane definicje naszych klas i wszystkich innych danych im towarzyszących.
+Format ten służy do przenoszenia danych wejściowych dla Dalvik Bytecode. 
+
+Istnieją wymogi które musi spełniać plik .dex by zostać uznany za prawidłowy.
+% https://source.android.com/devices/tech/dalvik/constraints
+
+
+W zapisie binarnym pliku na samym początku musi się pojawić tak zwany \verb|DEX_FILE_MAGIC| który jest zdefiniowany tak:
+
+\begin{lstlisting}
+ubyte[8] DEX_FILE_MAGIC = { 0x64 0x65 0x78 0x0a 0x30 0x33 0x38 0x00 }
+                        = "dex\n038\0"
+}
+\end{lstlisting}
+
+Jest on po to by mieć pewność, że odczytywny plik jest plikiem typu .dex
+
+W tym identyfikatorze jest zawarty znak nowej lini '\\n' (0x0a) i znak końca tekstu '\\0' (0x00). Służy to tylko dodatkowym zabezpieczeniom by wykryć uszkodzenie danych.
+
+Wartość ta też zawiera numer wersji formatu. Są to 3 cyfry pomiędzy nową linią a znakiem null. Oczywiście w calech ewolucji danego formatu.
+
+Plik .dex jest podzielony na sekcje określone przez nagłówek.
+
+\verb|string_ids|  W tej sekcji znajdują się wszystkie identyfikatory dla wszystkich stringów w tym pliku. Lista tych stringów musi być posortowana po nazwie przy użyciu \verb|UTF-16| nie uwzględniając ustawień lokalnych komputera. Lista jest unikatowa. To znaczy nie zawiera powtórzeń.
+
+\verb|type_ids| Lista wszystkich typów występujących w pliku. Tych zdefiniowanych i tych zadeklarowanych. Takich jak klasy, tablice, typy primitywne. Lista ta jest posortowana po \verb|string_id| index i nie zawiera duplikatów
+
+\verb|proto_ids|	
+
+Opis:
+	Lista wszystkich prototypów metod znajdujących się w tym pliku.
+Specyfika danych:
+	Lista zawiera unikaty
+	Lista jest posortowana po:
+		typie zwracanym (jego indeksie w \verb|type_id|
+		po liście argumentów i ich \verb|type_id|
+
+Lista wszystkich prototypów metod znajdujących się w tym pliku. Lista jest posort 
+
+
+\verb|field_ids|
+
+Opis:
+	Lista wszystkich identyfikatorów pól.	
+Specyfika danych:
+	Lista jest posortowana po typie (jego indeksie \verb|type_id|) następnie po nazwie pola (jego indeksie \verb|string_id|)
+	Lista nie zawiera duplikatów.
+	
+\verb|method_ids|
+
+Opis:
+	Lista wszystkich identyfikatorów metod.
+Specyfika danych:
+	Lista nie zawiera duplikatów.
+	Lista jest posortowana po definiowanym typie (jego indeksie \verb|type_id|)
+	następnie po nazwie (jego indeksie \verb|string_id|) i na koniec po prototypie metody (jego indeksie \verb|proto_id|)
+
+
+Rozszerzenie nazwy pliku bierze sie z \emph{Android Package Kit (APK)}.
+Format pliku przypomina ten znany z plików .jar
+Pliki oznaczone tym rozszerzeniem slużą do rozpowszechniania aplikacji na system android. Na skład paczki .apk wchodzą:
+
+\begin{itemize}
+\item skompilowany kod Java w formacie .dex
+\item zasoby takie jak png czy mp3
+\item certyfikaty
+\item plik manifestu
+\end{itemize}
+
+Nazwa pliku jest dowolna pod warunkiem, że jest zakończona przez .apk
+Pliki APK są pewnego roadzaju archiwum które bazuje na formacie ZIP.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[height=0.3\textheight]{img/apk_content_as_zip.png}
+	\caption{Otworzony plik .apk za pomocą programu ark}
+\end{figure}
+
+Szczegółowa budowa paczki apk:
+\begin{itemize}
+\item \texttt{Katalog META\_INF}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[height=0.3\textheight]{img/apk_content_as_zip_meta_inf.png}
+	\caption{META INF w ark}
+\end{figure}
+
+W katalogu znajduje się plik MANIFEST.MF. Plik ten zawiera metadane dotyczące zawartości paczki:
+
+Przykład:
+
+\begin{lstlisting}
+Manifest-Version: 1.0
+Built-By: Generated-by-ADT
+Created-By: Android Gradle 2.3.3
+
+Name: res/drawable-hdpi-v4/abc_list_longpressed_holo.9.png
+SHA1-Digest: KQunCQh0E4bP0utgN0cHdQr9OwA=
+
+Name: res/drawable-xxhdpi-v4/abc_ic_star_half_black_16dp.png
+SHA1-Digest: EikVyBT5I7pmbJO2k8qF0V5hUc0=
+
+Name: res/drawable-hdpi-v4/com_facebook_tooltip_black_background.9.png
+SHA1-Digest: +DxTpyUKpT11iz68MG1Q0iB2EvA=
+
+Name: res/drawable/common_google_signin_btn_icon_dark_normal.xml
+SHA1-Digest: Qa00to2cn7JphS3q33GWp3lxTUs=
+\end{lstlisting}
+
+\item CERT.RSA - certyfikat aplikacji
+\item CERT.SF
+Lista zasobów i ich SHA-1 skład jest taki sam jak w przypadku MANIFEST.MF
+
+
+\item Folder lib
+Katalog opcjonalny w którym powinny znajdować się skompilowane biblioteki natywne na daną platformę np. armeabi, x86, mips
+
+\item AndroidManifest.xml - dodatkowy plik manifestu który zawiera między innymi nazwy, wersję i prawa aplikacji. Plik ten często jest binarnym XML który łatwo zamienić na formę czytelną dla człowieka.
+
+\item resources.arsc - plik zawierający prekompilowane zasoby takie jak binarne XML
+
+\item folder assets
+Folder który zawiera zasoby które nie są poddane dodatkowym obróbką przez proces budowania apk.
+
+\item folder res
+Folder zawiera zasoby które nie zostały przetworzone i dołączone do pliku resources.arsc
+
+\item classes.dex Skompilowane pliki Java do formatu .dex które rozumie Dalvik virtual machine
+
+\end{itemize}
+
+\todo{Dokończyć tą sekcję}
 
 \chapter{Narzędzia do dekompilacji}
 
