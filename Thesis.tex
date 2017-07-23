@@ -426,20 +426,19 @@ Zawiera oryginalne źródła z naszego \lstinline|.apk| takie jak oryginalny \ls
 Zwiera natywne biblioteki wykorzystywane przez aplikację. W naszym przykładzie jest to skompilowana dynamiczna biblioteka z jedną prostą funkcją. Oby odzyskać kod natywny musielibyśmy sięgnąć do innych narzędzi.
 \item{Folder res}\\
 Zawiera wszystkie oryginalne zasoby naszej aplikacji które zostały wcześniej przetworzone i w odpowiedni sposób upakowane.
+\item{apktool.yml}\\
+Plik z metadanymi od apktool.
 \item{AndroidManifest.xml}\\
-Zdekodowany \lstinline|AndroidManifest.xml|. Tak prezentuje się diff manifestu przed i po zdekodowaniu:
-
+Zdekodowany \lstinline|AndroidManifest.xml|.
+\end{itemize}
+%
 \begin{figure}[h!]
 	\centering
-	\includegraphics[height=0.3\textheight]
+	\includegraphics[width=1\textwidth]
 	{img/apktool/sample_diff_manifest.png}
 	\caption{Diff między AndroidManifest.xml z źródeł a odzyskanym z pliku .apk}
 \end{figure}
-
-\item{apktool.yml}\\
-Plik z metadanymi od apktool.
-\end{itemize}
-
+%
 \subsection{Budowanie z powrotem}
 Aplikację możemy zbudować ponownie z naszych zasobów. Przykład tego zastosowania znajduje się poniżej.
 
@@ -565,9 +564,7 @@ Naturalnym zjawiskiem na atak jest obrona. Mając takie proste w użyciu narzęd
 % http://resources.infosecinstitute.com/android-hacking-and-security-part-18-introduction-to-reverse-engineering/
 \section{Obfuskacja}
 % https://pl.wikipedia.org/wiki/Zaciemnianie_kodu
-Technika ta często też nazywana zaciemnianiem kodu czy potocznie kolorowaniem. 
-\par
-Jest to jedna z podstawowych technik \textbf{utrudniających} odzyskanie kodu. Technika ta polega na zamienianiu czytelnych dla programisty wyrażeń na wyrażenia krótkie i nie czytelne dla ludzi napisy. Oczywiście z zachowaniem poprawności i zasad danego języka. Więc technika ta nie modyfikuje zachowania kodu a jedynie sprawia, że reprezentacja kodu staje się mniej czytelna dla ludzi. Napisałem, że jest to technika utrudniająca inżynierię wsteczną a nie zapobiegającą bo jej celem jest tylko utrudnienie odczytania kodu. Przez co proces staje się bardziej czasochłonny. Oczywiście mocno zdeterminowanego napastnika to nie zniechęci.\par
+Technika ta często też nazywana zaciemnianiem kodu czy potocznie kolorowaniem. Jest to jedna z podstawowych technik \textbf{utrudniających} odzyskanie kodu. Technika ta polega na zamienianiu czytelnych dla programisty wyrażeń na wyrażenia krótkie i nie czytelne dla ludzi napisy. Oczywiście z zachowaniem poprawności i zasad danego języka. Więc technika ta nie modyfikuje zachowania kodu a jedynie sprawia, że reprezentacja kodu staje się mniej czytelna dla ludzi. Napisałem, że jest to technika utrudniająca inżynierię wsteczną a nie zapobiegającą bo jej celem jest tylko utrudnienie odczytania kodu. Przez co proces staje się bardziej czasochłonny. Oczywiście mocno zdeterminowanego napastnika to nie zniechęci.\par
 Jako przykład posłuży nam kod napisany w języku JavaScript który poddamy obfuskacji. W języku Java było by to jeszcze bardziej przekształcone ze względu na transformację do kodu bajtowego.
 %
 \lstinputlisting[language=JavaScript, captionpos=b, belowcaptionskip=4pt, caption={Przykładowy program w JavaScript}]{src/obfuscation_source.js}
