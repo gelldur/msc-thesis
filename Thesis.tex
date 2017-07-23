@@ -511,6 +511,44 @@ Podsumowując nazwa paczki służy tylko identyfikacji. Tak jak w bazie danych \
 
 \section{Cyfrowy podpis}
 \label{signing}
+% https://developer.android.com/studio/publish/app-signing.html
+% https://source.android.com/security/apksigning/
+% Różnica między certyfikatem a kluczem 
+% https://pl.wikipedia.org/wiki/Certyfikat_klucza_publicznego
+Wymogiem Android'a jest by aplikacje były cyfrowo podpisane certyfikatem przed ich zainstalowaniem. Mamy dwa klucze publiczny i prywatny. Klucz publiczny jest dołączany do naszego \lstinline|.apk|. Dzięki temu w przyszłości będzie łatwo stwierdzić od kogo pochodzi nowa aplikacja czy też aktualizacja. Narzędzie do podpisywania aplikacji (\lstinline|apksigner|) na Android'a pracuje na pliku \lstinline|.keystore|. Jest to binarny format który zawiera jeden lub wiele prywatnych kluczy. 
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=1\textwidth,keepaspectratio]
+	{img/signing/appsigning_selfmanagediagram_2x.png}
+	\caption{Podpisanie aplikacji przez Developera}
+\end{figure}
+Klucze są zabezpieczone dodatkowymi hasłami w pliku. Jeśli zgubimy lub utracimy nasz klucz to nie będziemy w stanie aktualizować naszej aplikacji użytkownikom. Jak wcześniej było wspomniane, aplikacja musi być podpisana tym samym kluczem by system uznał ją jako aktualizację czy też autentyczna aplikację od danego twórcy.\par
+Dekompilowane przez nas aplikację możemy podpisać naszym kluczem co pozwoli nam na instalację tak zmodyfikowanej aplikacji. Jednak jeśli chcielibyśmy aby system potraktował tak zmodyfikowaną aplikację jako aktualizację to już się to nie powiedzie bo poprzednia aplikacja była podpisana innym kluczem.\par
+Podpisana aplikacja służy jeszcze Androidowi do identyfikacji i tworzenia użytkowników w których obrębie działa aplikacja. Aplikacje podpisane tym samym kluczem mają możliwość współdzielenia użytkownika co za tym idzie, aplikację mogą współdzielić dane bez potrzeby tworzenia skomplikowanych interfejsów.\par
+Android posiada dwa sposoby podpisywania aplikacji:\par
+\begin{itemize}
+\item{JAR signing (v1 scheme)}\par
+Metoda ta bazuje na innej metodzie podpisywaniu pliku JAR. Pliki charakterystyczne dla tego sposoby podpisywania są pliki w katalogu \verb|META-INF| 
+\par
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=1\textwidth,keepaspectratio]
+	{img/signing/apk_signed_v1_vs_signed_with_v2.png}
+	\caption{Przykładowy APK. Po lewej APK podpisany metodą v1, po prawej metodą v2}
+\end{figure}
+% https://source.android.com/security/apksigning/
+% https://docs.oracle.com/javase/8/docs/technotes/guides/jar/jar.html#Signed_JAR_File
+Wadami tej metody jest, że nie chroni pewnych obszarów APK przed modyfikacją takich jak metadane. Dodatkowo program weryfikujący musi przetworzyć sporo nie zweryfikowanych danych by je zweryfikować. Takie podeście tworzy furtkę do ataku. Dodatkowo trzeba odpakować wszystkie zasoby co niestety jest też czasochłonne.
+\item{APK Signature Scheme v2 (v2 scheme)}
+Metoda ta dostępna jest od Android'a 7.0. Zawartość naszego APK przechodzi przez funkcję hashującą co następnie zostaje podpisane. Taki blok zostanie następnie dodany do naszego APK. Podczas walidacji APK jest traktowane jako kontener i sprawdza hashe wszystkich plików wewnątrz APK, łącznie z metadanymi. Nowy format jest kompatybilny wstecz. Starsze urządzenia zignorują dodatkowe dane i wykonają sprawdzanie według metody v1. Oczywiście aplikacja musi być podpisana dwoma sposobami.
+\end{itemize}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=1\textwidth,keepaspectratio]
+	{img/signing/apk-validation-process.png}
+	\caption{Weryfikacja podpisu APK}
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
