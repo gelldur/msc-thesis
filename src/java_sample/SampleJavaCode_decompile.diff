@@ -1,0 +1,186 @@
+--- SampleJavaCode.java	2017-07-23 15:31:50.457097368 +0200
++++ SampleJavaCode_decompiled.java	2017-07-23 15:32:02.880458549 +0200
+@@ -1,126 +1,96 @@
++/*
++ * Decompiled with CFR 0_122.
++ */
+ public class SampleJavaCode {
+ 
+-	public interface List {
+-		/**
+-		 * Insert value at given index
+-		 *
+-		 * @param index
+-		 * @param value
+-		 * @return true if success, false otherwise
+-		 */
+-		boolean insert(int index, int value) throws IndexOutOfBoundsException;
+-
+-		/**
+-		 * Remove element at given index. If we can't remove false will be returned. I
+-		 * is safe to call remove on empty list
+-		 *
+-		 * @param index
+-		 * @return true if success, false otherwise
+-		 */
+-		boolean remove(int index);
+-
+-		/**
+-		 * Getter for value at given index. If such index doesn't work exception should
+-		 * be thrown
+-		 *
+-		 * @param index
+-		 * @return value at given index
+-		 */
+-		int getItem(int index) throws IndexOutOfBoundsException;
+-	}
+-
+ 	public static class ForwardListImplementation implements List {
++		private Node head;
+ 
+ 		@Override
+-		public boolean insert(int index, int value) throws IndexOutOfBoundsException {
+-			if (index >= getSize() + 1) {
++		public boolean insert(int n, int n2) throws IndexOutOfBoundsException {
++			if (n >= this.getSize() + 1) {
+ 				throw new IndexOutOfBoundsException();
+ 			}
+-
+-			Node newElement = new Node(value);
+-
+-			if (head == null) {
+-				head = newElement;
++			Node node = new Node(n2);
++			if (this.head == null) {
++				this.head = node;
+ 				return true;
+ 			}
+-
+-			Node previous = getItemNode(index - 1);
+-			newElement.next = previous.next;
+-			previous.next = newElement;
+-
++			Node node2 = this.getItemNode(n - 1);
++			node.next = node2.next;
++			node2.next = node;
+ 			return true;
+ 		}
+ 
+ 		@Override
+-		public boolean remove(int index) {
+-			Node previous = null;
++		public boolean remove(int n) {
++			Node node = null;
+ 			try {
+-				previous = getItemNode(index - 1);
+-			} catch (IndexOutOfBoundsException ex) {
+-				if (index == 0) {
+-					head = null;
++				node = this.getItemNode(n - 1);
++			} catch (IndexOutOfBoundsException indexOutOfBoundsException) {
++				if (n == 0) {
++					this.head = null;
+ 					return true;
+ 				}
+ 				return false;
+ 			}
+-
+-			Node removedNode = previous.next;
+-			previous.next = removedNode.next;
++			Node node2 = node.next;
++			node.next = node2.next;
+ 			return true;
+ 		}
+ 
+ 		@Override
+-		public int getItem(int index) throws IndexOutOfBoundsException {
+-			return getItemNode(index).value;
++		public int getItem(int n) throws IndexOutOfBoundsException {
++			return this.getItemNode((int) n).value;
+ 		}
+ 
+-		private Node getItemNode(int index) throws IndexOutOfBoundsException {
+-			if (index == 0 || head == null) {
+-				if (head == null) {
+-					throw new IndexOutOfBoundsException("Sorry no such element: " + index);
++		private Node getItemNode(int n) throws IndexOutOfBoundsException {
++			if (n == 0 || this.head == null) {
++				if (this.head == null) {
++					throw new IndexOutOfBoundsException("Sorry no such element: " + n);
+ 				}
+-				return head;
++				return this.head;
+ 			}
+-
+-			int currentIndex = 0;
+-
+-			Node currentNode = head;
+-			while (currentNode.next != null && currentIndex < index) {
+-				++currentIndex;
+-				currentNode = currentNode.next;
++			Node node = this.head;
++			for (int i = 0; node.next != null && i < n; ++i) {
++				node = node.next;
+ 			}
+-
+-			if (currentNode == null) {
+-				throw new IndexOutOfBoundsException("Sorry no such element: " + index);
++			if (node == null) {
++				throw new IndexOutOfBoundsException("Sorry no such element: " + n);
+ 			}
+-
+-			return currentNode;
++			return node;
+ 		}
+ 
+ 		public int getSize() {
+-			if (head == null) {
++			if (this.head == null) {
+ 				return 0;
+ 			}
+-
+-			int count = 1;
+-			Node currentNode = head;
+-			while (currentNode.next != null) {
+-				++count;
+-				currentNode = currentNode.next;
++			int n = 1;
++			Node node = this.head;
++			while (node.next != null) {
++				++n;
++				node = node.next;
+ 			}
+-
+-			return count;
++			return n;
+ 		}
+ 
+-		private Node head;
+-
+ 		public static class Node {
+-			public Node(int value) {
+-				this.value = value;
+-			}
+-
+ 			int value;
+ 			Node next;
+-		}// End of Node class
+-	}// End of ForwardList class
+-}// End of Main class
++
++			public Node(int n) {
++				this.value = n;
++			}
++		}
++
++	}
++
++	public static interface List {
++		public boolean insert(int var1, int var2) throws IndexOutOfBoundsException;
++
++		public boolean remove(int var1);
++
++		public int getItem(int var1) throws IndexOutOfBoundsException;
++	}
++
++}

@@ -577,9 +577,110 @@ Metoda ta dostępna jest od Android'a 7.0. Zawartość naszego APK przechodzi pr
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chapter{Sposoby ochrony przed desasemblacją}
+Naturalnym zjawiskiem na atak jest obrona. Mając takie proste w użyciu narzędzia do RE naturalne jest, że powstały techniki utrudniające RE. Oczywiście wykorzystano w tym kierunku wiedzę z innych technologi gdzie ów problemy występują od dziesiątek lat. Temat jest na tyle szeroki, że poruszę tylko te sposoby które są powszechnie stosowane w tworzeniu aplikacji na Android'a i są stosunkowo tanie/proste do wdrożenia. Większą bazę wiedzy na temat zabezpieczenia kodu przez inżynierią odwrotną można znaleźć na stronie \hyperlink{https://www.owasp.org/index.php/OWASP_Reverse_Engineering_and_Code_Modification_Prevention_Project}{OWASP}.
+% https://stackoverflow.com/questions/43601498/protect-android-app-from-reverse-engineering
+% http://resources.infosecinstitute.com/android-hacking-and-security-part-18-introduction-to-reverse-engineering/
 \section{Obfuskacja}
+% https://pl.wikipedia.org/wiki/Zaciemnianie_kodu
+Technika ta często też nazywana zaciemnianiem kodu czy potocznie kolorowaniem. 
+\par
+Jest to jedna z podstawowych technik \textbf{utrudniających} odzyskanie kodu. Technika ta polega na zamienianiu czytelnych dla programisty wyrażeń na wyrażenia krótkie i nie czytelne dla ludzi napisy. Oczywiście z zachowaniem poprawności i zasad danego języka. Więc technika ta nie modyfikuje zachowania kodu a jedynie sprawia, że reprezentacja kodu staje się mniej czytelna dla ludzi. Napisałem, że jest to technika utrudniająca inżynierię wsteczną a nie zapobiegającą bo jej celem jest tylko utrudnienie odczytania kodu. Przez co proces staje się bardziej czasochłonny. Oczywiście mocno zdeterminowanego napastnika to nie zniechęci.\par
+Jako przykład posłuży nam kod napisany w języku JavaScript który poddamy obfuskacji. W języku Java było by to jeszcze bardziej przekształcone ze względu na transformację do kodu bajtowego.
+%
+\lstinputlisting[language=JavaScript, captionpos=b, belowcaptionskip=4pt, caption={Przykładowy program w JavaScript}]{src/obfuscation_source.js}
+%
+\lstinputlisting[language=JavaScript, captionpos=b, belowcaptionskip=4pt, caption={Kod poddany obfuskacji w JavaScript}]{src/after_obfuscation_source.js}
+%
+\par Oczywiście skuteczność jak i wymyślność naszego obfuskatora zależy od jego twórcy. Powyższy kod możemy jeszcze bardziej sprawić brzydszym.
+%
+\lstinputlisting[language=JavaScript, captionpos=b, belowcaptionskip=4pt, caption={Kod poddany obfuskacji w JavaScript}]{src/after_obfuscation_2_source.js}
+%
+\par Powyższe przykłady kodów zostały poddane tylko transformacją które nie zmieniły sposobu działania. Robią dokładnie to samo, zostały tylko zapisane w innych formach. W takich formach które dla człowieka utrudniają znacząco zrozumienie jego działania.
+\par
+Na przykładzie pokaże jak wygląda dekompilacja kodu w języka Java z obfuskacją i bez niej.
+%
+\lstinputlisting[language=Java, captionpos=b, belowcaptionskip=4pt, caption={Prosta implementacja listy w języku Java}]{src/java_sample/SampleJavaCode.java}
+%
+Powyższy kod skompilujemy i otrzymamy pliki \lstinline|.class|, każdy plik dla struktury i jeden główny.
+%
+\begin{figure}[h!]
+	\centering
+	\includegraphics[height=0.3\textheight]
+	{img/secure_desasembly/compiled_sample_java.png}
+	\caption{Wygenerowane pliki za pomocą komendy: \lstinline|javac SampleJavaCode.java|}
+\end{figure}
+%
+Najbardziej interesującym nas plikiem jest \lstinline|SampleJavaCode$ForwardListImplementation.class| bo jesteśmy ciekawi jak ktoś zaimplementował ów strukturę danych.  Załóżmy, że otrzymaliśmy aplikację od kolegi który wszystko spakował w JAR'a. Po otworzeniu JAR'a zobaczylibyśmy wszystkie te pliki które widzimy na zdjęciu. Więc już sama nazwa nam wskazuje gdzie mamy szukać implementacji. Ironią losu jest taka, że im lepszej jakości ktoś napisał kod i nie poddał go obfuskacji tym prościej atakującemu będzie znaleźć to czego szuka. Oczywiście plik \lstinline|.class| jest plikiem z kodem bajtowym i czytanie go nic nam nie da więc musimy go pierw zdekompilować. Dla uproszczenia procesu skorzystamy z dekompilatora online \hyperlink{http://www.javadecompilers.com/processing}{javadecompilers.com}.
+%
+\lstinputlisting[language=diff, captionpos=b, belowcaptionskip=4pt,
+caption={Różnica między kodem źródłowym z kodem który został odzyskany z dekompilacji. Uzyskane za pomocą komendy: \lstinline|diff -u SampleJavaCode.java SampleJavaCode_decompiled.java > SampleJavaCode_decompile.diff|}]
+{src/java_sample/SampleJavaCode_decompile.diff}
+%
+\par
+Różnica wydaje się nie znacząca a przynajmniej nie utrudnia nam to za bardzo analizowania ów kodu. Jednak jeśli nasz kod poddamy obfuskacji to nasz przykładowy JAR zostanie zmodyfikowany i nawet dzięki temu zmniejszy się rozmiar JAR'a z 2.6 KB na 1.6 KB.
+%
+\begin{figure}[h!]
+	\centering
+	\includegraphics[height=0.3\textheight]
+	{img/secure_desasembly/sample_obfuscation.png}
+	\caption{JAR przed obfuskacją i po obfuskcaji za pomocą narzędzia proguard}
+\end{figure}
+%
+JAR po poddaniu obfuskcaji pozmieniał nazwy plików więc już znacznie ciężej znaleźć nas interesujący plik. Dodatkowo zdekompilowany nasz kod zmienił trochę hierarchię naszych struktur co też może dodatkowo utrudnić nam analizę.
+%
+\lstinputlisting[language=Java, captionpos=b, belowcaptionskip=4pt,
+caption={Plik \lstinline|a.java| czyli odpowiednik \lstinline|class SampleJavaCode|}]
+{src/java_sample/decompiled_after_obfuscation/a.java}
+%
+%
+\lstinputlisting[language=Java, captionpos=b, belowcaptionskip=4pt,
+caption={Plik \lstinline|b.java| czyli odpowiednik \lstinline|class ForwardListImplementation|}]
+{src/java_sample/decompiled_after_obfuscation/b.java}
+%
+%
+\lstinputlisting[language=Java, captionpos=b, belowcaptionskip=4pt,
+caption={Plik \lstinline|c.java| czyli odpowiednik \lstinline|class Node|}]
+{src/java_sample/decompiled_after_obfuscation/c.java}
+%
+%
+\lstinputlisting[language=Java, captionpos=b, belowcaptionskip=4pt,
+caption={Plik \lstinline|d.java| czyli odpowiednik \lstinline|interface List|}]
+{src/java_sample/decompiled_after_obfuscation/d.java}
+%
+\par
+Kody zostały lekko zmodyfikowane przeze mnie. Poprawiłem formatowanie kodu by można było go łatwiej czytać. Skorzystałem z autofrmatera kodu dostępnego w IDE Eclipse.
+
 \section{Proguard}
+% https://www.guardsquare.com/en/proguard
+% https://www.guardsquare.com/en/proguard/manual/examples#application
+% http://www.javadecompilers.com
+% https://en.wikipedia.org/wiki/ProGuard_(software)
+Progauard jest narzędziem które potrafi zmniejszyć, zoptymalizować i zaciemnić kod w języku Java. Jest darmowym narzędziem na licencji \href{https://en.wikipedia.org/wiki/GNU_General_Public_License#Version_2}{GPL v2}. Potrafi zoptymalizować kod bajtowy np. przez usunięcie nie używanego kodu.\par
+Narzędzie zostało to wykorzystane w sekcji o obfuskacji. Proguard jest częścią narzędzi do budowania aplikacji na Android'a i domyślnie jest włączony dla aplikacji w trybie release. Oczywiście w naszym projekcie możemy skonfigurować to narzędzie za pomocą plików konfiguracyjnych tak by realizowało mu powierzone zadania np. zaciemniania kodu.\par
+Wadą tego narzędzia jak i zarazem powodem dla którego developerzy je wyłączają jest modyfikowanie stosu wywołań (ang. stack trace) przez zmiany nazw naszych metod czy klas.
+%
+\begin{lstlisting}[caption={Przykładowy wyjątek dla nie zaciemnionego kodu}]
+Exception in thread "main" java.lang.IndexOutOfBoundsException
+        at SampleJavaCode$ForwardListImplementation.insert(SampleJavaCode.java:37)
+        at Test.main(Test.java:6)
+\end{lstlisting}
+%
+\begin{lstlisting}[caption={Przykładowy wyjątek dla kodu który został zaciemniony}]
+Exception in thread "main" java.lang.IndexOutOfBoundsException
+        at b.a(Unknown Source)
+        at TestObfuscated.main(TestObfuscated.java:6)
+\end{lstlisting}
+%
+W powyższym przykładzie mamy dosyć małą głębokość wywołań co nie utrudnia nam znacząco jego interpretację. Jednak problem znacząco wzrasta im mamy dłuższy stos wywołań.\par
+Jak już było wspomniane możemy konfugirować proguarda by nie zaciemniał kodu. Jednak dla nas nie jest to koniecznie dobre rozwiązanie. Oczywiście proguard rozwiązuje ten problem i wytwarza nam plik z mapowaniem starych identyfikatorów na nowe tak byśmy mogli po naszej stronie w prawidłowy sposób odczytywać stos wywołań.
+%
+\lstinputlisting{src/java_sample/mapping.config}
+%
+\par
+Jednak developer sporo musi często sam skonfigurować. Do tego dochodzą problemy z wywołaniami przez refleksję czy wywołania natywnego kodu (Java Native Interface). Suma tych problemów często przewyższa zysk z obfuskacji kodu i nikt nie chce poświęcać na to czasu.
+
 \section{Natywny kod}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
