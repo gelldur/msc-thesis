@@ -374,11 +374,6 @@ Folder zawiera zasoby które nie zostały przetworzone i dołączone do pliku re
 
 \end{itemize}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%                      chapter
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chapter{Narzędzia do dekompilacji}
 
@@ -479,11 +474,6 @@ W taki sposób uzyskamy nasze zdekompilowane pliki \lstinline|.smali|. Narzędzi
 Oczywiście narzędzi istnieje znacznie więcej. Ja w mojej pracy jednak skupiłem się na apktool ze względów na przyjemne użytkowanie i duże społeczeństwo zebrane wokół tego narzędzia.\\
 Jednym z narzędzi wartych zainteresowania może być \href{http://vaibhavpandey.com/apkstudio/}{apkstudio}. Narzędzie działa to we współpracy z apktool jednak daje nam łatwy edytor dla developera.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%                      chapter
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %- Zabezpieczenia przed modyfikowaniem aplikacji (podpisywanie apki certyfikatem,nazwa package apki)
 
 \chapter{Identyfikacja i weryfikowanie aplikacji}
@@ -550,12 +540,6 @@ Metoda ta dostępna jest od Android'a 7.0. Zawartość naszego APK przechodzi pr
 	\caption{Weryfikacja podpisu APK}
 \end{figure}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%                      chapter
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \chapter{Wynik desasemblacji}
 
 \begin{figure}[h!]
@@ -569,12 +553,6 @@ Metoda ta dostępna jest od Android'a 7.0. Zawartość naszego APK przechodzi pr
 \label{smali}
 
 \section{Dalvik/ART bytecode}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%                      chapter
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chapter{Sposoby ochrony przed desasemblacją}
 Naturalnym zjawiskiem na atak jest obrona. Mając takie proste w użyciu narzędzia do RE naturalne jest, że powstały techniki utrudniające RE. Oczywiście wykorzystano w tym kierunku wiedzę z innych technologi gdzie ów problemy występują od dziesiątek lat. Temat jest na tyle szeroki, że poruszę tylko te sposoby które są powszechnie stosowane w tworzeniu aplikacji na Android'a i są stosunkowo tanie/proste do wdrożenia. Większą bazę wiedzy na temat zabezpieczenia kodu przez inżynierią odwrotną można znaleźć na stronie \hyperlink{https://www.owasp.org/index.php/OWASP_Reverse_Engineering_and_Code_Modification_Prevention_Project}{OWASP}.
@@ -680,28 +658,10 @@ Jak już było wspomniane możemy konfugirować proguarda by nie zaciemniał kod
 Jednak developer sporo musi często sam skonfigurować. Do tego dochodzą problemy z wywołaniami przez refleksję czy wywołania natywnego kodu (Java Native Interface). Suma tych problemów często przewyższa zysk z obfuskacji kodu i nikt nie chce poświęcać na to czasu.
 
 \section{Natywny kod}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%                      chapter
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 %- Zabezpieczenia / Niebezpieczeństwa. Np wstrzykiwanie w zapytania do serwera. (Ogólnie omówić czemu warto/trzeba zabezpieczyć kod przed dekompilacją)
 \chapter{Niebezpieczeństwa źle zabezpieczonego kodu}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%                      chapter
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chapter{Projekt}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%                      chapter
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \todo{Propozycje projektu: 1. Aplikacja do odbierania prawa dostępu do internetu innym aplikacja zainstalowanym na telefonie użytkownika 2. TBC}
 
 %\chapter{Bibliografia}
