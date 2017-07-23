@@ -1,0 +1,64 @@
+\ProvidesFile{lstlangdiff.sty}
+    [2017/07/23 1.0 listings language file for Diff]
+    % Thanks to: https://tex.stackexchange.com/a/257586/139599
+\lstdefinelanguage{diff}{
+  sensitive=true,
+  % diff command line
+  morecomment=[f][\color{gray}][0]{diff},
+  % commit identifiers for git diff
+  morecomment=[f][\color{gray}][0]{index},
+  % hunk location/line numbers for unified format
+  morecomment=[f][\color{blue}][0]{@@},
+  % hunk location/line numbers for context format
+  morecomment=[f][\color{magenta}][0]{***},
+  % changed line for context format
+  morecomment=[f][\color{violet}][0]{!},
+  % deleted lines for unified format
+  morecomment=[f][\color{red!60!black}][0]-,
+  % added lines for unified format
+  morecomment=[f][\color{green!60!black}][0]+,
+  % file name and time stamp old file
+  morecomment=[f][\color{magenta}][0]{---},
+  % file name and time stamp new file
+  morecomment=[f][\color{magenta}][0]{+++},
+  % Binary files ... differ
+  morecomment=[f][\color{gray}][0]{Binary},
+  % Only in ...: file.txt
+  morecomment=[f][\color{gray}][0]{Only},
+  % old mode ...
+  morecomment=[f][\color{gray}][0]{old},
+  % new mode ...
+  morecomment=[f][\color{gray}][0]{new},
+  % rename from/to ...
+  morecomment=[f][\color{gray}][0]{rename},
+  % similarity index ...%
+  morecomment=[f][\color{gray}][0]{similarity},
+  % deleted file mode ...%
+  morecomment=[f][\color{gray}][0]{deleted},
+  % hunk separator for context format
+  morecomment=[f][\color{magenta}][0]{***************},
+  % deleted lines for normal format
+  morecomment=[f][\color{red!60!black}][0]<,
+  % added lines for normal format
+  morecomment=[f][\color{green!60!black}][0]>,
+  % line number specifier for normal format
+  morecomment=[f][\color{blue}][0]{0},
+  % line number specifier for normal format
+  morecomment=[f][\color{blue}][0]{1},
+  % line number specifier for normal format
+  morecomment=[f][\color{blue}][0]{2},
+  % line number specifier for normal format
+  morecomment=[f][\color{blue}][0]{3},
+  % line number specifier for normal format
+  morecomment=[f][\color{blue}][0]{4},
+  % line number specifier for normal format
+  morecomment=[f][\color{blue}][0]{5},
+  % line number specifier for normal format
+  morecomment=[f][\color{blue}][0]{6},
+  % line number specifier for normal format
+  morecomment=[f][\color{blue}][0]{7},
+  % line number specifier for normal format
+  morecomment=[f][\color{blue}][0]{8},
+  % line number specifier for normal format
+  morecomment=[f][\color{blue}][0]{9},
+}[comments]
