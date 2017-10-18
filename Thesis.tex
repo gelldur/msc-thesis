@@ -444,11 +444,10 @@ Pliki oznaczone tym rozszerzeniem służą do rozpowszechniania aplikacji na sys
 \item certyfikaty
 \item plik manifestu
 \end{itemize}
-
 Nazwa pliku jest dowolna pod warunkiem, że jest zakończona przez .apk
 Pliki APK są pewnego rodzaju archiwum, które bazuje na formacie ZIP.
 
-\begin{figure}[h!]
+\begin{figure}[H]
 	\centering
 	\includegraphics[height=0.3\textheight]{img/apk_content_as_zip.png}
 	\caption{Otwarty plik .apk za pomocą programu ark}
@@ -458,7 +457,7 @@ Szczegółowa budowa paczki apk:
 \begin{itemize}
 \item \texttt{Katalog META\_INF}
 
-\begin{figure}[h!]
+\begin{figure}[H]
 	\centering
 	\includegraphics[height=0.3\textheight]{img/apk_content_as_zip_meta_inf.png}
 	\caption{META INF w ark}
@@ -543,7 +542,7 @@ I: Copying unknown files...
 I: Copying original files...
 \end{lstlisting}
 Dzięki tej komendzie uzyskamy źródła z naszej aplikacji. 
-\begin{figure}[h!]
+\begin{figure}[H]
 	\centering
 	\includegraphics[height=0.3\textheight]{img/apktool/sample_apk.png}
 	\caption{Wynik pracy \lstinline|apktool d app-release.apk|}
@@ -563,7 +562,7 @@ Plik z metadanymi od apktool.
 Zdekodowany \lstinline|AndroidManifest.xml|.
 \end{itemize}
 %
-\begin{figure}[h!]
+\begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]
 	{img/apktool/sample_diff_manifest.png}
@@ -640,7 +639,7 @@ Podsumowując nazwa paczki służy tylko identyfikacji, tak jak w bazie danych \
 % Różnica między certyfikatem a kluczem 
 % https://pl.wikipedia.org/wiki/Certyfikat_klucza_publicznego
 Wymogiem Android'a jest, by aplikacje były cyfrowo podpisane certyfikatem przed ich zainstalowaniem. Mamy dwa klucze publiczny i prywatny. Klucz publiczny jest dołączany do naszego \lstinline|.apk|. Dzięki temu w przyszłości będzie łatwo stwierdzić od kogo pochodzi nowa aplikacja czy aktualizacja. Narzędzie do podpisywania aplikacji (\lstinline|apksigner|) na Android'a pracuje na pliku \lstinline|.keystore|. Jest to binarny format, który zawiera jeden lub wiele prywatnych kluczy. 
-\begin{figure}[h!]
+\begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth,keepaspectratio]
 	{img/signing/appsigning_selfmanagediagram_2x.png}
@@ -654,7 +653,7 @@ Android posiada dwa sposoby podpisywania aplikacji:\par
 \item{JAR signing (v1 scheme)}\par
 Metoda ta bazuje na innej metodzie podpisywaniu pliku JAR. Pliki charakterystyczne dla tego sposoby podpisywania są plikami w katalogu \verb|META-INF| 
 \par
-\begin{figure}[h!]
+\begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth,keepaspectratio]
 	{img/signing/apk_signed_v1_vs_signed_with_v2.png}
@@ -666,17 +665,17 @@ Wadą tej metody jest to, że nie chroni przed modyfikacjami pewnych obszarów A
 \item{APK Signature Scheme v2 (v2 scheme)}
 Metoda ta dostępna jest od Android'a 7.0. Zawartość naszego APK przechodzi przez funkcję hashującą, której hash zostaje podpisany. Taki blok zostanie następnie dodany do naszego APK. Podczas walidacji, APK jest traktowane jako kontener i sprawdza hash'e wszystkich plików wewnątrz APK, łącznie z metadanymi. Nowy format jest kompatybilny wstecz. Starsze urządzenia zignorują dodatkowe dane i wykonają sprawdzanie według metody v1. Oczywiście, aplikacja musi być podpisana dwoma sposobami.
 \end{itemize}
-
-\begin{figure}[h!]
+%
+\begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth,keepaspectratio]
 	{img/signing/apk-validation-process.png}
 	\caption{Weryfikacja podpisu APK.}
 \end{figure}
-
+%
 \chapter{Wynik deasemblacji}
-
-\begin{figure}[h!]
+%
+\begin{figure}[H]
 	\centering
 	\includegraphics[height=0.3\textheight]{img/Screenshot_godbolt_org-sample.png}
 	\caption{Wygenerowany przykład z strony \url{godbolt.org}}
@@ -714,7 +713,7 @@ Pokażę na przykładzie jak wygląda dekompilacja kodu napisanego w języku Jav
 %
 Powyższy kod skompilujemy i otrzymamy pliki \lstinline|.class|.
 %
-\begin{figure}[h!]
+\begin{figure}[H]
 	\centering
 	\includegraphics[height=0.3\textheight]
 	{img/secure_desasembly/compiled_sample_java.png}
@@ -730,7 +729,7 @@ caption={Różnica między kodem źródłowym a kodem, który został odzyskany 
 \par
 Różnica wydaje się nieznacząca, a przynajmniej nie utrudnia nam za bardzo analizowania ów kodu. Jednak, jeśli nasz kod poddamy zaciemnieniu, to nasz przykładowy JAR zostanie zmodyfikowany i nawet dzięki temu zmniejszy się rozmiar JAR'a z 2.6 KB na 1.6 KB.
 %
-\begin{figure}[h!]
+\begin{figure}[H]
 	\centering
 	\includegraphics[height=0.3\textheight]
 	{img/secure_desasembly/sample_obfuscation.png}
@@ -819,7 +818,7 @@ Jako przykładem posłużę się trzema aplikacjami, w których odwrotna inżyni
 \\
 Aplikacja, która dostarcza nam oferty zniżkowe typu kupony i rabaty, dzięki którym możemy coś kupić. Pierwszym sposobem, by zagwarantować sobie dostęp do ogromnej ilości zniżek/kuponów, byłoby wydobycie ich z API twórcy aplikacji. Możemy taki proces zautomatyzować, co powinno nam dostarczyć łatwy dostęp do kodów rabatowych. Wystarczy przy użyciu narzędzia np. wireshark nasłuchać w sieci lokalnej, jakie metody API są odpytywane, i zreprodukować zapytania. Na szczęście, twórca aplikacji zabezpieczył się przez użycie hasła do API, które jest ukryte w zapytaniu HTTPS, więc nie możemy go w łatwy sposób wydobyć. Tutaj przychodzi nam na pomoc RE. Przy użyciu narzędzia apktool uzyskujemy kod, który nie jest zaciemniony. W łatwy sposób możemy zgadnąć, jak ktoś trzyma hasło w kodzie, o ile stosuje dobre praktyki programistyczne. W tym przypadku, jest to strzał w dziesiątkę. Wystarczy przeszukać kod pod frazą "password".
 %
-\begin{figure}[h!]
+\begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]
 	{img/why_secure/find_password.png}
@@ -828,7 +827,7 @@ Aplikacja, która dostarcza nam oferty zniżkowe typu kupony i rabaty, dzięki k
 %
 Dzięki prostemu i szybkiemu przeszukaniu kodu, możemy zerknąć bezpośrednio do pliku, w którym znajduje się odpowiedź na nasze pytanie.
 %
-\begin{figure}[h!]
+\begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]
 	{img/why_secure/password_in_smali.png}
@@ -838,7 +837,7 @@ Dzięki prostemu i szybkiemu przeszukaniu kodu, możemy zerknąć bezpośrednio 
 \section{Generator tokenów}
 Aplikacje mobilne coraz częściej służą jako metoda podwójnego uwierzytelniania, czy też identyfikowania użytkownika, ponieważ ciężko jest, aby ktoś posiadał tysiąc komórek. Firma Steam, która prawdopodobnie miała dosyć automatycznych botów, które rejestrowały się w serwisie i wykonywały pewne akcje, zdecydowała się wyłączyć uwierzytelnianie kodem na e-maila i zmusić użytkowników do korzystania z generatora tokenów z ich aplikacji.
 %
-\begin{figure}[h!]
+\begin{figure}[H]
 	\centering
 	\includegraphics[height=0.3\textheight]
 	{img/why_secure/steam_tokener.png}
@@ -850,7 +849,7 @@ Dlatego od teraz wszystkie boty musiałyby posiadać swoją instancję aplikacji
 \section{Blokady}
 Aplikacje często posiadają blokady, czy pewne inne nieudogodnienia np. dla użytkowników, którzy mają odblokowane urządzenie (rooted device). W przypadku aplikacji Starbucks, aplikacja ta na samym starcie aplikacji sprawdza, czy urządzenie jest zrootowane i jeśli tak, to kończy swoje działanie, uniemożliwiając korzystanie z niej. 
 %
-\begin{figure}[h!]
+\begin{figure}[H]
 	\centering
 	\includegraphics[width=0.6\textwidth]
 	{img/why_secure/device_rooted_message.png}
@@ -859,7 +858,7 @@ Aplikacje często posiadają blokady, czy pewne inne nieudogodnienia np. dla uż
 %
 Korzystając z RE możemy odzyskać kod ów aplikacji i usunąć sprawdzanie, dzięki czemu aplikacja będzie dla nas działać. Kod aplikacji został poddany zaciemnieniu przez co ciężko było znaleźć, gdzie jest sprawdzany ten warunek. Z pomocą przyszedł komunikat, który wyświetlał się nam na ekranie. Jeżeli wyszukamy ów tekst w plikach aplikacji, to znajdziemy początek nici po której dojdziemy do naszego kłębka. 
 %
-\begin{figure}[h!]
+\begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]
 	{img/why_secure/search_for_message.png}
@@ -868,7 +867,7 @@ Korzystając z RE możemy odzyskać kod ów aplikacji i usunąć sprawdzanie, dz
 %
 Dzięki prostemu wyszukaniu gdzie jest używany komunikat, jesteśmy w stanie precyzyjnie znaleźć miejsce naszej blokady i je wyłączyć.
 %
-\begin{figure}[h!]
+\begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth,keepaspectratio]
 	{img/why_secure/disable_block.png}
