@@ -259,7 +259,7 @@ Na początku poznamy budowę aplikacji androidowej. Korzystając z tej wiedzy na
  
 \end{abstract}
 \smallskip
-\noindent \textbf{Słowa~kluczowe:} RE, reverse engineering, inżynieria odwrotna, dekompilacja, android, apk, apktool, smali, obfuskacja, zaciemnianie kodu, dezasemblacja, deasembler, disassembler, objdump, asembler, dekompilator
+\noindent \textbf{Słowa~kluczowe:} RE, reverse engineering, inżynieria odwrotna, dekompilacja, android, apk, apktool, smali, zaciemnianie kodu, dezasemblacja, deasembler, disassembler, objdump, asembler, dekompilator
 
 %Abstrakt w języku angielskim.
 \begin{abstract}{english}
@@ -293,7 +293,7 @@ Inżynieria wsteczna (ang. \emph{reverse engineering}, w skrócie RE) jest proce
 
 Przykład, choć krótki, już pokazuje jak mamy utrudnione zadanie. Często analizujemy kod, który jest bardziej zrozumiały dla maszyny niż człowieka.
 
-Proces inżynierii wstecznej jest dodatkowo utrudniany przez programistów, którzy nie chcą by ktoś podglądał jak pewna funkcjonalność została zrealizowana. W tym celu stosowana jest obfuskacja kodu. Jednakże, inżynieria wsteczna czasem jest jedynym sposobem na dowiedzenie się, jak coś działa. Przykładem może być zarówno brak kodu źródłowego pewnej biblioteki, jak i brak dokumentacji do niej. Innym przykładem może być chęć dodania lub naprawienia pewnej funkcjonalności. Producent mógł porzucić rozwój oprogramowania, a nasza organizacja z pewnych powodów nie może zmienić tej biblioteki.
+Proces inżynierii wstecznej jest dodatkowo utrudniany przez programistów, którzy nie chcą by ktoś podglądał jak pewna funkcjonalność została zrealizowana. W tym celu stosowane jest zaciemnianie kodu. Jednakże, inżynieria wsteczna czasem jest jedynym sposobem na dowiedzenie się, jak coś działa. Przykładem może być zarówno brak kodu źródłowego pewnej biblioteki, jak i brak dokumentacji do niej. Innym przykładem może być chęć dodania lub naprawienia pewnej funkcjonalności. Producent mógł porzucić rozwój oprogramowania, a nasza organizacja z pewnych powodów nie może zmienić tej biblioteki.
 
 Celem tej pracy jest przedstawienie narzędzi i procesu dekompilacji zbudowanych aplikacji oraz ponownej kompilacji zmodyfikowanej aplikacji na system operacyjny Android.
 
@@ -698,22 +698,22 @@ Metoda ta dostępna jest od Android'a 7.0. Zawartość naszego APK przechodzi pr
 Naturalnym zjawiskiem na atak, jest obrona. Mając takie proste w użyciu narzędzia do RE, naturalne jest, że powstały techniki utrudniające RE. Oczywiście, wykorzystano w tym kierunku wiedzę z innych technologi, gdzie ów problemy występują od dziesiątek lat. Temat jest na tyle szeroki, że poruszę tylko te sposoby które są powszechnie stosowane w tworzeniu aplikacji na Android'a i są stosunkowo tanie/proste do wdrożenia. Większą bazę wiedzy na temat zabezpieczenia kodu przez inżynierią odwrotną można znaleźć na stronie \hyperlink{https://www.owasp.org/index.php/OWASP_Reverse_Engineering_and_Code_Modification_Prevention_Project}{OWASP}.
 % https://stackoverflow.com/questions/43601498/protect-android-app-from-reverse-engineering
 % http://resources.infosecinstitute.com/android-hacking-and-security-part-18-introduction-to-reverse-engineering/
-\section{Obfuskacja}
+\section{Zaciemnianie kodu}
 % https://pl.wikipedia.org/wiki/Zaciemnianie_kodu
-Technika ta, często też nazywana zaciemnianiem kodu czy potocznie kolorowaniem, jest jedną z podstawowych technik \textbf{utrudniających} odzyskanie kodu. Technika ta polega na zamienianiu czytelnych dla programisty wyrażeń na wyrażenia krótkie i nieczytelne dla ludzi napisy, oczywiście z zachowaniem poprawności i zasad danego języka. Dlatego też technika ta nie modyfikuje zachowania kodu, a jedynie sprawia, że reprezentacja kodu staje się mniej czytelna dla ludzi. Napisałem, że jest to technika utrudniająca inżynierię wsteczną, a nie zapobiegającą, bo jej celem jest tylko utrudnienie odczytania kodu, przez co proces staje się bardziej czasochłonny. Oczywiście, mocno zdeterminowanego napastnika to nie zniechęci.\par
-Jako przykład posłuży nam kod napisany w języku JavaScript, który poddamy obfuskacji. W języku Java byłoby to jeszcze bardziej przekształcone ze względu na transformację do kodu bajtowego.
+Technika ta, często też nazywana potocznie kolorowaniem kodu, jest jedną z podstawowych technik \textbf{utrudniających} odzyskanie kodu. Technika ta polega na zamienianiu czytelnych dla programisty wyrażeń na wyrażenia krótkie i nieczytelne dla ludzi napisy, oczywiście z zachowaniem poprawności i zasad danego języka. Dlatego też technika ta nie modyfikuje zachowania kodu, a jedynie sprawia, że reprezentacja kodu staje się mniej czytelna dla ludzi. Napisałem, że jest to technika utrudniająca inżynierię wsteczną, a nie zapobiegającą, bo jej celem jest tylko utrudnienie odczytania kodu, przez co proces staje się bardziej czasochłonny. Oczywiście, mocno zdeterminowanego napastnika to nie zniechęci.\par
+Jako przykład posłuży nam kod napisany w języku JavaScript, który poddamy zaciemnianiu. W języku Java byłoby to jeszcze bardziej przekształcone ze względu na transformację do kodu bajtowego.
 %
 \lstinputlisting[language=JavaScript, captionpos=b, belowcaptionskip=4pt, caption={Przykładowy program w JavaScript.}]{src/obfuscation_source.js}
 %
-\lstinputlisting[language=JavaScript, captionpos=b, belowcaptionskip=4pt, caption={Kod poddany obfuskacji w JavaScript.}]{src/after_obfuscation_source.js}
+\lstinputlisting[language=JavaScript, captionpos=b, belowcaptionskip=4pt, caption={Kod poddany zaciemnianiu w JavaScript.}]{src/after_obfuscation_source.js}
 %
 \par Oczywiście skuteczność jak i wymyślność naszego obfuskatora zależy od jego twórcy. Powyższy kod możemy jeszcze bardziej sprawić brzydszym.
 %
-\lstinputlisting[language=JavaScript, captionpos=b, belowcaptionskip=4pt, caption={Kod poddany obfuskacji w JavaScript.}]{src/after_obfuscation_2_source.js}
+\lstinputlisting[language=JavaScript, captionpos=b, belowcaptionskip=4pt, caption={Kod poddany zaciemnianiu w JavaScript.}]{src/after_obfuscation_2_source.js}
 %
 \par Powyższe przykłady kodów zostały poddane tylko transformacjom, które nie zmieniły sposobu działania. Robią dokładnie to samo, zostały tylko zapisane w innych formach, mianowicie w takich, które dla człowieka utrudniają znacząco zrozumienie jego działania.
 \par
-Pokażę na przykładzie jak wygląda dekompilacja kodu napisanego w języku Java z obfuskacją i bez niej.
+Pokażę na przykładzie jak wygląda dekompilacja kodu napisanego w języku Java z zaciemnieniem i bez niego.
 %
 \lstinputlisting[language=Java, captionpos=b, belowcaptionskip=4pt, caption={Prosta implementacja listy w języku Java.}]{src/java_sample/SampleJavaCode.java}
 %
@@ -726,20 +726,20 @@ Powyższy kod skompilujemy i otrzymamy pliki \lstinline|.class|.
 	\caption{Wygenerowane pliki za pomocą komendy: \lstinline|javac SampleJavaCode.java|}
 \end{figure}
 %
-Najbardziej interesującym nas plikiem jest \lstinline|SampleJavaCode$ForwardListImplementation.class|, ponieważ jesteśmy ciekawi jak ktoś zaimplementował ów strukturę danych.  Załóżmy, że otrzymaliśmy aplikację od kolegi, który wszystko spakował w JAR'a. Po otwarciu JAR'a zobaczylibyśmy wszystkie te pliki, które widzimy na zdjęciu. Sama już nazwa nam wskazuje, gdzie mamy szukać implementacji. Ironią losu jest, że im lepszej jakości kod ktoś napisał i nie poddał go obfuskacji, tym prościej atakującemu będzie znaleźć to, czego szuka. Oczywiście, plik \lstinline|.class| jest plikiem z kodem bajtowym i czytanie go nic nam nie da, dlatego musimy go najpierw zdekompilować. Dla uproszczenia procesu skorzystamy z dekompilatora online \hyperlink{http://www.javadecompilers.com/processing}{javadecompilers.com}.
+Najbardziej interesującym nas plikiem jest \lstinline|SampleJavaCode$ForwardListImplementation.class|, ponieważ jesteśmy ciekawi jak ktoś zaimplementował ów strukturę danych.  Załóżmy, że otrzymaliśmy aplikację od kolegi, który wszystko spakował w JAR'a. Po otwarciu JAR'a zobaczylibyśmy wszystkie te pliki, które widzimy na zdjęciu. Sama już nazwa nam wskazuje, gdzie mamy szukać implementacji. Ironią losu jest, że im lepszej jakości kod ktoś napisał i nie poddał go procesowi zaciemnienia, tym prościej atakującemu będzie znaleźć to, czego szuka. Oczywiście, plik \lstinline|.class| jest plikiem z kodem bajtowym i czytanie go nic nam nie da, dlatego musimy go najpierw zdekompilować. Dla uproszczenia procesu skorzystamy z dekompilatora online \hyperlink{http://www.javadecompilers.com/processing}{javadecompilers.com}.
 %
 \lstinputlisting[language=diff, captionpos=b, belowcaptionskip=4pt,
 caption={Różnica między kodem źródłowym a kodem, który został odzyskany z dekompilacji. Uzyskane za pomocą komendy: \lstinline|diff -u SampleJavaCode.java SampleJavaCode_decompiled.java > SampleJavaCode_decompile.diff|}]
 {src/java_sample/SampleJavaCode_decompile.diff}
 %
 \par
-Różnica wydaje się nieznacząca, a przynajmniej nie utrudnia nam za bardzo analizowania ów kodu. Jednak, jeśli nasz kod poddamy obfuskacji, to nasz przykładowy JAR zostanie zmodyfikowany i nawet dzięki temu zmniejszy się rozmiar JAR'a z 2.6 KB na 1.6 KB.
+Różnica wydaje się nieznacząca, a przynajmniej nie utrudnia nam za bardzo analizowania ów kodu. Jednak, jeśli nasz kod poddamy zaciemnieniu, to nasz przykładowy JAR zostanie zmodyfikowany i nawet dzięki temu zmniejszy się rozmiar JAR'a z 2.6 KB na 1.6 KB.
 %
 \begin{figure}[h!]
 	\centering
 	\includegraphics[height=0.3\textheight]
 	{img/secure_desasembly/sample_obfuscation.png}
-	\caption{JAR przed obfuskacją i po obfuskcaji za pomocą narzędzia proguard.}
+	\caption{JAR przed zaciemnieniem i po, za pomocą narzędzia proguard.}
 \end{figure}
 %
 JAR po poddaniu obfuskcaji pozmieniał nazwy plików, dlatego teraz znacznie ciężej znaleźć interesujący nas plik. Dodatkowo, zdekompilowany kod zmienił trochę hierarchię naszych struktur, co może dodatkowo utrudnić nam analizę.
@@ -772,7 +772,7 @@ Kody zostały przeze mnie lekko zmodyfikowane. Poprawiłem formatowanie kodu, ab
 % http://www.javadecompilers.com
 % https://en.wikipedia.org/wiki/ProGuard_(software)
 Progauard jest narzędziem, które potrafi zmniejszyć, zoptymalizować i zaciemnić kod w języku Java. Jest darmowym narzędziem na licencji \href{https://en.wikipedia.org/wiki/GNU_General_Public_License#Version_2}{GPL v2}. Potrafi zoptymalizować kod bajtowy np. poprzez usunięcie nie używanego kodu.\par
-Narzędzie to zostało wykorzystane w sekcji o obfuskacji \ref{obfuscation}. Proguard jest częścią narzędzi do budowania aplikacji na Android'a i domyślnie jest włączony dla aplikacji w trybie release. Oczywiście, w naszym projekcie możemy skonfigurować to narzędzie za pomocą plików konfiguracyjnych tak, aby realizowało powierzone mu zadania np. zaciemniania kodu.\par
+Narzędzie to zostało wykorzystane w sekcji o zaciemnieniu \ref{obfuscation}. Proguard jest częścią narzędzi do budowania aplikacji na Android'a i domyślnie jest włączony dla aplikacji w trybie release. Oczywiście, w naszym projekcie możemy skonfigurować to narzędzie za pomocą plików konfiguracyjnych tak, aby realizowało powierzone mu zadania np. zaciemniania kodu.\par
 Wadą tego narzędzia, jak i zarazem powodem, dla którego developerzy je wyłączają, jest modyfikowanie stosu wywołań (ang. stack trace) przez zmiany nazw naszych metod czy klas.
 %
 \begin{lstlisting}[caption={Przykładowy wyjątek dla nie zaciemnionego kodu.}]
@@ -793,11 +793,11 @@ Jak już było wspomniane, możemy konfigurować proguarda tak, aby nie zaciemni
 \lstinputlisting{src/java_sample/mapping.config}
 %
 \par
-Jednakże, developer często musi sam sporo skonfigurować. Do tego dochodzą problemy z wywołaniami przez refleksję, czy wywołania natywnego kodu (Java Native Interface). Suma tych problemów często przewyższa zysk z obfuskacji kodu i nikt nie chce poświęcać na to czasu.
+Jednakże, developer często musi sam sporo skonfigurować. Do tego dochodzą problemy z wywołaniami przez refleksję, czy wywołania natywnego kodu (Java Native Interface). Suma tych problemów często przewyższa zysk z zaciemnienia kodu i nikt nie chce poświęcać na to czasu.
 
 \section{Natywny kod}
 Często prostą i polecaną techniką jest ukrycie krytycznych części kodu w natywnym kodzie. Przykładem może być przepisany fragment kodu do C++. Dzięki temu, takiego kodu nie będzie mógł odczytać nowicjusz, który nauczył się używać apktool'a, czy innego tego typu narzędzia. W takim przypadku będzie potrzebna zarówno nisko poziomowa wiedza, jak i znajomość danej platformy.\par
-Takie rozwiązanie ma jednak też i swoje wady. Developer, który będzie tego sposobu używał musi również wiedzieć jak to zaimplementować, aby nie wywołać tym sposobem nadmiarowej ilości błędów. Dochodzą do tego problemy związane z przekazywaniem informacji/danych między kodem napisanym w Javie a np. C/C++. Oczywiście wykorzystanie natywnego kodu komplikuje nam zaciemnianie kodu. Sposób ten jak i obfuskacja jednak nie służą zabezpieczeniu naszego kodu, a tylko utrudnieniu napastnikowi odczytania i przeanalizowania naszej implementacji.
+Takie rozwiązanie ma jednak też i swoje wady. Developer, który będzie tego sposobu używał musi również wiedzieć jak to zaimplementować, aby nie wywołać tym sposobem nadmiarowej ilości błędów. Dochodzą do tego problemy związane z przekazywaniem informacji/danych między kodem napisanym w Javie a np. C/C++. Oczywiście wykorzystanie natywnego kodu komplikuje nam zaciemnianie kodu. Sposób ten jak i zaciemnienie jednak nie służą zabezpieczeniu naszego kodu, a tylko utrudnieniu napastnikowi odczytania i przeanalizowania naszej implementacji.
 
 \section{Szyfrowanie}
 % http://www.javaworld.com/article/2077342/core-java/cracking-java-byte-code-encryption.html?page=2
@@ -816,9 +816,9 @@ Inne techniki często bazują na bezpośrednim ataku w narzędzia, których uży
 % http://esec-lab.sogeti.com/static/publications/10-hitbkl-drm.pdf
 Często developerzy nie myślą o skutkach, jakie niesie za sobą odwrotna inżynieria na ich aplikacjach. Często API serwisów internetowych nie jest zabezpieczone w żaden sposób. To właśnie z pomocą inżynierii wstecznej można uzyskać pełne REST'owe API danego serwisu.
 \par
-Jako przykładem posłużę się trzema aplikacjami, w których odwrotna inżynieria może nam dostarczyć wielu ciekawych informacji. W ich przypadku, włączenie zaciemniania kodu nie przyniosło zadowalających wyników. Jednakże, nie należy winić samej w sobie obfuskacji, a zwykłe niedbalstwo ze strony programistów.
+Jako przykładem posłużę się trzema aplikacjami, w których odwrotna inżynieria może nam dostarczyć wielu ciekawych informacji. W ich przypadku, włączenie zaciemniania kodu nie przyniosło zadowalających wyników. Jednakże, nie należy winić procesu samego w sobie, a zwykłe niedbalstwo ze strony programistów.
 
-\section{Hasła bez obfuskacji}
+\section{Hasła bez zaciemniania}
 % https://docs.google.com/presentation/d/1EI8cfZ5Vl5fiC03C5dogrM5GRHfcLTechk1OHBnAy6E/edit#slide=id.g10f8594d37_0_334
 \todo{Czy podawać nazwy aplikacji ?}
 \\
@@ -850,7 +850,7 @@ Aplikacje mobilne coraz częściej służą jako metoda podwójnego uwierzytelni
 	\caption{Generator tokenów w aplikacji Steam.}
 \end{figure}
 %
-Dlatego od teraz wszystkie boty musiałyby posiadać swoją instancję aplikacji Steam, aby móc generować tokeny. Jednakże, znów wystarczyło wykorzystać inżynierię zwrotną, aby wydobyć algorytm, który był odpowiedzialny za generowanie tokenów. Oczywiście, w tym przypadku aplikacja była poddana obfuskacji i nie jest tak prosto znaleźć, gdzie był ukryty ten algorytm. Oczywiście, po żmudnej analizie nieczytelnego kodu i analizowaniu wykonywania udało się odnaleźć ów algorytm i go wyodrębnić do przyjaznej skryptowej postaci. Wystarczyło ów algorytm odpowiednio zainicjalizować i gotowe. Nie potrzebujemy do tego dedykowanej aplikacji.
+Dlatego od teraz wszystkie boty musiałyby posiadać swoją instancję aplikacji Steam, aby móc generować tokeny. Jednakże, znów wystarczyło wykorzystać inżynierię zwrotną, aby wydobyć algorytm, który był odpowiedzialny za generowanie tokenów. Oczywiście, w tym przypadku aplikacja była poddana zaciemnianiu i nie jest tak prosto znaleźć, gdzie był ukryty ten algorytm. Oczywiście, po żmudnej analizie nieczytelnego kodu i analizowaniu wykonywania udało się odnaleźć ów algorytm i go wyodrębnić do przyjaznej skryptowej postaci. Wystarczyło ów algorytm odpowiednio zainicjalizować i gotowe. Nie potrzebujemy do tego dedykowanej aplikacji.
 
 \section{Blokady}
 Aplikacje często posiadają blokady, czy pewne inne nieudogodnienia np. dla użytkowników, którzy mają odblokowane urządzenie (rooted device). W przypadku aplikacji Starbucks, aplikacja ta na samym starcie aplikacji sprawdza, czy urządzenie jest zrootowane i jeśli tak, to kończy swoje działanie, uniemożliwiając korzystanie z niej. 
