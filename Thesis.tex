@@ -24,6 +24,10 @@
 % Floating images: https://tex.stackexchange.com/a/8633/139599
 \usepackage{float}
 
+% Using biblatex: https://www.sharelatex.com/learn/Bibliography_management_in_LaTeX
+% http://www.bibtex.org/Using/
+\usepackage{cite}
+
 % Ładne początki rozdziałów (pakiet fncychap).
 % Polecam Sonny i Conny. Bjornstrup najładniejszy, ale mi się bugował.
 \usepackage[Sonny]{fncychap}
@@ -860,14 +864,17 @@ Tego typu blokady tyczą się również sprawdzania, czy użytkownik używa pła
 \section{Założenia projektu}
 \section{Uruchomienie projektu}
 \section{Opis działania}
-%\chapter{Bibliografia}
+%
+%
+%
 \newpage
+% Important command: https://tex.stackexchange.com/a/17132/139599
+\nocite{*}
 % Dodanie wpisu Bibliografia do Spisu Treści.
 \addcontentsline{toc}{chapter}{Bibliografia}
+\bibliography{Thesis}{}
 % Styl bibliografii: unsrt lub plain
 \bibliographystyle{plain}
-\bibliography{bibliografia}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
