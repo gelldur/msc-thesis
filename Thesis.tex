@@ -667,9 +667,9 @@ Metoda ta bazuje na innej metodzie podpisywaniu pliku JAR. Pliki charakterystycz
 \end{figure}
 % https://source.android.com/security/apksigning/
 % https://docs.oracle.com/javase/8/docs/technotes/guides/jar/jar.html#Signed_JAR_File
-Wadą tej metody jest to, że nie chroni przed modyfikacjami pewnych obszarów APK, takich jak metadane. Dodatkowo program weryfikujący musi przetworzyć sporo niezweryfikowanych danych, aby je zweryfikować. Takie podeście tworzy furtkę do ataku. Dodatkowo, trzeba odpakować wszystkie zasoby, co niestety jest też czasochłonne.
+Wadą tej metody jest to, że nie chroni przed modyfikacjami pewnych obszarów APK, takich jak metadane. Dodatkowo program odpowiedzialny za weryfikację musi przetworzyć sporo danych, aby je zweryfikować. Takie podeście tworzy furtkę do ataku. Dodatkowo, trzeba odpakować wszystkie zasoby, co niestety jest też czasochłonne.
 \item{APK Signature Scheme v2 (v2 scheme)}
-Metoda ta dostępna jest od Android'a 7.0. Zawartość naszego APK przechodzi przez funkcję hashującą, co następnie zostaje podpisane. Taki blok zostanie następnie dodany do naszego APK. Podczas walidacji, APK jest traktowane jako kontener i sprawdza hash'e wszystkich plików wewnątrz APK, łącznie z metadanymi. Nowy format jest kompatybilny wstecz. Starsze urządzenia zignorują dodatkowe dane i wykonają sprawdzanie według metody v1. Oczywiście, aplikacja musi być podpisana dwoma sposobami.
+Metoda ta dostępna jest od Android'a 7.0. Zawartość naszego APK przechodzi przez funkcję hashującą, której hash zostaje podpisany. Taki blok zostanie następnie dodany do naszego APK. Podczas walidacji, APK jest traktowane jako kontener i sprawdza hash'e wszystkich plików wewnątrz APK, łącznie z metadanymi. Nowy format jest kompatybilny wstecz. Starsze urządzenia zignorują dodatkowe dane i wykonają sprawdzanie według metody v1. Oczywiście, aplikacja musi być podpisana dwoma sposobami.
 \end{itemize}
 
 \begin{figure}[h!]
@@ -695,7 +695,7 @@ Metoda ta dostępna jest od Android'a 7.0. Zawartość naszego APK przechodzi pr
 
 \chapter{Sposoby ochrony przed deasemblacją}
 % https://www.owasp.org/images/0/08/OWASP_SCP_Quick_Reference_Guide_v2.pdf
-Naturalnym zjawiskiem na atak, jest obrona. Mając takie proste w użyciu narzędzia do RE, naturalne jest, że powstały techniki utrudniające RE. Oczywiście, wykorzystano w tym kierunku wiedzę z innych technologi, gdzie ów problemy występują od dziesiątek lat. Temat jest na tyle szeroki, że poruszę tylko te sposoby które są powszechnie stosowane w tworzeniu aplikacji na Android'a i są stosunkowo tanie/proste do wdrożenia. Większą bazę wiedzy na temat zabezpieczenia kodu przez inżynierią odwrotną można znaleźć na stronie \hyperlink{https://www.owasp.org/index.php/OWASP_Reverse_Engineering_and_Code_Modification_Prevention_Project}{OWASP}.
+Naturalną odpowiedzią na atak, jest obrona. Mając takie proste w użyciu narzędzia do RE, naturalne jest, że powstały techniki utrudniające RE. Oczywiście, wykorzystano w tym kierunku wiedzę z innych technologi, gdzie ów problemy występują od dziesiątek lat. Temat jest na tyle szeroki, że poruszę tylko te sposoby które są powszechnie stosowane w tworzeniu aplikacji na Android'a i są stosunkowo tanie/proste do wdrożenia. Większą bazę wiedzy na temat zabezpieczenia kodu przez inżynierią odwrotną można znaleźć na stronie \hyperlink{https://www.owasp.org/index.php/OWASP_Reverse_Engineering_and_Code_Modification_Prevention_Project}{OWASP}.
 % https://stackoverflow.com/questions/43601498/protect-android-app-from-reverse-engineering
 % http://resources.infosecinstitute.com/android-hacking-and-security-part-18-introduction-to-reverse-engineering/
 \section{Zaciemnianie kodu}
