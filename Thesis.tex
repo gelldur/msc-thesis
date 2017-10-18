@@ -21,6 +21,8 @@
 % Czcionki matematyczne.
 \usepackage{amsfonts}
 \usepackage{amsmath}
+% Floating images: https://tex.stackexchange.com/a/8633/139599
+\usepackage{float}
 
 % Ładne początki rozdziałów (pakiet fncychap).
 % Polecam Sonny i Conny. Bjornstrup najładniejszy, ale mi się bugował.
@@ -313,26 +315,21 @@ Pliki oznaczone tym rozszerzeniem służą do rozpowszechniania aplikacji na sys
 \end{itemize}
 Nazwa pliku jest dowolna pod warunkiem, że jest zakończona przez .apk
 Pliki APK są pewnego rodzaju archiwum, które bazuje na formacie ZIP.
-\begin{figure}[h!]
+\begin{figure}[H]
 	\centering
 	\includegraphics[height=0.3\textheight]{img/apk_content_as_zip.png}
 	\caption{Otworzony plik .apk za pomocą programu ark}
 \end{figure}
-\\
 Szczegółowa budowa paczki apk:
 \begin{itemize}
 \item \texttt{Katalog META\_INF}
-
-\begin{figure}[h!]
+\begin{figure}[H]
 	\centering
 	\includegraphics[height=0.3\textheight]{img/apk_content_as_zip_meta_inf.png}
 	\caption{META INF w ark}
 \end{figure}
-
-W katalogu znajduje się plik MANIFEST.MF. Plik ten zawiera metadane dotyczące zawartości paczki:
-
+W katalogu znajduje się plik MANIFEST.MF. Plik ten zawiera metadane dotyczące zawartości paczki:\\\\
 Przykład:
-
 \begin{lstlisting}
 Manifest-Version: 1.0
 Built-By: Generated-by-ADT
