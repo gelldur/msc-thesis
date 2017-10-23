@@ -21,6 +21,9 @@
 % Czcionki matematyczne.
 \usepackage{amsfonts}
 \usepackage{amsmath}
+% https://www.sharelatex.com/learn/Typesetting_quotations
+\usepackage{csquotes}
+\usepackage{dirtytalk}
 % Floating images: https://tex.stackexchange.com/a/8633/139599
 \usepackage{float}
 
@@ -56,6 +59,8 @@
 \usepackage{package/lstlangjavascript}
 % Custom format for Diff preview
 \usepackage{package/lstlangdiff}
+% Custom format for SMALI
+\usepackage{package/lstlangsmali}
 
 \frenchspacing
 
@@ -112,7 +117,7 @@
   basicstyle={\small\ttfamily},
   breaklines=true,
   columns=flexible,
-  frame=single
+  frame=single,
 }
 
 % ToDo marker command
@@ -265,7 +270,7 @@ Na początku poznamy budowę aplikacji androidowej. Korzystając z tej wiedzy na
  
 \end{abstract}
 \smallskip
-\noindent \textbf{Słowa~kluczowe:} RE, reverse engineering, inżynieria odwrotna, dekompilacja, android, apk, apktool, smali, zaciemnianie kodu,  deasembler, disassembler, objdump, asembler, dekompilator, release, debug, dex, hash, C++, Java
+\noindent \textbf{Słowa~kluczowe:} RE, reverse engineering, inżynieria odwrotna, dekompilacja, android, dalvik, apk, apktool, smali, zaciemnianie kodu,  deasembler, disassembler, objdump, asembler, dekompilator, release, debug, dex, hash, C++, Java
 
 %Abstrakt w języku angielskim.
 \begin{abstract}{english}
@@ -663,18 +668,191 @@ Metoda ta dostępna jest od Android'a 7.0. Zawartość naszego APK przechodzi pr
 %
 \chapter{Wynik deasemblacji}
 %
-\begin{figure}[H]
-	\centering
-	\includegraphics[height=0.3\textheight]{img/Screenshot_godbolt_org-sample.png}
-	\caption{Wygenerowany przykład z strony \url{godbolt.org}}
-\end{figure}
-
+Nasz kod w formie skompilowanej jest zapisany w bajt kodzie.
+Dzięki bajt kodowi i maszynie wirtualnej która go przetwarza zbudowana tak aplikacja jest w stanie  uruchomić się na dowolnym środowisku. Pod warunkiem, że posiadamy maszynę wirtualną działającą pod ów środowiskiem.
+Całą ideą języka Java jest \say{Zbuduj raz, działaj wszędzie} (ang. \say{"Write once, run anywhere"})(WORA)\cite{WORA}. W przypadku Androida jednak mamy do czynienia ze specjalnym bajt kodem. Wynika to z pewnej specyfiki urządzeń mobilnych i ograniczeń praw patentowych. W rozdziale \todo{\ref{pierwszym}} został opisany proces kompilacji aplikacji.
+%
 \section{SMALI}
 \label{smali}
-\todo{TODO}
+%
+Smali w tłumaczeniu islandzkim to właśnie asembler\cite{SmaliWiki}. Smali nie jest skomplikowanym językiem składniowo. Konstrukcje są prymitywne i bardzo czytelne. Częściowo słowa kluczowe pokrywają się z tymi które znajdziemy w opkodach maszyny Dalivik jak i bezpośrednio w słowach kluczowych języka Java.  Poniżej znajduje się kod smali który wyświetli na ekranie \say{Hello World!}
+\lstinputlisting[language=smali, captionpos=b, belowcaptionskip=4pt, caption={Przykładowy program w Smali.}]{src/smali/hello_world.smali}
+\todo{Add source link}
+% 
+\subsection{Dyrektywy}
+%
+Dyrektywy służą do przekazania meta danych.
+Parametry są umieszczane w tej samej linii po nazwie dyrektywy i są oddzielone spacją.
+Wszystkie nazwy dyrektyw zaczynają się od kropki \verb|"."|.
+%
+\begin{lstlisting}[language=smali, caption={Przykład składni dyrektyw}]
+.class public Lcom/packageName/example;
+
+.registers 2
+
+.end method
+\end{lstlisting}
+%
+\subsection{Instrukcje}
+%
+Na instrukcję składa się jej nazwa i argumenty podzielane spacjami i nową linią.
+Smali używa mnemonik - \verb|opkodów| z instrukcji dalvika\cite{DalvikOpCodes}.
+%
+\subsection{Etykiety}
+%
+Etykieta składa się z dwukropka i nazwy po nim.
+\begin{lstlisting}[language=smali, caption={Przykład etykiet}]
+:foo
+
+:goto_0
+\end{lstlisting}
+%
+\subsection{Komentarze}
+%
+%
+Etykieta składa się z dwukropka i nazwy po nim.
+\begin{lstlisting}[language=smali, caption={Przykład komentarzy}]
+# virtual methods
+.method protected onCreate(Landroid/os/Bundle;)V
+\end{lstlisting}
+%
+\subsection{Nazwy klas}
+%
+Jeśli chcemy zapisać nazwę klasy w smali to musimy to zrobić zgodnie z konwencją skompilowanej klasy.
+\begin{lstlisting}
+Java: java.lang.String
+Smali: java/lang/String
+\end{lstlisting}
+%
+\subsection{Typy danych}
+%
+Typy możemy podzielić na dwie kategorię. Typu złożone i typy prymitywne. Typy złożone to na przykład klasy jak \verb|String|. Typem prymitywnym jest na przykład \verb|int|\cite{DexFormat,SmaliTypes}\\
+Deskryptory typów danych:
+\begin{itemize}
+\item \verb|boolean| - \verb|Z|
+\item \verb|byte| - \verb|B|
+\item \verb|short| - \verb|S|
+\item \verb|char| - \verb|C|
+\item \verb|int| - \verb|I|
+\item \verb|long| - \verb|J|
+\item \verb|float| - \verb|F|
+\item \verb|double| - \verb|D|
+\item \verb|void| - \verb|V| - tylko poprawne dla typu zwracanego
+\item \verb|pelna.nazwa.paczki.Klasa| - \verb|Lpelna/nazwa/paczki/Klasa;| w przypadku typów złożonych
+\item \verb|tablica| - \verb|[| Do określania tablic. Maksymalny rozmiar to 255.
+\begin{lstlisting}
+Java: int[]
+Smali: [I
+
+Java: int[][]
+Smali: [[I
+
+Java: String[]
+Smali: [Ljava/lang/String;
+\end{lstlisting}
+%
+\end{itemize} 
+%
+\subsection{Metody}
+%
+Metody są tworzone z nazwy klasy i nazwy metody po której następuje lista argumentów. Wykorzystujemy tutaj sposób zapisu klasy i argumentów z poprzednich sekcji.
+%
+\begin{lstlisting}[language=Java,caption={Java}]
+public boolean onCreateOptionsMenu(android.view.Menu menu);
+\end{lstlisting}
+\begin{lstlisting}[language=smali,caption={Smali}]
+.method public onCreateOptionsMenu(Landroid/view/Menu;)Z
+\end{lstlisting}
+%
+\subsection{Pola}
+%
+\begin{lstlisting}[language=Java,caption={Java}]
+public static final int VERSION_CODE = 1;
+
+private android.content.Context mContext;
+\end{lstlisting}
+\begin{lstlisting}[language=smali,caption={Smali}]
+.field public static final VERSION_CODE:I = 0x1
+
+.field private mContext:Landroid/content/Context;
+\end{lstlisting}
+%
+\subsection{Rejestry}
+%
+W bajt kodzie dalvika rejestry zawsze są 32 bitowe\cite{SmaliWiki} i mogą przechowywać dowolną wartość. Aby przechowywać \verb|long| czy \verb|double| używane są dwa rejestry.
+Do dyspozycji mamy dwa sposoby nazywania rejestrów.
+Z prefixem \verb|v| i \verb|p|. Prefix \verb|v| służy do ogólnego zastosowania natomiast \verb|p| dla parametrów.
+Dla przykładu:
+%
+\begin{lstlisting}[language=smali,caption={}]
+v0 # pierwszy lokalny rejestr\\
+v1 # drugi lokalny rejestr
+v2 # trzeci lokalny rejestr
+...
+\end{lstlisting}
+%
+Dodatkowo nazwy rejestrów \verb|v| i \verb|p| \say{nachodzą} na siebie.
+Jeśli nasza metoda przyjmuje dwa argumenty i chcemy mieć dwie zmienne lokalne to rozłoży się to w następujący sposób:\\
+\begin{tabular}{|l | c | r |}
+\hline 
+\verb|v0| & & Pierwszy lokalny rejestr\\
+\hline
+\verb|v1| & & Drugi lokalny rejestr\\
+\hline
+\verb|v2| & \verb|p0| & Pierwszy niejawny parametr \verb|this|\\
+\hline
+\verb|v3| & \verb|p1| & Pierwszy jawny parametr z listy\\
+\hline
+\verb|v4| & \verb|p2| & Drugi jawny parametr z listy\\
+\hline
+\end{tabular} \\
+%
+Nazwy \verb|p| zostały wprowadzone jako ułatwienie.\\
+Określić liczbę użytych rejestrów możemy na dwa sposoby. \\
+\begin{itemize}
+\item Za pomocą dyrektywy \verb|.registers| określamy ile w sumie mamy do dyscpozycji rejestrów.
+\item Za pomocą dyrektywy \verb|.locals| określimy ile nie parametrowych rejestrów chcemy zarezerwować. Do tej liczby zostaną dodane rejestry z parametrów.
+\end{itemize}
+%
+\begin{lstlisting}[language=smali,caption={Smali}]
+.method public static get(Landroid/content/Context;)Landroid/support/v7/view/ActionBarPolicy;
+    .locals 1
+    .param p0, "context"    # Landroid/content/Context;
+
+    .line 43
+    new-instance v0, Landroid/support/v7/view/ActionBarPolicy;
+
+    invoke-direct {v0, p0}, Landroid/support/v7/view/ActionBarPolicy;-><init>(Landroid/content/Context;)V
+
+    return-object v0
+.end method
+\end{lstlisting}
+%
+\subsection{Pliki - metadane}
+%
+Na początku każdego pliku \verb|.smali| możemy zobaczyć dodatkowe informacje.
+%
+\begin{lstlisting}[language=smali,caption={Smali}]
+.class public Landroid/support/v7/view/ActionBarPolicy;
+.super Ljava/lang/Object;
+.source "ActionBarPolicy.java"
+
+# interfaces
+.implements Landroid/view/Window$Callback;
+\end{lstlisting}
+%
+\begin{itemize}
+\item \verb|.source| - zawiera informację z jakiego pliku ów kod pochodzi. Taka informacja częściowo też jest zawarta w nazwie zdekompilowanego pliku. Głównie ma to zastosowane do debugowania. Jest to opcjonalna dyrektywa.
+\item \verb|.super| - maszyna wirtualna wie z jakiej klasy dziedziczymy. Jest to wymagana dyrektywa.
+\item \verb|.class| - mówi maszynie wirtualnej na jaką klasę składa się ów plik. Jest to wymagana dyrektywa.
+\item \verb|.interface| - alternatywa dla \verb|.class| jeśli tworzymy interfejs.
+\item \verb|.implements| - sygnalizujemy jakie interfejsy zostały zaimplementowane.
+\end{itemize}
+%%%%%
+%%%%%
 \section{Dalvik/ART bytecode}
 \todo{TODO}
-
+%
 \chapter{Sposoby ochrony przed deasemblacją}
 % https://www.owasp.org/images/0/08/OWASP_SCP_Quick_Reference_Guide_v2.pdf
 Naturalną odpowiedzią na atak, jest obrona. Mając takie proste w użyciu narzędzia do RE, naturalne jest, że powstały techniki utrudniające RE. Oczywiście, wykorzystano w tym kierunku wiedzę z innych technologi, gdzie ów problemy występują od dziesiątek lat. Temat jest na tyle szeroki, że poruszę tylko te sposoby które są powszechnie stosowane w tworzeniu aplikacji na Android'a i są stosunkowo tanie/proste do wdrożenia. Większą bazę wiedzy na temat zabezpieczenia kodu przez inżynierią odwrotną można znaleźć na stronie \hyperlink{https://www.owasp.org/index.php/OWASP_Reverse_Engineering_and_Code_Modification_Prevention_Project}{OWASP}.
