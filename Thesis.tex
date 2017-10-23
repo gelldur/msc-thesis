@@ -309,6 +309,7 @@ Proces inżynierii wstecznej jest dodatkowo utrudniany przez programistów, któ
 Celem tej pracy jest przedstawienie narzędzi i procesu dekompilacji zbudowanych aplikacji oraz ponownej kompilacji zmodyfikowanej aplikacji na system operacyjny Android.
 
 \chapter{Jak zbudowana jest aplikacja na Android'a}
+\label{apk_dex_how_to}
 % https://en.wikipedia.org/wiki/Android_application_package
 \section{Format .apk}
 
@@ -670,7 +671,7 @@ Metoda ta dostępna jest od Android'a 7.0. Zawartość naszego APK przechodzi pr
 %
 Nasz kod w formie skompilowanej jest zapisany w bajt kodzie.
 Dzięki bajt kodowi i maszynie wirtualnej która go przetwarza zbudowana tak aplikacja jest w stanie  uruchomić się na dowolnym środowisku. Pod warunkiem, że posiadamy maszynę wirtualną działającą pod ów środowiskiem.
-Całą ideą języka Java jest \say{Zbuduj raz, działaj wszędzie} (ang. \say{"Write once, run anywhere"})(WORA)\cite{WORA}. W przypadku Androida jednak mamy do czynienia ze specjalnym bajt kodem. Wynika to z pewnej specyfiki urządzeń mobilnych i ograniczeń praw patentowych. W rozdziale \todo{\ref{pierwszym}} został opisany proces kompilacji aplikacji.
+Całą ideą języka Java jest \say{Zbuduj raz, działaj wszędzie} (ang. \say{"Write once, run anywhere"})(WORA)\cite{WORA}. W przypadku Androida jednak mamy do czynienia ze specjalnym bajt kodem. Wynika to z pewnej specyfiki urządzeń mobilnych i ograniczeń praw patentowych. W rozdziale \ref{apk_dex_how_to} został opisany proces kompilacji aplikacji.
 %
 \section{SMALI}
 \label{smali}
@@ -851,7 +852,22 @@ Na początku każdego pliku \verb|.smali| możemy zobaczyć dodatkowe informacje
 %%%%%
 %%%%%
 \section{Dalvik/ART bytecode}
-\todo{TODO}
+%%%%%
+\verb|.dex| - Dalvik Executable\cite{DexFormat} \\
+\verb|.odex| - Optimized Dalvik Executable\cite{ART} \\
+Dalvik i ART to dwie maszyny wirtualne działające na systemie Android. Dalvik był domyślną maszyną dla Androida do wersji 4.4. Od wersji 5.0 nową domyślną maszyną jest ART. Nowa maszyna jest wstecznie kompatybilna i działa z starszymi wersjami aplikacji które zostały zbudowane zanim był dostępny ART. Istotną różnicą między typową maszyna wirtualną Javy a Dalvikiem jest to, że Dalvik posiada architekturę nastawioną na rejestry a nie stos. Podczas procesu budowania aplikacji na system Android kompilujemy kod za pomocą kompilatora Java do plików \verb|.class| a następnie za pomocą narzędzia \verb|dx| następuje konwersja plików \verb|.class| do jednego pliku \verb|.dex|. Podczas tej konwersji odpowiednie instrukcje Java bajtkodu są zamieniane na odpowiadające im instrukcje w Dalvik bajtkodzie.
+%https://en.wikipedia.org/wiki/File:ART_view.png
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]
+	{img/ART_view.png}
+	\caption{Porównanie architektury Dalvika i ART}
+\end{figure}
+%
+Jedną z istotnych zmian jakie wprowadził ART to \verb|AOT| czyli \say{Ahead-of-time compilation}. Dzięki temu zabiegowi aplikacja dodatkowo jest optymalizowana w trakcie instalacji na urządzeniu użytkownika. Kosztem jest dłuższy czas instalacji. Jednak warto poświęcić na to jednorazowa czas i zyskać wydajniejszą aplikację.
+Tak zoptymalizowana aplikacja jest zapisywana w formacie \verb|.odex|. Format ten nie jest przenośny miedzy wirtualnymi maszynami. Z założenia zoptymalizowany plik jest tworzony na tej wirtualnej maszynie na której będzie wykonywany.\\
+%
+Opis budowy pliku \verb|.apk| jak i \verb|.dex| można znaleźć w rozdziale \ref{apk_dex_how_to}.
 %
 \chapter{Sposoby ochrony przed deasemblacją}
 % https://www.owasp.org/images/0/08/OWASP_SCP_Quick_Reference_Guide_v2.pdf
