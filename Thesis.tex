@@ -321,7 +321,7 @@ Nazwa pliku jest dowolna pod warunkiem, że jest zakończona przez .apk
 Pliki APK są pewnego rodzaju archiwum, które bazuje na formacie ZIP.
 \begin{figure}[H]
 	\centering
-	\includegraphics[height=0.3\textheight,natwidth=664,natheight=360]{img/apk_content_as_zip.png}
+	\includegraphics[height=0.3\textheight]{img/apk_content_as_zip.png}
 	\caption{Otworzony plik .apk za pomocą programu ark}
 \end{figure}
 Szczegółowa budowa paczki apk:
@@ -329,7 +329,7 @@ Szczegółowa budowa paczki apk:
 \item \texttt{Katalog META\_INF}
 \begin{figure}[H]
 	\centering
-	\includegraphics[height=0.3\textheight,natwidth=397,natheight=167]{img/apk_content_as_zip_meta_inf.png}
+	\includegraphics[height=0.3\textheight]{img/apk_content_as_zip_meta_inf.png}
 	\caption{META INF w ark}
 \end{figure}
 W katalogu znajduje się plik MANIFEST.MF. Plik ten zawiera metadane dotyczące zawartości paczki:\\\\
@@ -441,7 +441,7 @@ Pliki APK są pewnego rodzaju archiwum, które bazuje na formacie ZIP.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[height=0.3\textheight,natwidth=664,natheight=360]{img/apk_content_as_zip.png}
+	\includegraphics[height=0.3\textheight]{img/apk_content_as_zip.png}
 	\caption{Otwarty plik .apk za pomocą programu ark}
 \end{figure}
 
@@ -451,7 +451,7 @@ Szczegółowa budowa paczki apk:
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[height=0.3\textheight,natwidth=397,natheight=167]{img/apk_content_as_zip_meta_inf.png}
+	\includegraphics[height=0.3\textheight]{img/apk_content_as_zip_meta_inf.png}
 	\caption{META INF w ark}
 \end{figure}
 
@@ -535,7 +535,7 @@ I: Copying original files...
 Dzięki tej komendzie uzyskamy źródła z naszej aplikacji. 
 \begin{figure}[H]
 	\centering
-	\includegraphics[height=0.3\textheight,natwidth=664,natheight=481]{img/apktool/sample_apk.png}
+	\includegraphics[height=0.3\textheight]{img/apktool/sample_apk.png}
 	\caption{Wynik pracy \lstinline|apktool d app-release.apk|}
 \end{figure}
 \begin{itemize}
@@ -555,7 +555,7 @@ Zdekodowany \lstinline|AndroidManifest.xml|.
 %
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\textwidth,natwidth=1166,natheight=421]
+	\includegraphics[width=1\textwidth]
 	{img/apktool/sample_diff_manifest.png}
 	\caption{Diff między AndroidManifest.xml z źródeł a odzyskanym z pliku .apk}
 \end{figure}
@@ -605,12 +605,12 @@ W systemie Android możemy wydzielić dwa sposoby weryfikacji aplikacji. Sposoby
 Nazwa paczki aplikacji jest podstawowym sposobem na zidentyfikowanie aplikacji w całym systemie. Założenie jest proste: nazwa paczki aplikacji musi być unikatowa w skali systemu. Oznacza to, że nie możemy mieć jednocześnie wiele aplikacji o takiej samej nazwie paczki. Oczywiście, w sklepie z aplikacjami Google Play ta zasada również obowiązuje. Jednak w naszym systemie możemy mieć zupełnie inną aplikację niż ta, która znajduje się w sklepie, a będą miały taką samą nazwę paczki. Oczywiście, nie będziemy mogli zainstalować ze sklepu takiej aplikacji póki nie usuniemy poprzedniej najpierw z systemu.\\
 Jest to bardzo prymitywna metoda identyfikacji, którą łatwo oszukać i podszyć się pod inną aplikację. Obrona przed tego typem oszustwa poruszymy w \ref{signing}. Dobrą praktyką i ogólnie przyjętą konwencją jest to aby nazwa paczki była odwróconą domeną. Tak samo jak to ma miejsce w zwykłym nazewnictwie paczek przy projektach w języku Java.
 \begin{center}
-	\centering	\includegraphics[height=0.3\textheight,natwidth=1012,natheight=417]
+	\centering	\includegraphics[height=0.3\textheight]
 	{img/signing/google_play_app_name.png}
 \end{center}
 Na powyższym rysunku możemy zobaczyć nazwę paczki, która jest bezpośrednio widoczna w URL strony. Na tej też podstawie możemy dokonać wstępnej weryfikacji.
 \begin{center}
-	\includegraphics[height=0.3\textheight,keepaspectratio,natwidth=1080,natheight=1920]
+	\includegraphics[height=0.3\textheight,keepaspectratio]
 	{img/signing/two_same_aps.png}
 \end{center}
 Na powyższym rysunku możemy zobaczyć, że zostały zainstalowane dwie takie same aplikacje. Oczywiście zgodnie z zasadą, co służy do identyfikacji aplikacji jest nazwa paczki. W tym przypadku nazwa aplikacji i ikonka są takie same. Różnią się tylko nazwą paczki:
@@ -629,7 +629,7 @@ Podsumowując nazwa paczki służy tylko identyfikacji, tak jak w bazie danych \
 Wymogiem Android'a jest, by aplikacje były cyfrowo podpisane certyfikatem przed ich zainstalowaniem. Mamy dwa klucze publiczny i prywatny. Klucz publiczny jest dołączany do naszego \lstinline|.apk|. Dzięki temu w przyszłości będzie łatwo stwierdzić od kogo pochodzi nowa aplikacja czy aktualizacja. Narzędzie do podpisywania aplikacji (\lstinline|apksigner|) na Android'a pracuje na pliku \lstinline|.keystore|. Jest to binarny format, który zawiera jeden lub wiele prywatnych kluczy. 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\textwidth,keepaspectratio,natwidth=1468,natheight=318]
+	\includegraphics[width=1\textwidth,keepaspectratio]
 	{img/signing/appsigning_selfmanagediagram_2x.png}
 	\caption{Podpisanie aplikacji przez Developera.}
 \end{figure}
@@ -643,7 +643,7 @@ Metoda ta bazuje na innej metodzie podpisywaniu pliku JAR. Pliki charakterystycz
 \par
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\textwidth,keepaspectratio,natwidth=432,natheight=280]
+	\includegraphics[width=1\textwidth,keepaspectratio]
 	{img/signing/apk_signed_v1_vs_signed_with_v2.png}
 	\caption{Przykładowy APK. Po lewej APK podpisany metodą v1, po prawej metodą v2}
 \end{figure}
@@ -656,7 +656,7 @@ Metoda ta dostępna jest od Android'a 7.0. Zawartość naszego APK przechodzi pr
 %
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\textwidth,keepaspectratio,natwidth=657,natheight=427]
+	\includegraphics[width=1\textwidth,keepaspectratio]
 	{img/signing/apk-validation-process.png}
 	\caption{Weryfikacja podpisu APK.}
 \end{figure}
@@ -665,7 +665,7 @@ Metoda ta dostępna jest od Android'a 7.0. Zawartość naszego APK przechodzi pr
 %
 \begin{figure}[H]
 	\centering
-	\includegraphics[height=0.3\textheight,natwidth=639,natheight=334]{img/Screenshot_godbolt_org-sample.png}
+	\includegraphics[height=0.3\textheight]{img/Screenshot_godbolt_org-sample.png}
 	\caption{Wygenerowany przykład z strony \url{godbolt.org}}
 \end{figure}
 
@@ -702,7 +702,7 @@ Powyższy kod skompilujemy i otrzymamy pliki \lstinline|.class|.
 %
 \begin{figure}[H]
 	\centering
-	\includegraphics[height=0.3\textheight,natwidth=522,natheight=379]
+	\includegraphics[height=0.3\textheight]
 	{img/secure_desasembly/compiled_sample_java.png}
 	\caption{Wygenerowane pliki za pomocą komendy: \lstinline|javac SampleJavaCode.java|}
 \end{figure}
@@ -717,7 +717,7 @@ Różnica wydaje się nieznacząca, a przynajmniej nie utrudnia nam za bardzo an
 %
 \begin{figure}[H]
 	\centering
-	\includegraphics[height=0.3\textheight,natwidth=912,natheight=381]
+	\includegraphics[height=0.3\textheight]
 	{img/secure_desasembly/sample_obfuscation.png}
 	\caption{JAR przed zaciemnieniem i po, za pomocą narzędzia proguard.}
 \end{figure}
@@ -800,7 +800,7 @@ Aplikacja, która dostarcza nam oferty zniżkowe typu kupony i rabaty, dzięki k
 %
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\textwidth,natwidth=1417,natheight=77]
+	\includegraphics[width=1\textwidth]
 	{img/why_secure/find_password.png}
 	\caption{Szukanie hasła w źródłach aplikacji.}
 \end{figure}
@@ -809,7 +809,7 @@ Dzięki prostemu i szybkiemu przeszukaniu kodu, możemy zerknąć bezpośrednio 
 %
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\textwidth,natwidth=1113,natheight=540]
+	\includegraphics[width=1\textwidth]
 	{img/why_secure/password_in_smali.png}
 	\caption{Ukryte hasło.}
 \end{figure}
@@ -819,7 +819,7 @@ Aplikacje mobilne coraz częściej służą jako metoda podwójnego uwierzytelni
 %
 \begin{figure}[H]
 	\centering
-	\includegraphics[height=0.3\textheight,natwidth=350,natheight=621]
+	\includegraphics[height=0.3\textheight]
 	{img/why_secure/steam_tokener.png}
 	\caption{Generator tokenów w aplikacji.}
 \end{figure}
@@ -831,7 +831,7 @@ Aplikacje często posiadają blokady, czy pewne inne nieudogodnienia np. dla uż
 %
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.6\textwidth,natwidth=552,natheight=161]
+	\includegraphics[width=0.6\textwidth]
 	{img/why_secure/device_rooted_message.png}
 	\caption{Komunikat od aplikacji Starbucks.}
 \end{figure}
@@ -840,7 +840,7 @@ Korzystając z RE możemy odzyskać kod ów aplikacji i usunąć sprawdzanie, dz
 %
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\textwidth,natwidth=1391,natheight=273]
+	\includegraphics[width=1\textwidth]
 	{img/why_secure/search_for_message.png}
 	\caption{Szukanie wiadomości prezentowanej przez aplikację}
 \end{figure}
@@ -849,7 +849,7 @@ Dzięki prostemu wyszukaniu gdzie jest używany komunikat, jesteśmy w stanie pr
 %
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\textwidth,keepaspectratio,natwidth=663,natheight=94]
+	\includegraphics[width=1\textwidth,keepaspectratio]
 	{img/why_secure/disable_block.png}
 	\caption{Wyłączenie blokady sprawdzającej czy urządzenie jest zrootowane.}
 \end{figure}
