@@ -336,7 +336,7 @@ Pliki \verb|.apk| są pewnego rodzaju archiwum, które bazuje na formacie ZIP.
 %%%%%
 \begin{itemize}
 %
-\item Katalog \verb|META-INF| - w katalogu znajduje się plik \verb|MANIFEST.MF|. Plik ten zawiera metadane dotyczące zawartości paczki.
+\item Katalog \verb|META-INF|\cite{JarSigning} - w katalogu znajduje się plik \verb|MANIFEST.MF|. Plik ten zawiera metadane dotyczące zawartości paczki.
 %
 \begin{lstlisting}[captionpos=b, caption={Zawartość pliku MANIFEST.MF}]
 Manifest-Version: 1.0
@@ -401,41 +401,14 @@ W tym identyfikatorze jest zawarty znak nowej lini \verb|'\n' (0x0a)| i znak ko�
 \\
 Wartość ta zawiera także numer wersji formatu. Są to 3 cyfry pomiędzy nową linią a znakiem \verb|null|. Oczywiście służą w celach ewolucji danego formatu.
 \\
-Plik \verb|.dex| jest podzielony na sekcje określone przez nagłówek.
+Plik \verb|.dex| jest podzielony na sekcje określone przez nagłówki\cite{AndroidSourceDexFormat}.
 %
-\begin{itemize}
-\item\verb|string_ids| - w tej sekcji znajdują się wszystkie identyfikatory dla wszystkich stringów w tym pliku. Lista tych stringów musi być posortowana po nazwie przy użyciu \verb|UTF-16|, nie uwzględniając ustawień lokalnych komputera. Lista jest unikatowa, czyli nie zawiera powtórzeń.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{img/dex_format.png}
+	\caption{Struktura DEX \emph{Źródło: \cite{DiveIntoDex}}}
+\end{figure}
 %
-\item\verb|type_ids| - lista wszystkich typów występujących w pliku (zdefiniowanych i zadeklarowanych), tj. klasy, tablice, typy prymitywne. Lista ta jest posortowana po \verb|string_id| index i nie zawiera duplikatów.
-%
-\item\verb|proto_ids|
-Opis:
-	Lista wszystkich prototypów metod znajdujących się w tym pliku.
-Specyfika danych:
-	Lista zawiera unikaty
-	Lista jest posortowana po:
-		typie zwracanym (jego indeksie w \verb|type_id|
-		po liście argumentów i ich \verb|type_id|\\
-Lista wszystkich prototypów metod znajdujących się w tym pliku. Lista jest posortowana.
-% 
-\item\verb|field_ids|
-Opis:
-	Lista wszystkich identyfikatorów pól.	
-Specyfika danych:
-	Lista jest posortowana po typie (jego indeksie \verb|type_id|), następnie po nazwie pola (jego indeksie \verb|string_id|)
-	Lista nie zawiera duplikatów.	
-%
-\item\verb|method_ids|
-Opis:
-	Lista wszystkich identyfikatorów metod.
-Specyfika danych:
-	Lista nie zawiera duplikatów.
-	Lista jest posortowana po definiowanym typie (jego indeksie \verb|type_id|),
-	następnie po nazwie (jego indeksie \verb|string_id|) i na koniec po prototypie metody (jego indeksie \verb|proto_id|)
-%
-\end{itemize}
-%
-\todo{Dokończyć tę sekcję}
 %
 \chapter{Narzędzia do dekompilacji}
 %
