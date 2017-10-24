@@ -313,7 +313,7 @@ Celem tej pracy jest przedstawienie narzędzi i procesu dekompilacji zbudowanych
 % https://en.wikipedia.org/wiki/Android_application_package
 \section{Format .apk}
 
-Rozszerzenie nazwy pliku bierze się z \emph{Android Package Kit (APK)}.
+Rozszerzenie nazwy pliku bierze się z \emph{Android Package Kit (APK)}\cite{DexFormat,AndroidSourceDexFormat,HowAPK}.
 Format pliku przypomina ten znany z plików \verb|.jar|.
 Pliki oznaczone tym rozszerzeniem służą do rozpowszechniania aplikacji na system android. Na skład paczki \verb|.apk| wchodzą:
 
@@ -386,10 +386,10 @@ Folder zawierający zasoby, które nie zostały przetworzone i dołączone do pl
 
 \section{Format .dex}
 
-W pliku classes.dex są przechowywane definicje naszych klas i wszystkich innych danych im towarzyszących.
-Format ten służy do przenoszenia danych wejściowych dla Dalvik Bytecode. 
+W pliku \verb|classes.dex| są przechowywane definicje naszych klas\cite{AndroidSourceDexFormat} i wszystkich innych danych im towarzyszących.
+Format ten służy do przenoszenia danych wejściowych dla Dalvik bajtkodu. 
 
-Istnieją wymogi, które musi spełniać plik .dex, aby zostać uznany za prawidłowy.
+Istnieją wymogi\cite{DalvikConstrains}, które musi spełniać plik .dex, aby zostać uznany za prawidłowy.
 % https://source.android.com/devices/tech/dalvik/constraints
 
 
@@ -632,7 +632,7 @@ Podsumowując, nazwa paczki służy tylko identyfikacji, tak jak w bazie danych 
 % https://source.android.com/security/apksigning/
 % Różnica między certyfikatem a kluczem 
 % https://pl.wikipedia.org/wiki/Certyfikat_klucza_publicznego
-Wymogiem Android'a jest, by aplikacje były cyfrowo podpisane certyfikatem przed ich zainstalowaniem. Mamy dwa klucze: publiczny i prywatny. Klucz publiczny jest dołączany do naszego \verb|.apk|. Dzięki temu, w przyszłości będzie łatwo stwierdzić od kogo pochodzi nowa aplikacja czy aktualizacja. Narzędzie do podpisywania aplikacji (\lstinline|apksigner|) na Android'a pracuje na pliku \lstinline|.keystore|. Jest to binarny format, który zawiera jeden lub wiele prywatnych kluczy. 
+Wymogiem Android'a jest, by aplikacje były cyfrowo podpisane certyfikatem\cite{ApkSigning} przed ich zainstalowaniem. Mamy dwa klucze: publiczny i prywatny. Klucz publiczny jest dołączany do naszego \verb|.apk|. Dzięki temu, w przyszłości będzie łatwo stwierdzić od kogo pochodzi nowa aplikacja czy aktualizacja. Narzędzie do podpisywania aplikacji (\lstinline|apksigner|) na Android'a pracuje na pliku \lstinline|.keystore|. Jest to binarny format, który zawiera jeden lub wiele prywatnych kluczy. 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth,keepaspectratio]
@@ -645,7 +645,7 @@ Podpisana aplikacja służy jeszcze Androidowi do identyfikacji i tworzenia uży
 Android posiada dwa sposoby podpisywania aplikacji:\par
 \begin{itemize}
 \item{JAR signing (v1 scheme)}\par
-Metoda ta bazuje na innej metodzie podpisywaniu pliku JAR. Pliki charakterystyczne dla tego sposoby podpisywania są plikami w katalogu \verb|META-INF| 
+Metoda ta bazuje na innej metodzie podpisywaniu pliku JAR\cite{JarSigning}. Pliki charakterystyczne dla tego sposoby podpisywania są plikami w katalogu \verb|META-INF| 
 \par
 \begin{figure}[H]
 	\centering
@@ -871,12 +871,12 @@ Opis budowy pliku \verb|.apk| jak i \verb|.dex| można znaleźć w rozdziale \re
 %
 \chapter{Sposoby ochrony przed deasemblacją}
 % https://www.owasp.org/images/0/08/OWASP_SCP_Quick_Reference_Guide_v2.pdf
-Naturalną odpowiedzią na atak, jest obrona. Mając takie proste w użyciu narzędzia do RE, naturalne jest, że powstały techniki utrudniające RE. Oczywiście, wykorzystano w tym kierunku wiedzę z innych technologi, gdzie ów problemy występują od dziesiątek lat. Temat jest na tyle szeroki, że poruszę tylko te sposoby, które są powszechnie stosowane w tworzeniu aplikacji na Android'a i są stosunkowo tanie/proste do wdrożenia. Większą bazę wiedzy na temat zabezpieczenia kodu przez inżynierią odwrotną można znaleźć na stronie \hyperlink{https://www.owasp.org/index.php/OWASP_Reverse_Engineering_and_Code_Modification_Prevention_Project}{OWASP}.
+Naturalną odpowiedzią na atak, jest obrona. Mając takie proste w użyciu narzędzia do RE, naturalne jest, że powstały techniki utrudniające RE\cite{OWASP}. Oczywiście, wykorzystano w tym kierunku wiedzę z innych technologi, gdzie ów problemy występują od dziesiątek lat. Temat jest na tyle szeroki, że poruszę tylko te sposoby, które są powszechnie stosowane w tworzeniu aplikacji na Android'a i są stosunkowo tanie/proste do wdrożenia. Większą bazę wiedzy na temat zabezpieczenia kodu przez inżynierią odwrotną można znaleźć na stronie \hyperlink{https://www.owasp.org/index.php/OWASP_Reverse_Engineering_and_Code_Modification_Prevention_Project}{OWASP}.
 % https://stackoverflow.com/questions/43601498/protect-android-app-from-reverse-engineering
 % http://resources.infosecinstitute.com/android-hacking-and-security-part-18-introduction-to-reverse-engineering/
 \section{Zaciemnianie kodu}
 % https://pl.wikipedia.org/wiki/Zaciemnianie_kodu
-Technika ta, często też nazywana potocznie kolorowaniem kodu, jest jedną z podstawowych technik \textbf{utrudniających} odzyskanie kodu. Technika ta polega na zamienianiu czytelnych dla programisty wyrażeń na wyrażenia krótkie i nieczytelne dla ludzi napisy, oczywiście z zachowaniem poprawności i zasad danego języka. Dlatego też technika ta nie modyfikuje zachowania kodu, a jedynie sprawia, że reprezentacja kodu staje się mniej czytelna dla ludzi. Napisałem, że jest to technika utrudniająca inżynierię wsteczną, a nie zapobiegającą, bo jej celem jest tylko utrudnienie odczytania kodu, przez co proces staje się bardziej czasochłonny. Oczywiście, mocno zdeterminowanego napastnika to nie zniechęci.\par
+Technika ta, często też nazywana potocznie kolorowaniem kodu, jest jedną z podstawowych technik \textbf{utrudniających} odzyskanie kodu. Technika ta polega na zamienianiu\cite{Obfuscation} czytelnych dla programisty wyrażeń na wyrażenia krótkie i nieczytelne dla ludzi napisy, oczywiście z zachowaniem poprawności i zasad danego języka. Dlatego też technika ta nie modyfikuje zachowania kodu, a jedynie sprawia, że reprezentacja kodu staje się mniej czytelna dla ludzi. Napisałem, że jest to technika utrudniająca inżynierię wsteczną, a nie zapobiegającą, bo jej celem jest tylko utrudnienie odczytania kodu, przez co proces staje się bardziej czasochłonny. Oczywiście, mocno zdeterminowanego napastnika to nie zniechęci.\par
 Jako przykład posłuży nam kod napisany w języku JavaScript, który poddamy zaciemnianiu. W języku Java byłoby to jeszcze bardziej przekształcone ze względu na transformację do kodu bajtowego.
 %
 \lstinputlisting[language=JavaScript, captionpos=b, belowcaptionskip=4pt, caption={Przykładowy program w JavaScript.}]{src/obfuscation_source.js}
@@ -944,7 +944,7 @@ Kody zostały przeze mnie lekko zmodyfikowane. Poprawiłem formatowanie kodu, ab
 % https://www.guardsquare.com/en/proguard/manual/examples#application
 % http://www.javadecompilers.com
 % https://en.wikipedia.org/wiki/ProGuard_(software)
-Progauard jest narzędziem, które potrafi zmniejszyć, zoptymalizować i zaciemnić kod w języku Java. Jest darmowym narzędziem na licencji \href{https://en.wikipedia.org/wiki/GNU_General_Public_License#Version_2}{GPL v2}. Potrafi zoptymalizować kod bajtowy np. poprzez usunięcie nie używanego kodu.
+Progauard\cite{Proguard} jest narzędziem, które potrafi zmniejszyć, zoptymalizować i zaciemnić kod w języku Java. Jest darmowym narzędziem na licencji \href{https://en.wikipedia.org/wiki/GNU_General_Public_License#Version_2}{GPL v2}. Potrafi zoptymalizować kod bajtowy np. poprzez usunięcie nie używanego kodu.
 \par Proguard jest częścią narzędzi do budowania aplikacji na Android'a i domyślnie jest włączony dla aplikacji w trybie \verb|release|. Oczywiście, w naszym projekcie możemy skonfigurować to narzędzie za pomocą plików konfiguracyjnych tak, aby realizowało powierzone mu zadania np. zaciemniania kodu.\par
 Wadą tego narzędzia, jak i zarazem powodem, dla którego developerzy je wyłączają, jest modyfikowanie stosu wywołań (ang. \emph{stack trace}) przez zmiany nazw naszych metod czy klas.
 %
@@ -1022,7 +1022,7 @@ Aplikacje mobilne coraz częściej służą jako metoda podwójnego uwierzytelni
 Dlatego od teraz wszystkie boty musiałyby posiadać swoją instancję aplikacji, aby móc generować tokeny. Jednakże, znów wystarczyło wykorzystać inżynierię zwrotną, aby wydobyć algorytm, który był odpowiedzialny za generowanie tokenów. Oczywiście, w tym przypadku aplikacja była poddana zaciemnianiu i nie jest tak prosto znaleźć, gdzie był ukryty ten algorytm. Oczywiście, po żmudnej analizie nieczytelnego kodu i analizowaniu wykonywania udało się odnaleźć ów algorytm i go wyodrębnić do przyjaznej skryptowej postaci. Wystarczyło ów algorytm odpowiednio zainicjalizować i gotowe. Nie potrzebujemy do tego dedykowanej aplikacji.
 %
 \section{Blokady}
-Aplikacje często posiadają blokady, czy pewne inne nieudogodnienia np. dla użytkowników, którzy mają odblokowane urządzenie (rooted device). W przypadku pewnej aplikacji, ta na samym starcie sprawdza, czy urządzenie jest zrootowane i jeśli tak, to kończy swoje działanie, uniemożliwiając korzystanie z niej. 
+Aplikacje często posiadają blokady\cite{DRM}, czy pewne inne nieudogodnienia np. dla użytkowników, którzy mają odblokowane urządzenie (rooted device). W przypadku pewnej aplikacji, ta na samym starcie sprawdza, czy urządzenie jest zrootowane i jeśli tak, to kończy swoje działanie, uniemożliwiając korzystanie z niej. 
 %
 \begin{figure}[H]
 	\centering
@@ -1052,10 +1052,7 @@ Dzięki prostemu wyszukaniu, gdzie jest używany komunikat, jesteśmy w stanie p
 Tego typu blokady tyczą się również sprawdzania, czy użytkownik używa płatnej aplikacji oraz czy dana funkcjonalność powinna być odblokowana.
 
 \chapter{Projekt}
-\todo{Propozycje projektu}\\
-\todo{1. Aplikacja do odbierania prawa dostępu do internetu innym aplikacja zainstalowanym na telefonie użytkownika}
-\todo{2. Biblioteka do zabezpieczania fragmentów kodu przed RE wykorzystująca szyfrowanie}
-\todo{3. TBC}
+\todo{Opisać projekt dot. szyfrowanego class loadera}
 \section{Założenia projektu}
 \section{Uruchomienie projektu}
 \section{Opis działania}
@@ -1067,9 +1064,9 @@ Tego typu blokady tyczą się również sprawdzania, czy użytkownik używa pła
 \nocite{*}
 % Dodanie wpisu Bibliografia do Spisu Treści.
 \addcontentsline{toc}{chapter}{Bibliografia}
-\bibliography{Thesis}{}
 % Styl bibliografii: unsrt lub plain
-\bibliographystyle{plain}
+\bibliographystyle{unsrt}
+\bibliography{Thesis}{}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
