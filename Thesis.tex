@@ -181,7 +181,7 @@ Promotor: \\[3pt]
 \pagenumbering{gobble}
 
 \begin{flushright}{
-Poznań, dnia 25 czerwca 2017
+Poznań, dnia 10 listopada 2017
 }\end{flushright}
 \begin{center}{
 \par
@@ -293,7 +293,7 @@ Na początku poznamy budowę aplikacji androidowej. Korzystając z tej wiedzy na
 \addcontentsline{toc}{chapter}{Wstęp}
 \chapter*{Wstęp}
 
-Inżynieria wsteczna (ang. \emph{reverse engineering}, w skrócie RE) jest procesem analizy budowy i sposobu działania oprogramowania. Proces ten często jest długim procesem ze względu na to, że analizujemy kod który poprzednio został przekształcony przez inne programy (kompilatory, preprocesory, itp.) do formy mniej czytelnej. Takim przykładem może być skompilowany program napisany w C++.
+Inżynieria wsteczna (ang. \emph{reverse engineering}, w skrócie RE) jest procesem analizy budowy i sposobu działania oprogramowania. Proces ten często jest długi ze względu na to, że analizujemy kod który poprzednio został przekształcony przez inne programy (kompilatory, preprocesory, itp.) do formy mniej czytelnej. Takim przykładem może być skompilowany program napisany w C++.
 
 
 \lstinputlisting[language=C++, captionpos=b, belowcaptionskip=4pt, caption={Przykładowy program w C++.}]{src/sample.cpp}
@@ -314,8 +314,8 @@ Celem tej pracy jest przedstawienie narzędzi i procesu dekompilacji zbudowanych
 \section{Format .apk}
 
 Rozszerzenie nazwy pliku bierze się z \emph{Android Package Kit (APK)}.
-Format pliku przypomina ten znany z plików .jar
-Pliki oznaczone tym rozszerzeniem służą do rozpowszechniania aplikacji na system android. Na skład paczki .apk wchodzą:
+Format pliku przypomina ten znany z plików \verb|.jar|.
+Pliki oznaczone tym rozszerzeniem służą do rozpowszechniania aplikacji na system android. Na skład paczki \verb|.apk| wchodzą:
 
 \begin{itemize}
 \item skompilowany kod Java w formacie .dex
@@ -323,8 +323,8 @@ Pliki oznaczone tym rozszerzeniem służą do rozpowszechniania aplikacji na sys
 \item certyfikaty
 \item plik manifestu
 \end{itemize}
-Nazwa pliku jest dowolna pod warunkiem, że jest zakończona przez .apk
-Pliki APK są pewnego rodzaju archiwum, które bazuje na formacie ZIP.
+Nazwa pliku jest dowolna pod warunkiem, że jest zakończona przez \verb|.apk|
+Pliki \verb|.apk| są pewnego rodzaju archiwum, które bazuje na formacie ZIP.
 \begin{figure}[H]
 	\centering
 	\includegraphics[height=0.3\textheight]{img/apk_content_as_zip.png}
@@ -434,7 +434,7 @@ Specyfika danych:
 \end{itemize}
 Rozszerzenie nazwy pliku bierze się z \emph{Android Package Kit (APK)}.
 Format pliku przypomina ten znany z plików .jar
-Pliki oznaczone tym rozszerzeniem służą do rozpowszechniania aplikacji na system android. Na skład paczki .apk wchodzą:
+Pliki oznaczone tym rozszerzeniem służą do rozpowszechniania aplikacji na system android. Na skład paczki \verb|.apk| wchodzą:
 
 \begin{itemize}
 \item skompilowany kod Java w formacie .dex
@@ -442,8 +442,8 @@ Pliki oznaczone tym rozszerzeniem służą do rozpowszechniania aplikacji na sys
 \item certyfikaty
 \item plik manifestu
 \end{itemize}
-Nazwa pliku jest dowolna pod warunkiem, że jest zakończona przez .apk
-Pliki APK są pewnego rodzaju archiwum, które bazuje na formacie ZIP.
+Nazwa pliku jest dowolna pod warunkiem, że jest zakończona przez \verb|.apk|
+Pliki \verb|.apk| są pewnego rodzaju archiwum, które bazuje na formacie \verb|.zip|.
 
 \begin{figure}[H]
 	\centering
@@ -451,7 +451,7 @@ Pliki APK są pewnego rodzaju archiwum, które bazuje na formacie ZIP.
 	\caption{Otwarty plik .apk za pomocą programu ark}
 \end{figure}
 
-Szczegółowa budowa paczki apk:
+Szczegółowa budowa paczki \verb|.apk|:
 \begin{itemize}
 \item \texttt{Katalog META\_INF}
 
@@ -511,16 +511,16 @@ Folder zawierający zasoby, które nie zostały przetworzone i dołączone do pl
 
 \section{apktool}
 
-Narzędzie to służy do przeprowadzenia odwrotnej inżynierii na wskazanym pliku apk. Potrafi zdekodować źródła aplikacji do formy zbliżonej przed jej zbudowaniem. Wiele procesów zostało zautomatyzowanych, takich jak zbudowanie ponowne aplikacji ze zdekompilowanych źródeł. \\
+Narzędzie to służy do przeprowadzenia odwrotnej inżynierii na wskazanym pliku \verb|.apk|. Potrafi zdekodować źródła aplikacji do formy zbliżonej przed jej zbudowaniem. Wiele procesów zostało zautomatyzowanych, takich jak zbudowanie ponowne aplikacji ze zdekompilowanych źródeł. \\
 \lstinline|apktool| jest otwarto źródłowym oprogramowaniem na licencji \mbox{Apache 2.0 License.} \\
 \\
 Kod narzędzia jest dostępny na: \url{https://github.com/iBotPeaches/Apktool} \newline
 Strona narzędzia: \url{https://ibotpeaches.github.io/Apktool/}
 \newline
 \newline
-Aplikacja jest napisana w języku Java, dzięki czemu działa bezproblemowo na większości systemach operacyjnych. Jest to aplikacja bez interfejsu graficznego, aplikacja działa w konsoli.
+Aplikacja jest napisana w języku Java, dzięki czemu działa bezproblemowo na większości systemów operacyjnych. Jest to aplikacja bez interfejsu graficznego, aplikacja działa w konsoli.
 \subsection{Dekompilacja}
-Przykład użycia zostanie zaprezentowany na przykładowej aplikacji. Zakładając, że mamy już dostępne nasze \lstinline|.apk|\\
+Przykład użycia zostanie zaprezentowany na przykładowej aplikacji. Zakładając, że mamy już dostępne nasze \verb|.apk|\\
 \begin{lstlisting}[language=bash]
 {master} ~/Projects/UAM/
 $ cd apktool
@@ -581,7 +581,7 @@ I: Copying libs... (/lib)
 I: Building apk file...
 I: Copying unknown files/dir...
 \end{lstlisting}
-W taki sposób otrzymamy znowu zbudowaną aplikację, jednak nie będzie ona podpisana tym samym kluczem. Jaki wpływ na aplikację ma podpisanie kluczem jest omówione w \ref{signing} rozdziale.
+W taki sposób otrzymamy znowu zbudowaną aplikację, jednak nie będzie ona podpisana tym samym kluczem. Jaki wpływ na aplikację ma podpisanie kluczem jest omówione w rozdziale \ref{signing}.
 
 \section{dex2jar}
 % https://github.com/pxb1988/dex2jar
@@ -597,8 +597,8 @@ baksmali ../../sample-android-app/Thesis/app/app-release.apk -> app-release-out
 W taki sposób uzyskamy nasze zdekompilowane pliki \verb|.smali|. Narzędzie to umożliwia również odzyskanie plików \verb|.class|, które później mogą posłużyć do analizy przez inne programy np. \verb|JD-GUI|
 %
 \section{Inne}
-Oczywiście narzędzi istnieje znacznie więcej. Ja w mojej pracy jednak skupiłem się na \verb|apktool| ze względów na przyjemne użytkowanie i duże społeczeństwo zebrane wokół tego narzędzia.\\
-Jednym z narzędzi wartych zainteresowania może być \href{http://vaibhavpandey.com/apkstudio/}{apkstudio}. Narzędzie to działa we współpracy z \verb|apktool|, i daje nam łatwy edytor dla developera.\\
+Oczywiście narzędzi istnieje znacznie więcej. Ja w mojej pracy jednak skupiłem się na \verb|apktool| ze względu na przyjemne użytkowanie i duże społeczeństwo zebrane wokół tego narzędzia.\\
+Jednym z narzędzi wartych zainteresowania, może być \href{http://vaibhavpandey.com/apkstudio/}{apkstudio}. Narzędzie to działa we współpracy z \verb|apktool| i daje nam łatwy edytor dla developera.\\
 Kolejnym narzędziem graficznym wartym sprawdzenia jest \href{https://github.com/ajitsing/apkToJava}{apkToJava}.
 
 %- Zabezpieczenia przed modyfikowaniem aplikacji (podpisywanie apki certyfikatem,nazwa package apki)
@@ -608,8 +608,8 @@ Kolejnym narzędziem graficznym wartym sprawdzenia jest \href{https://github.com
 W systemie Android możemy wydzielić dwa sposoby weryfikacji aplikacji. Sposoby te służą do identyfikacji aplikacji wśród wszystkich innych aplikacji zainstalowanych w systemie.
 
 \section{Nazwa paczki}
-Nazwa paczki aplikacji jest podstawowym sposobem na zidentyfikowanie aplikacji w całym systemie. Założenie jest proste: nazwa paczki aplikacji musi być unikatowa w skali systemu. Oznacza to, że nie możemy mieć jednocześnie wiele aplikacji o takiej samej nazwie paczki. Oczywiście, w sklepie z aplikacjami Google Play ta zasada również obowiązuje. Jednak w naszym systemie możemy mieć zupełnie inną aplikację niż ta, która znajduje się w sklepie, a będą miały taką samą nazwę paczki. Oczywiście, nie będziemy mogli zainstalować ze sklepu takiej aplikacji póki nie usuniemy poprzedniej najpierw z systemu.\\
-Jest to bardzo prymitywna metoda identyfikacji, którą łatwo oszukać i podszyć się pod inną aplikację. Obrona przed tego typem oszustwa poruszymy w \ref{signing}. Dobrą praktyką i ogólnie przyjętą konwencją jest to aby nazwa paczki była odwróconą domeną. Tak samo jak to ma miejsce w zwykłym nazewnictwie paczek przy projektach w języku Java.
+Nazwa paczki aplikacji jest podstawowym sposobem na zidentyfikowanie aplikacji w całym systemie. Założenie jest proste: nazwa paczki aplikacji musi być unikatowa w skali systemu. Oznacza to, że nie możemy mieć jednocześnie wiele aplikacji o takiej samej nazwie paczki. Oczywiście, w sklepie z aplikacjami Google Play ta zasada również obowiązuje. Jednak w naszym systemie możemy mieć zupełnie inną aplikację niż ta, która znajduje się w sklepie, a będą miały taką samą nazwę paczki. Oczywiście, nie będziemy mogli zainstalować ze sklepu takiej aplikacji, póki nie usuniemy poprzedniej z systemu.\\
+Jest to bardzo prymitywna metoda identyfikacji, którą łatwo oszukać i podszyć się pod inną aplikację. Obrona przed tego typu oszustwem poruszymy w \ref{signing}. Dobrą praktyką i ogólnie przyjętą konwencją jest to, aby nazwa paczki była odwróconą domeną, tak samo jak to ma miejsce w zwykłym nazewnictwie paczek przy projektach w języku Java.
 \begin{center}
 	\centering	\includegraphics[height=0.3\textheight]
 	{img/signing/google_play_app_name.png}
@@ -624,7 +624,7 @@ Na powyższym rysunku możemy zobaczyć, że zostały zainstalowane dwie takie s
 com.f2zentertainment.pandemic
 com.f2zentertainment.pandemic.qa
 \end{lstlisting}
-Podsumowując nazwa paczki służy tylko identyfikacji, tak jak w bazie danych \verb|ID| identyfikuje nam wiersz. 
+Podsumowując, nazwa paczki służy tylko identyfikacji, tak jak w bazie danych \verb|ID| identyfikuje nam wiersz. 
 
 \section{Cyfrowy podpis}
 \label{signing}
@@ -632,15 +632,15 @@ Podsumowując nazwa paczki służy tylko identyfikacji, tak jak w bazie danych \
 % https://source.android.com/security/apksigning/
 % Różnica między certyfikatem a kluczem 
 % https://pl.wikipedia.org/wiki/Certyfikat_klucza_publicznego
-Wymogiem Android'a jest, by aplikacje były cyfrowo podpisane certyfikatem przed ich zainstalowaniem. Mamy dwa klucze publiczny i prywatny. Klucz publiczny jest dołączany do naszego \lstinline|.apk|. Dzięki temu w przyszłości będzie łatwo stwierdzić od kogo pochodzi nowa aplikacja czy aktualizacja. Narzędzie do podpisywania aplikacji (\lstinline|apksigner|) na Android'a pracuje na pliku \lstinline|.keystore|. Jest to binarny format, który zawiera jeden lub wiele prywatnych kluczy. 
+Wymogiem Android'a jest, by aplikacje były cyfrowo podpisane certyfikatem przed ich zainstalowaniem. Mamy dwa klucze: publiczny i prywatny. Klucz publiczny jest dołączany do naszego \verb|.apk|. Dzięki temu, w przyszłości będzie łatwo stwierdzić od kogo pochodzi nowa aplikacja czy aktualizacja. Narzędzie do podpisywania aplikacji (\lstinline|apksigner|) na Android'a pracuje na pliku \lstinline|.keystore|. Jest to binarny format, który zawiera jeden lub wiele prywatnych kluczy. 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth,keepaspectratio]
 	{img/signing/appsigning_selfmanagediagram_2x.png}
 	\caption{Podpisanie aplikacji przez Developera.}
 \end{figure}
-Klucze są zabezpieczone dodatkowymi hasłami w pliku. Jeśli zgubimy lub utracimy nasz klucz to nie będziemy w stanie aktualizować naszej aplikacji użytkownikom. Jak wcześniej było wspomniane, aplikacja musi być podpisana tym samym kluczem, aby system uznał ją jako aktualizację, czy też autentyczną aplikację od danego twórcy.\par
-Dekompilowane przez nas aplikacje możemy podpisać naszym kluczem co pozwoli nam na instalację tak zmodyfikowanej aplikacji. Jeśli jednak chcielibyśmy, aby system potraktował tak zmodyfikowaną aplikację jako aktualizację, to już się to nie powiedzie, ponieważ poprzednia aplikacja była podpisana innym kluczem.\par
+Klucze są zabezpieczone dodatkowymi hasłami w pliku. Jeśli zgubimy lub utracimy nasz klucz, to nie będziemy w stanie aktualizować naszej aplikacji użytkownikom. Jak wcześniej było wspomniane, aplikacja musi być podpisana tym samym kluczem, aby system uznał ją jako aktualizację, czy też autentyczną aplikację od danego twórcy.\par
+Dekompilowane przez nas aplikacje możemy podpisać naszym kluczem, co pozwoli nam na instalację tak zmodyfikowanej aplikacji. Jeśli jednak chcielibyśmy, aby system potraktował tak zmodyfikowaną aplikację jako aktualizację, to już się to nie powiedzie, ponieważ poprzednia aplikacja była podpisana innym kluczem.\par
 Podpisana aplikacja służy jeszcze Androidowi do identyfikacji i tworzenia użytkowników, w których obrębie działa aplikacja. Aplikacje podpisane tym samym kluczem mają możliwość współdzielenia użytkownika, a co za tym idzie, aplikacje mogą współdzielić dane bez potrzeby tworzenia skomplikowanych interfejsów.\\
 Android posiada dwa sposoby podpisywania aplikacji:\par
 \begin{itemize}
@@ -655,9 +655,9 @@ Metoda ta bazuje na innej metodzie podpisywaniu pliku JAR. Pliki charakterystycz
 \end{figure}
 % https://source.android.com/security/apksigning/
 % https://docs.oracle.com/javase/8/docs/technotes/guides/jar/jar.html#Signed_JAR_File
-Wadą tej metody jest to, że nie chroni przed modyfikacjami pewnych obszarów APK, takich jak metadane. Dodatkowo program odpowiedzialny za weryfikację musi przetworzyć sporo danych, aby je zweryfikować. Takie podeście tworzy furtkę do ataku. Dodatkowo, trzeba odpakować wszystkie zasoby, co niestety jest też czasochłonne.
+Wadą tej metody jest to, że nie chroni przed modyfikacjami pewnych obszarów APK, takich jak metadane. Dodatkowo, program odpowiedzialny za weryfikację musi przetworzyć sporo danych, aby je zweryfikować. Takie podeście tworzy furtkę do ataku. Dodatkowo, trzeba odpakować wszystkie zasoby, co niestety jest też czasochłonne.
 \item{APK Signature Scheme v2 (v2 scheme)}
-Metoda ta dostępna jest od Android'a 7.0. Zawartość naszego APK przechodzi przez funkcję hashującą, której hash zostaje podpisany. Taki blok zostanie następnie dodany do naszego APK. Podczas walidacji, APK jest traktowane jako kontener i sprawdza hash'e wszystkich plików wewnątrz APK, łącznie z metadanymi. Nowy format jest kompatybilny wstecz. Starsze urządzenia zignorują dodatkowe dane i wykonają sprawdzanie według metody v1. Oczywiście, aplikacja musi być podpisana dwoma sposobami.
+Metoda ta dostępna jest od Android'a 7.0. Zawartość naszego \verb|.apk| przechodzi przez funkcję hashującą, której hash zostaje podpisany. Taki blok zostanie następnie dodany do naszego \verb|.apk|. Podczas walidacji \verb|.apk| jest traktowane jako kontener i sprawdza hash'e wszystkich plików wewnątrz \verb|.apk|, łącznie z metadanymi. Nowy format jest kompatybilny wstecz. Starsze urządzenia zignorują dodatkowe dane i wykonają sprawdzanie według metody v1. Oczywiście, aplikacja musi być podpisana dwoma sposobami.
 \end{itemize}
 %
 \begin{figure}[H]
@@ -686,7 +686,7 @@ Dyrektywy służą do przekazania meta danych.
 Parametry są umieszczane w tej samej linii po nazwie dyrektywy i są oddzielone spacją.
 Wszystkie nazwy dyrektyw zaczynają się od kropki \verb|"."|.
 %
-\begin{lstlisting}[language=smali, caption={Przykład składni dyrektyw}]
+\begin{lstlisting}[language=smali,captionpos=b, caption={Przykład składni dyrektyw}]
 .class public Lcom/packageName/example;
 
 .registers 2
@@ -702,7 +702,7 @@ Smali używa mnemonik - \verb|opkodów| z instrukcji dalvika\cite{DalvikOpCodes}
 \subsection{Etykiety}
 %
 Etykieta składa się z dwukropka i nazwy po nim.
-\begin{lstlisting}[language=smali, caption={Przykład etykiet}]
+\begin{lstlisting}[language=smali,captionpos=b, caption={Przykład etykiet}]
 :foo
 
 :goto_0
@@ -712,7 +712,7 @@ Etykieta składa się z dwukropka i nazwy po nim.
 %
 %
 Etykieta składa się z dwukropka i nazwy po nim.
-\begin{lstlisting}[language=smali, caption={Przykład komentarzy}]
+\begin{lstlisting}[language=smali,captionpos=b, caption={Przykład komentarzy}]
 # virtual methods
 .method protected onCreate(Landroid/os/Bundle;)V
 \end{lstlisting}
@@ -758,21 +758,21 @@ Smali: [Ljava/lang/String;
 %
 Metody są tworzone z nazwy klasy i nazwy metody po której następuje lista argumentów. Wykorzystujemy tutaj sposób zapisu klasy i argumentów z poprzednich sekcji.
 %
-\begin{lstlisting}[language=Java,caption={Java}]
+\begin{lstlisting}[language=Java,captionpos=b,caption={Java}]
 public boolean onCreateOptionsMenu(android.view.Menu menu);
 \end{lstlisting}
-\begin{lstlisting}[language=smali,caption={Smali}]
+\begin{lstlisting}[language=smali,captionpos=b,caption={Smali}]
 .method public onCreateOptionsMenu(Landroid/view/Menu;)Z
 \end{lstlisting}
 %
 \subsection{Pola}
 %
-\begin{lstlisting}[language=Java,caption={Java}]
+\begin{lstlisting}[language=Java,captionpos=b,caption={Java}]
 public static final int VERSION_CODE = 1;
 
 private android.content.Context mContext;
 \end{lstlisting}
-\begin{lstlisting}[language=smali,caption={Smali}]
+\begin{lstlisting}[language=smali,captionpos=b,caption={Smali}]
 .field public static final VERSION_CODE:I = 0x1
 
 .field private mContext:Landroid/content/Context;
@@ -785,7 +785,7 @@ Do dyspozycji mamy dwa sposoby nazywania rejestrów.
 Z prefixem \verb|v| i \verb|p|. Prefix \verb|v| służy do ogólnego zastosowania natomiast \verb|p| dla parametrów.
 Dla przykładu:
 %
-\begin{lstlisting}[language=smali,caption={}]
+\begin{lstlisting}[language=smali,captionpos=b,caption={}]
 v0 # pierwszy lokalny rejestr\\
 v1 # drugi lokalny rejestr
 v2 # trzeci lokalny rejestr
@@ -815,7 +815,7 @@ Określić liczbę użytych rejestrów możemy na dwa sposoby. \\
 \item Za pomocą dyrektywy \verb|.locals| określimy ile nie parametrowych rejestrów chcemy zarezerwować. Do tej liczby zostaną dodane rejestry z parametrów.
 \end{itemize}
 %
-\begin{lstlisting}[language=smali,caption={Smali}]
+\begin{lstlisting}[language=smali,captionpos=b,caption={Smali}]
 .method public static get(Landroid/content/Context;)Landroid/support/v7/view/ActionBarPolicy;
     .locals 1
     .param p0, "context"    # Landroid/content/Context;
@@ -833,7 +833,7 @@ Określić liczbę użytych rejestrów możemy na dwa sposoby. \\
 %
 Na początku każdego pliku \verb|.smali| możemy zobaczyć dodatkowe informacje.
 %
-\begin{lstlisting}[language=smali,caption={Smali}]
+\begin{lstlisting}[language=smali,captionpos=b,caption={Smali}]
 .class public Landroid/support/v7/view/ActionBarPolicy;
 .super Ljava/lang/Object;
 .source "ActionBarPolicy.java"
@@ -871,7 +871,7 @@ Opis budowy pliku \verb|.apk| jak i \verb|.dex| można znaleźć w rozdziale \re
 %
 \chapter{Sposoby ochrony przed deasemblacją}
 % https://www.owasp.org/images/0/08/OWASP_SCP_Quick_Reference_Guide_v2.pdf
-Naturalną odpowiedzią na atak, jest obrona. Mając takie proste w użyciu narzędzia do RE, naturalne jest, że powstały techniki utrudniające RE. Oczywiście, wykorzystano w tym kierunku wiedzę z innych technologi, gdzie ów problemy występują od dziesiątek lat. Temat jest na tyle szeroki, że poruszę tylko te sposoby które są powszechnie stosowane w tworzeniu aplikacji na Android'a i są stosunkowo tanie/proste do wdrożenia. Większą bazę wiedzy na temat zabezpieczenia kodu przez inżynierią odwrotną można znaleźć na stronie \hyperlink{https://www.owasp.org/index.php/OWASP_Reverse_Engineering_and_Code_Modification_Prevention_Project}{OWASP}.
+Naturalną odpowiedzią na atak, jest obrona. Mając takie proste w użyciu narzędzia do RE, naturalne jest, że powstały techniki utrudniające RE. Oczywiście, wykorzystano w tym kierunku wiedzę z innych technologi, gdzie ów problemy występują od dziesiątek lat. Temat jest na tyle szeroki, że poruszę tylko te sposoby, które są powszechnie stosowane w tworzeniu aplikacji na Android'a i są stosunkowo tanie/proste do wdrożenia. Większą bazę wiedzy na temat zabezpieczenia kodu przez inżynierią odwrotną można znaleźć na stronie \hyperlink{https://www.owasp.org/index.php/OWASP_Reverse_Engineering_and_Code_Modification_Prevention_Project}{OWASP}.
 % https://stackoverflow.com/questions/43601498/protect-android-app-from-reverse-engineering
 % http://resources.infosecinstitute.com/android-hacking-and-security-part-18-introduction-to-reverse-engineering/
 \section{Zaciemnianie kodu}
@@ -904,9 +904,10 @@ Powyższy kod skompilujemy i otrzymamy pliki \lstinline|.class|.
 Najbardziej interesującym nas plikiem jest \lstinline|SampleJavaCode$ForwardListImplementation.class|, ponieważ jesteśmy ciekawi jak ktoś zaimplementował ów strukturę danych.  Załóżmy, że otrzymaliśmy aplikację od kolegi, który wszystko spakował w JAR'a. Po otwarciu JAR'a zobaczylibyśmy wszystkie te pliki, które widzimy na zdjęciu. Sama już nazwa nam wskazuje, gdzie mamy szukać implementacji. Ironią losu jest, że im lepszej jakości kod ktoś napisał i nie poddał go procesowi zaciemnienia, tym prościej atakującemu będzie znaleźć to, czego szuka. Oczywiście, plik \lstinline|.class| jest plikiem z kodem bajtowym i czytanie go nic nam nie da, dlatego musimy go najpierw zdekompilować. Dla uproszczenia procesu skorzystamy z dekompilatora online \hyperlink{http://www.javadecompilers.com/processing}{javadecompilers.com}.
 %
 \lstinputlisting[language=diff, captionpos=b, belowcaptionskip=4pt,
-caption={Różnica między kodem źródłowym a kodem, który został odzyskany z dekompilacji. Uzyskane za pomocą komendy: \lstinline|diff -u SampleJavaCode.java SampleJavaCode_decompiled.java > SampleJavaCode_decompile.diff|}]
+caption={Różnica między kodem źródłowym a kodem, który został odzyskany z dekompilacji.}]
 {src/java_sample/SampleJavaCode_decompile.diff}
 %
+Uzyskane za pomocą komendy: \lstinline|diff -u SampleJavaCode.java SampleJavaCode_decompiled.java > SampleJavaCode_decompile.diff|\\
 Różnica wydaje się nieznacząca, a przynajmniej nie utrudnia nam za bardzo analizowania ów kodu. Jednak, jeśli nasz kod poddamy zaciemnieniu, to nasz przykładowy JAR zostanie zmodyfikowany i nawet dzięki temu zmniejszy się rozmiar JAR'a z 2.6 KB na 1.6 KB.
 %
 \begin{figure}[H]
@@ -945,35 +946,35 @@ Kody zostały przeze mnie lekko zmodyfikowane. Poprawiłem formatowanie kodu, ab
 % https://en.wikipedia.org/wiki/ProGuard_(software)
 Progauard jest narzędziem, które potrafi zmniejszyć, zoptymalizować i zaciemnić kod w języku Java. Jest darmowym narzędziem na licencji \href{https://en.wikipedia.org/wiki/GNU_General_Public_License#Version_2}{GPL v2}. Potrafi zoptymalizować kod bajtowy np. poprzez usunięcie nie używanego kodu.
 \par Proguard jest częścią narzędzi do budowania aplikacji na Android'a i domyślnie jest włączony dla aplikacji w trybie \verb|release|. Oczywiście, w naszym projekcie możemy skonfigurować to narzędzie za pomocą plików konfiguracyjnych tak, aby realizowało powierzone mu zadania np. zaciemniania kodu.\par
-Wadą tego narzędzia, jak i zarazem powodem, dla którego developerzy je wyłączają, jest modyfikowanie stosu wywołań (ang. stack trace) przez zmiany nazw naszych metod czy klas.
+Wadą tego narzędzia, jak i zarazem powodem, dla którego developerzy je wyłączają, jest modyfikowanie stosu wywołań (ang. \emph{stack trace}) przez zmiany nazw naszych metod czy klas.
 %
-\begin{lstlisting}[caption={Przykładowy wyjątek dla nie zaciemnionego kodu.}]
+\begin{lstlisting}[captionpos=b,caption={Przykładowy wyjątek dla nie zaciemnionego kodu.}]
 Exception in thread "main" java.lang.IndexOutOfBoundsException
         at SampleJavaCode$ForwardListImplementation.insert(SampleJavaCode.java:37)
         at Test.main(Test.java:6)
 \end{lstlisting}
 %
-\begin{lstlisting}[caption={Przykładowy wyjątek dla kodu który został zaciemniony.}]
+\begin{lstlisting}[captionpos=b,caption={Przykładowy wyjątek dla kodu który został zaciemniony.}]
 Exception in thread "main" java.lang.IndexOutOfBoundsException
         at b.a(Unknown Source)
         at TestObfuscated.main(TestObfuscated.java:6)
 \end{lstlisting}
 %
-W powyższym przykładzie mamy dosyć małą głębokość wywołań, co nie utrudnia nam znacząco jego interpretacji. Jednak problem znacząco wzrasta im dłuższy mamy stos wywołań.\par
-Jak już było wspomniane, możemy konfigurować proguarda tak, aby nie zaciemniał kodu. Jednakże, dla nas niekoniecznie jest to dobre rozwiązanie. Oczywiście, proguard rozwiązuje ten problem i wytwarza nam plik z mapowaniem starych identyfikatorów na nowe tak, byśmy mogli po naszej stronie w prawidłowy sposób odczytywać stos wywołań.
+W powyższym przykładzie mamy dosyć małą głębokość wywołań, co nie utrudnia nam znacząco jego interpretacji, jednak problem znacząco wzrasta, im dłuższy mamy stos wywołań.\par
+Jak już było wspomniane, możemy konfigurować proguarda tak, aby nie zaciemniał kodu. Jednakże, dla nas niekoniecznie jest to dobre rozwiązanie. Oczywiście, proguard rozwiązuje ten problem i wytwarza nam plik z mapowaniem starych identyfikatorów na nowe tak, byśmy po naszej stronie mogli w prawidłowy sposób odczytywać stos wywołań.
 %
 \lstinputlisting{src/java_sample/mapping.config}
 %
 \par
 Jednakże, developer często musi sam sporo skonfigurować. Do tego dochodzą problemy z wywołaniami przez refleksję, czy wywołania natywnego kodu (Java Native Interface). Suma tych problemów często przewyższa zysk z zaciemnienia kodu i nikt nie chce poświęcać na to czasu.
 \section{Natywny kod}
-Często prostą i polecaną techniką jest ukrycie krytycznych części kodu w natywnym kodzie. Przykładem może być przepisany fragment kodu do C++. Dzięki temu, takiego kodu nie będzie mógł odczytać nowicjusz, który nauczył się używać apktool'a, czy innego tego typu narzędzia. W takim przypadku będzie potrzebna zarówno nisko poziomowa wiedza, jak i znajomość danej platformy.\par
-Takie rozwiązanie ma jednak też i swoje wady. Developer, który będzie tego sposobu używał musi również wiedzieć jak to zaimplementować, aby nie wywołać tym sposobem nadmiarowej ilości błędów. Dochodzą do tego problemy związane z przekazywaniem danych między kodem napisanym w Javie a np. C/C++. Oczywiście wykorzystanie natywnego kodu komplikuje nam zaciemnianie kodu. Sposób ten jak i zaciemnienie jednak nie służą zabezpieczeniu naszego kodu, a tylko utrudnieniu napastnikowi odczytania i przeanalizowania naszej implementacji.
+Często prostą i polecaną techniką jest ukrycie krytycznych części kodu w natywnym kodzie. Przykładem może być przepisany fragment kodu do C++. Dzięki temu, takiego kodu nie będzie mógł odczytać nowicjusz, który nauczył się używać apktool'a, czy innego tego typu narzędzia. W takim przypadku będzie potrzebna zarówno niskopoziomowa wiedza, jak i znajomość danej platformy.\par
+Takie rozwiązanie ma jednak też i swoje wady. Developer, który będzie tego sposobu używał musi również wiedzieć jak to zaimplementować, aby nie wywołać tym sposobem nadmiarowej ilości błędów. Dochodzą do tego problemy związane z przekazywaniem danych między kodem napisanym w Javie a np. C/C++. Oczywiście, wykorzystanie natywnego kodu komplikuje nam zaciemnianie kodu. Sposób ten jak i zaciemnienie jednak nie służą zabezpieczeniu naszego kodu, a tylko utrudnieniu napastnikowi odczytania i przeanalizowania naszej implementacji.
 \section{Szyfrowanie}
 % http://www.javaworld.com/article/2077342/core-java/cracking-java-byte-code-encryption.html?page=2
 W poprzednich sekcjach były poruszone tylko utrudnienia jakie możemy wprowadzić w naszym programie, aby kod nie został odczytany. Kolejnym sposobem na znaczące utrudnienie odzyskania kodu byłoby szyfrowanie naszych plików. Dzięki temu aplikacja byłaby tylko odszyfrowana w czasie działania aplikacji. Oczywiście dla zwiększenia bezpieczeństwa klucz deszyfrujący może być dostarczany z zewnętrznego nośnika np. z serwera.
 \par
-Jednakże, ta technika też nie jest idealna. Jeśli ktoś będzie bardzo zawzięty i będzie miał dużo czasu, to też uda mu się ominąć to zabezpieczenie. Główną zmianą jaką developer musiałby wprowadzić, by wykorzystać ów metodę, jest napisanie własnego ClassLoader'a. Taka klasa wiedziałaby jak stworzyć instancje naszej klasy, aby móc z niej skorzystać. Oczywiście nie musimy szyfrować całej aplikacji a tylko części najbardziej wrażliwe, tak jak miało to miejsce z wykorzystaniem kodu natywnego.
+Jednakże, ta technika też nie jest idealna. Jeśli ktoś będzie bardzo zawzięty i będzie miał dużo czasu, to też uda mu się ominąć to zabezpieczenie. Główną zmianą jaką developer musiałby wprowadzić, by wykorzystać ów metodę, jest napisanie własnego ClassLoader'a. Taka klasa wiedziałaby jak stworzyć instancje naszej klasy, aby móc z niej skorzystać. Oczywiście nie musimy szyfrować całej aplikacji, a tylko części najbardziej wrażliwe, tak jak miało to miejsce z wykorzystaniem kodu natywnego.
 %
 \section{Inne}
 Inne techniki często bazują na bezpośrednim ataku w narzędzia, których używa się do odwrotnej inżynierii.
@@ -990,7 +991,7 @@ Jako przykładem posłużę się trzema aplikacjami, w których odwrotna inżyni
 %
 \section{Hasła bez zaciemniania}
 % https://docs.google.com/presentation/d/1EI8cfZ5Vl5fiC03C5dogrM5GRHfcLTechk1OHBnAy6E/edit#slide=id.g10f8594d37_0_334
-Aplikacja, która dostarcza nam oferty zniżkowe typu kupony i rabaty, dzięki którym możemy coś kupić. Pierwszym sposobem, by zagwarantować sobie dostęp do ogromnej ilości kuponów, byłoby wydobycie ich z API twórcy aplikacji. Możemy taki proces zautomatyzować, co powinno nam dostarczyć łatwy dostęp do kodów rabatowych. Wystarczy przy użyciu narzędzia np. \verb|wireshark| nasłuchać w sieci lokalnej, jakie metody API są odpytywane, i zreprodukować zapytania. Na szczęście, twórca aplikacji zabezpieczył się przez użycie hasła do API, które jest ukryte w zapytaniu HTTPS, więc nie możemy go w łatwy sposób wydobyć. Tutaj przychodzi nam na pomoc RE. Przy użyciu narzędzia apktool uzyskujemy kod, który nie jest zaciemniony. W łatwy sposób możemy zgadnąć, jak ktoś trzyma hasło w kodzie, o ile stosuje dobre praktyki programistyczne. W tym przypadku, jest to strzał w dziesiątkę. Wystarczy przeszukać kod pod frazą \verb|"password"|.
+Aplikacja, która dostarcza nam oferty zniżkowe typu kupony i rabaty, dzięki którym możemy coś kupić. Pierwszym sposobem, by zagwarantować sobie dostęp do ogromnej ilości kuponów, byłoby wydobycie ich z API twórcy aplikacji. Możemy taki proces zautomatyzować, co powinno nam dostarczyć łatwy dostęp do kodów rabatowych. Wystarczy przy użyciu narzędzia np. \verb|wireshark| nasłuchać w sieci lokalnej, jakie metody API są odpytywane i zreprodukować zapytania. Na szczęście, twórca aplikacji zabezpieczył się przez użycie hasła do API, które jest ukryte w zapytaniu HTTPS, więc nie możemy go w łatwy sposób wydobyć. Tutaj przychodzi nam na pomoc RE. Przy użyciu narzędzia apktool uzyskujemy kod, który nie jest zaciemniony. W łatwy sposób możemy zgadnąć, jak ktoś trzyma hasło w kodzie, o ile stosuje dobre praktyki programistyczne. W tym przypadku, jest to strzał w dziesiątkę. Wystarczy przeszukać kod pod frazą \verb|"password"|.
 %
 \begin{figure}[H]
 	\centering
@@ -1039,7 +1040,7 @@ Korzystając z RE możemy odzyskać kod ów aplikacji i usunąć sprawdzanie, dz
 	\caption{Szukanie wiadomości prezentowanej przez aplikację}
 \end{figure}
 %
-Dzięki prostemu wyszukaniu gdzie jest używany komunikat, jesteśmy w stanie precyzyjnie znaleźć miejsce naszej blokady i je wyłączyć.
+Dzięki prostemu wyszukaniu, gdzie jest używany komunikat, jesteśmy w stanie precyzyjnie znaleźć miejsce naszej blokady i je wyłączyć.
 %
 \begin{figure}[H]
 	\centering
