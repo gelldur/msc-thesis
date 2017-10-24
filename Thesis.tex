@@ -326,16 +326,16 @@ Nazwa pliku jest dowolna pod warunkiem, że jest zakończona przez \verb|.apk|
 Pliki \verb|.apk| są pewnego rodzaju archiwum, które bazuje na formacie ZIP.
 \begin{figure}[H]
 	\centering
-	\includegraphics[height=0.3\textheight]{img/apk_content_as_zip.png}
-	\caption{Otworzony plik .apk za pomocą programu ark}
+	\includegraphics[width=1\textwidth]{img/apk_content_as_zip.png}
+	\caption{Otworzony plik .apk za pomocą programu ark. \emph{Źródło: Opracowanie własne}}
 \end{figure}
 Szczegółowa budowa paczki apk:
 \begin{itemize}
 \item \texttt{Katalog META\_INF}
 \begin{figure}[H]
 	\centering
-	\includegraphics[height=0.3\textheight]{img/apk_content_as_zip_meta_inf.png}
-	\caption{META INF w ark}
+	\includegraphics[width=1\textwidth]{img/apk_content_as_zip_meta_inf.png}
+	\caption{META INF w ark \emph{Źródło: Opracowanie własne}}
 \end{figure}
 W katalogu znajduje się plik MANIFEST.MF. Plik ten zawiera metadane dotyczące zawartości paczki:\\\\
 Przykład:
@@ -446,8 +446,8 @@ Pliki \verb|.apk| są pewnego rodzaju archiwum, które bazuje na formacie \verb|
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[height=0.3\textheight]{img/apk_content_as_zip.png}
-	\caption{Otwarty plik .apk za pomocą programu ark}
+	\includegraphics[width=1\textwidth]{img/apk_content_as_zip.png}
+	\caption{Otwarty plik .apk za pomocą programu ark. \emph{Źródło: Opracowanie własne}}
 \end{figure}
 
 Szczegółowa budowa paczki \verb|.apk|:
@@ -456,8 +456,8 @@ Szczegółowa budowa paczki \verb|.apk|:
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[height=0.3\textheight]{img/apk_content_as_zip_meta_inf.png}
-	\caption{META INF w ark}
+	\includegraphics[width=1\textwidth]{img/apk_content_as_zip_meta_inf.png}
+	\caption{META INF w ark. \emph{Źródło: Opracowanie własne}}
 \end{figure}
 
 W katalogu znajduje się plik MANIFEST.MF. Plik ten zawiera metadane dotyczące zawartości paczki:
@@ -540,8 +540,8 @@ I: Copying original files...
 Dzięki tej komendzie uzyskamy źródła z naszej aplikacji. 
 \begin{figure}[H]
 	\centering
-	\includegraphics[height=0.3\textheight]{img/apktool/sample_apk.png}
-	\caption{Wynik pracy \lstinline|apktool d app-release.apk|}
+	\includegraphics[width=1\textwidth]{img/apktool/sample_apk.png}
+	\caption{Wynik pracy \lstinline|apktool d app-release.apk|. \emph{Źródło: Opracowanie własne}}
 \end{figure}
 \begin{itemize}
 \item{Folder \verb|smali|}\\
@@ -562,7 +562,7 @@ Zdekodowany \lstinline|AndroidManifest.xml|.
 	\centering
 	\includegraphics[width=1\textwidth]
 	{img/apktool/sample_diff_manifest.png}
-	\caption{Diff między AndroidManifest.xml z źródeł a odzyskanym z pliku .apk}
+	\caption{Diff między AndroidManifest.xml z źródeł a odzyskanym z pliku .apk. \emph{Źródło: Opracowanie własne}}
 \end{figure}
 %
 \subsection{Budowanie z powrotem}
@@ -609,15 +609,19 @@ W systemie Android możemy wydzielić dwa sposoby weryfikacji aplikacji. Sposoby
 \section{Nazwa paczki}
 Nazwa paczki aplikacji jest podstawowym sposobem na zidentyfikowanie aplikacji w całym systemie. Założenie jest proste: nazwa paczki aplikacji musi być unikatowa w skali systemu. Oznacza to, że nie możemy mieć jednocześnie wiele aplikacji o takiej samej nazwie paczki. Oczywiście, w sklepie z aplikacjami Google Play ta zasada również obowiązuje. Jednak w naszym systemie możemy mieć zupełnie inną aplikację niż ta, która znajduje się w sklepie, a będą miały taką samą nazwę paczki. Oczywiście, nie będziemy mogli zainstalować ze sklepu takiej aplikacji, póki nie usuniemy poprzedniej z systemu.\\
 Jest to bardzo prymitywna metoda identyfikacji, którą łatwo oszukać i podszyć się pod inną aplikację. Obrona przed tego typu oszustwem poruszymy w \ref{signing}. Dobrą praktyką i ogólnie przyjętą konwencją jest to, aby nazwa paczki była odwróconą domeną, tak samo jak to ma miejsce w zwykłym nazewnictwie paczek przy projektach w języku Java.
-\begin{center}
-	\centering	\includegraphics[height=0.3\textheight]
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]
 	{img/signing/google_play_app_name.png}
-\end{center}
+	\caption{\emph{Źródło: Opracowanie własne}}
+\end{figure}
 Na powyższym rysunku możemy zobaczyć nazwę paczki, która jest bezpośrednio widoczna w URL strony. Na tej też podstawie możemy dokonać wstępnej weryfikacji.
-\begin{center}
-	\includegraphics[height=0.3\textheight,keepaspectratio]
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]
 	{img/signing/two_same_aps.png}
-\end{center}
+	\caption{\emph{Źródło: Opracowanie własne}}
+\end{figure}
 Na powyższym rysunku możemy zobaczyć, że zostały zainstalowane dwie takie same aplikacje. Oczywiście zgodnie z zasadą, co służy do identyfikacji aplikacji jest nazwa paczki. W tym przypadku nazwa aplikacji i ikonka są takie same. Różnią się tylko nazwą paczki:
 \begin{lstlisting}
 com.f2zentertainment.pandemic
@@ -636,7 +640,7 @@ Wymogiem Androida jest, by aplikacje były cyfrowo podpisane certyfikatem\cite{A
 	\centering
 	\includegraphics[width=1\textwidth,keepaspectratio]
 	{img/signing/appsigning_selfmanagediagram_2x.png}
-	\caption{Podpisanie aplikacji przez Developera.}
+	\caption{Podpisanie aplikacji przez Developera.\emph{Źródło: \cite{ApkSigning}}}
 \end{figure}
 Klucze są zabezpieczone dodatkowymi hasłami w pliku. Jeśli zgubimy lub utracimy nasz klucz, to nie będziemy w stanie aktualizować naszej aplikacji użytkownikom. Jak wcześniej było wspomniane, aplikacja musi być podpisana tym samym kluczem, aby system uznał ją jako aktualizację, czy też autentyczną aplikację od danego twórcy.\par
 Dekompilowane przez nas aplikacje możemy podpisać naszym kluczem, co pozwoli nam na instalację tak zmodyfikowanej aplikacji. Jeśli jednak chcielibyśmy, aby system potraktował tak zmodyfikowaną aplikację jako aktualizację, to już się to nie powiedzie, ponieważ poprzednia aplikacja była podpisana innym kluczem.\par
@@ -650,7 +654,7 @@ Metoda ta bazuje na innej metodzie podpisywaniu pliku JAR\cite{JarSigning}. Plik
 	\centering
 	\includegraphics[width=1\textwidth,keepaspectratio]
 	{img/signing/apk_signed_v1_vs_signed_with_v2.png}
-	\caption{Przykładowy APK. Po lewej APK podpisany metodą v1, po prawej metodą v2}
+	\caption{Przykładowy APK. Po lewej APK podpisany metodą v1, po prawej metodą v2. \emph{Źródło: Opracowanie własne}}
 \end{figure}
 % https://source.android.com/security/apksigning/
 % https://docs.oracle.com/javase/8/docs/technotes/guides/jar/jar.html#Signed_JAR_File
@@ -661,9 +665,9 @@ Metoda ta dostępna jest od Androida 7.0. Zawartość naszego \verb|.apk| przech
 %
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\textwidth,keepaspectratio]
+\includegraphics[width=1\textwidth,keepaspectratio]
 	{img/signing/apk-validation-process.png}
-	\caption{Weryfikacja podpisu APK.}
+	\caption{Weryfikacja podpisu APK. \emph{Źródło: \cite{ApkSigning2}}}
 \end{figure}
 %
 \chapter{Wynik deasemblacji}
@@ -676,8 +680,7 @@ Całą ideą języka Java jest \say{Zbuduj raz, działaj wszędzie} (ang. \say{"
 \label{smali}
 %
 Smali w tłumaczeniu islandzkim to właśnie asembler\cite{SmaliWiki}. Smali nie jest skomplikowanym językiem składniowo. Konstrukcje są prymitywne i bardzo czytelne. Częściowo słowa kluczowe pokrywają się z tymi które znajdziemy w opkodach maszyny Dalivik jak i bezpośrednio w słowach kluczowych języka Java.  Poniżej znajduje się kod smali który wyświetli na ekranie \say{Hello World!}
-\lstinputlisting[language=smali, captionpos=b, belowcaptionskip=4pt, caption={Przykładowy program w Smali.}]{src/smali/hello_world.smali}
-\todo{Add source link}
+\lstinputlisting[language=smali, captionpos=b, belowcaptionskip=4pt, caption={Przykładowy program w Smali. \emph{Źródło: \cite{HelloWorldSmali}}}]{src/smali/hello_world.smali}
 % 
 \subsection{Dyrektywy}
 %
@@ -860,7 +863,7 @@ Dalvik i ART to dwie maszyny wirtualne działające na systemie Android. Dalvik 
 	\centering
 	\includegraphics[width=1\textwidth]
 	{img/ART_view.png}
-	\caption{Porównanie architektury Dalvika i ART}
+	\caption{Porównanie architektury Dalvika i ART. \emph{Źródło: \cite{ARTWiki}}}
 \end{figure}
 %
 Jedną z istotnych zmian jakie wprowadził ART to \verb|AOT| czyli \say{Ahead-of-time compilation}. Dzięki temu zabiegowi aplikacja dodatkowo jest optymalizowana w trakcie instalacji na urządzeniu użytkownika. Kosztem jest dłuższy czas instalacji. Jednak warto poświęcić na to jednorazowa czas i zyskać wydajniejszą aplikację.
@@ -895,9 +898,9 @@ Powyższy kod skompilujemy i otrzymamy pliki \lstinline|.class|.
 %
 \begin{figure}[H]
 	\centering
-	\includegraphics[height=0.3\textheight]
+	\includegraphics[width=1\textwidth]
 	{img/secure_desasembly/compiled_sample_java.png}
-	\caption{Wygenerowane pliki za pomocą komendy: \lstinline|javac SampleJavaCode.java|}
+	\caption{Wygenerowane pliki za pomocą komendy: \lstinline|javac SampleJavaCode.java|. \emph{Źródło: Opracowanie własne}}
 \end{figure}
 %
 Najbardziej interesującym nas plikiem jest \lstinline|SampleJavaCode$ForwardListImplementation.class|, ponieważ jesteśmy ciekawi jak ktoś zaimplementował ów strukturę danych.  Załóżmy, że otrzymaliśmy aplikację od kolegi, który wszystko spakował w JAR'a. Po otwarciu JAR'a zobaczylibyśmy wszystkie te pliki, które widzimy na zdjęciu. Sama już nazwa nam wskazuje, gdzie mamy szukać implementacji. Ironią losu jest, że im lepszej jakości kod ktoś napisał i nie poddał go procesowi zaciemnienia, tym prościej atakującemu będzie znaleźć to, czego szuka. Oczywiście, plik \lstinline|.class| jest plikiem z kodem bajtowym i czytanie go nic nam nie da, dlatego musimy go najpierw zdekompilować. Dla uproszczenia procesu skorzystamy z dekompilatora online \hyperlink{http://www.javadecompilers.com/processing}{javadecompilers.com}.
@@ -911,9 +914,9 @@ Różnica wydaje się nieznacząca, a przynajmniej nie utrudnia nam za bardzo an
 %
 \begin{figure}[H]
 	\centering
-	\includegraphics[height=0.3\textheight]
+	\includegraphics[width=1\textwidth]
 	{img/secure_desasembly/sample_obfuscation.png}
-	\caption{JAR przed zaciemnieniem i po, za pomocą narzędzia proguard.}
+	\caption{JAR przed zaciemnieniem i po, za pomocą narzędzia proguard. \emph{Źródło: Opracowanie własne}}
 \end{figure}
 %
 JAR po poddaniu obfuskcaji pozmieniał nazwy plików, dlatego teraz znacznie ciężej znaleźć interesujący nas plik. Dodatkowo, zdekompilowany kod zmienił trochę hierarchię naszych struktur, co może dodatkowo utrudnić nam analizę.
@@ -996,7 +999,7 @@ Aplikacja, która dostarcza nam oferty zniżkowe typu kupony i rabaty, dzięki k
 	\centering
 	\includegraphics[width=1\textwidth]
 	{img/why_secure/find_password.png}
-	\caption{Szukanie hasła w źródłach aplikacji.}
+	\caption{Szukanie hasła w źródłach aplikacji. \emph{Źródło: Opracowanie własne}}
 \end{figure}
 %
 Dzięki prostemu i szybkiemu przeszukaniu kodu, możemy zerknąć bezpośrednio do pliku, w którym znajduje się odpowiedź na nasze pytanie.
@@ -1005,7 +1008,7 @@ Dzięki prostemu i szybkiemu przeszukaniu kodu, możemy zerknąć bezpośrednio 
 	\centering
 	\includegraphics[width=1\textwidth]
 	{img/why_secure/password_in_smali.png}
-	\caption{Ukryte hasło.}
+	\caption{Ukryte hasło. \emph{Źródło: Opracowanie własne}}
 \end{figure}
 %
 \section{Generator tokenów}
@@ -1013,9 +1016,9 @@ Aplikacje mobilne coraz częściej służą jako metoda podwójnego uwierzytelni
 %
 \begin{figure}[H]
 	\centering
-	\includegraphics[height=0.3\textheight]
+	\includegraphics[height=0.4\textheight]
 	{img/why_secure/steam_tokener.png}
-	\caption{Generator tokenów w aplikacji.}
+	\caption{Generator tokenów w aplikacji. \emph{Źródło: Opracowanie własne}}
 \end{figure}
 %
 Dlatego od teraz wszystkie boty musiałyby posiadać swoją instancję aplikacji, aby móc generować tokeny. Jednakże, znów wystarczyło wykorzystać inżynierię zwrotną, aby wydobyć algorytm, który był odpowiedzialny za generowanie tokenów. Oczywiście, w tym przypadku aplikacja była poddana zaciemnianiu i nie jest tak prosto znaleźć, gdzie był ukryty ten algorytm. Oczywiście, po żmudnej analizie nieczytelnego kodu i analizowaniu wykonywania udało się odnaleźć ów algorytm i go wyodrębnić do przyjaznej skryptowej postaci. Wystarczyło ów algorytm odpowiednio zainicjalizować i gotowe. Nie potrzebujemy do tego dedykowanej aplikacji.
@@ -1025,9 +1028,9 @@ Aplikacje często posiadają blokady\cite{DRM}, czy pewne inne nieudogodnienia n
 %
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.6\textwidth]
+	\includegraphics[width=1\textwidth]
 	{img/why_secure/device_rooted_message.png}
-	\caption{Komunikat od aplikacji Starbucks.}
+	\caption{Komunikat od aplikacji Starbucks. \emph{Źródło: Opracowanie własne}}
 \end{figure}
 %
 Korzystając z RE możemy odzyskać kod ów aplikacji i usunąć sprawdzanie, dzięki czemu aplikacja będzie dla nas działać. Kod aplikacji został poddany zaciemnieniu przez co ciężko było znaleźć, gdzie jest sprawdzany ten warunek. Z pomocą przyszedł komunikat, który wyświetlał się nam na ekranie. Jeżeli wyszukamy ów tekst w plikach aplikacji, to znajdziemy początek nici po której dojdziemy do naszego kłębka. 
@@ -1036,7 +1039,7 @@ Korzystając z RE możemy odzyskać kod ów aplikacji i usunąć sprawdzanie, dz
 	\centering
 	\includegraphics[width=1\textwidth]
 	{img/why_secure/search_for_message.png}
-	\caption{Szukanie wiadomości prezentowanej przez aplikację}
+	\caption{Szukanie wiadomości prezentowanej przez aplikację. \emph{Źródło: Opracowanie własne}}
 \end{figure}
 %
 Dzięki prostemu wyszukaniu, gdzie jest używany komunikat, jesteśmy w stanie precyzyjnie znaleźć miejsce naszej blokady i je wyłączyć.
@@ -1045,7 +1048,7 @@ Dzięki prostemu wyszukaniu, gdzie jest używany komunikat, jesteśmy w stanie p
 	\centering
 	\includegraphics[width=1\textwidth,keepaspectratio]
 	{img/why_secure/disable_block.png}
-	\caption{Wyłączenie blokady sprawdzającej czy urządzenie jest zrootowane.}
+	\caption{Wyłączenie blokady sprawdzającej czy urządzenie jest zrootowane. \emph{Źródło: Opracowanie własne}}
 \end{figure}
 %
 Tego typu blokady tyczą się również sprawdzania, czy użytkownik używa płatnej aplikacji oraz czy dana funkcjonalność powinna być odblokowana.
