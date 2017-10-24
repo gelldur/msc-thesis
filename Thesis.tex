@@ -315,31 +315,30 @@ Celem tej pracy jest przedstawienie narzędzi i procesu dekompilacji zbudowanych
 Rozszerzenie nazwy pliku bierze się z \emph{Android Package Kit (APK)}\cite{DexFormat,AndroidSourceDexFormat,HowAPK}.
 Format pliku przypomina ten znany z plików \verb|.jar|.
 Pliki oznaczone tym rozszerzeniem służą do rozpowszechniania aplikacji na system android. Na skład paczki \verb|.apk| wchodzą:
-
+%
 \begin{itemize}
-\item skompilowany kod Java w formacie .dex
-\item zasoby takie jak .png czy .mp3
+\item skompilowany kod Java w formacie \verb|.dex|
+\item zasoby takie jak \verb|.png| czy \verb|.mp3|
 \item certyfikaty
 \item plik manifestu
 \end{itemize}
+%
 Nazwa pliku jest dowolna pod warunkiem, że jest zakończona przez \verb|.apk|
 Pliki \verb|.apk| są pewnego rodzaju archiwum, które bazuje na formacie ZIP.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]{img/apk_content_as_zip.png}
-	\caption{Otworzony plik .apk za pomocą programu ark. \emph{Źródło: Opracowanie własne}}
+	\caption{Otworzony plik apk za pomocą programu ark. \emph{Źródło: Opracowanie własne}}
 \end{figure}
-Szczegółowa budowa paczki apk:
+%
+\subsection{Szczegółowa budowa paczki apk}
+%%%%%
+%%%%%
 \begin{itemize}
-\item \texttt{Katalog META\_INF}
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=1\textwidth]{img/apk_content_as_zip_meta_inf.png}
-	\caption{META INF w ark \emph{Źródło: Opracowanie własne}}
-\end{figure}
-W katalogu znajduje się plik MANIFEST.MF. Plik ten zawiera metadane dotyczące zawartości paczki:\\\\
-Przykład:
-\begin{lstlisting}
+%
+\item Katalog \verb|META-INF| - w katalogu znajduje się plik \verb|MANIFEST.MF|. Plik ten zawiera metadane dotyczące zawartości paczki.
+%
+\begin{lstlisting}[captionpos=b, caption={Zawartość pliku MANIFEST.MF}]
 Manifest-Version: 1.0
 Built-By: Generated-by-ADT
 Created-By: Android Gradle 2.3.3
@@ -356,58 +355,60 @@ SHA1-Digest: +DxTpyUKpT11iz68MG1Q0iB2EvA=
 Name: res/drawable/common_google_signin_btn_icon_dark_normal.xml
 SHA1-Digest: Qa00to2cn7JphS3q33GWp3lxTUs=
 \end{lstlisting}
-
-\item CERT.RSA - certyfikat aplikacji
-\item CERT.SF
-Lista zasobów i ich SHA-1. Skład jest taki sam jak w przypadku MANIFEST.MF
-
-
-\item Folder lib
-Katalog opcjonalny, w którym powinny znajdować się skompilowane biblioteki natywne na daną platformę np. armeabi, x86, mips
-
-\item AndroidManifest.xml - dodatkowy plik manifestu, który zawiera między innymi nazwy, wersję i prawa aplikacji. Plik ten często jest binarnym XML, który łatwo zamienić na formę czytelną dla człowieka.
-
-\item resources.arsc - plik zawierający prekompilowane zasoby takie jak binarne XML
-
-\item folder assets
-Folder zawierający zasoby, które nie są poddane dodatkowym obróbkom przez proces budowania apk.
-
-\item folder res
-Folder zawierający zasoby, które nie zostały przetworzone i dołączone do pliku resources.arsc
-
-\item classes.dex Skompilowane pliki Java do formatu .dex, które rozumie Dalvik virtual machine
-
+%
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{img/apk_content_as_zip_meta_inf.png}
+	\caption{Zawartość katalogu META-INF \emph{Źródło: Opracowanie własne}}
+\end{figure}
+%
+\item \verb|CERT.RSA| - certyfikat aplikacji.
+\item \verb|CERT.SF| - lista zasobów i ich SHA-1. Skład jest taki sam jak w przypadku \verb|MANIFEST.MF|.
+%
+\item Folder \verb|lib| - katalog opcjonalny, w którym powinny znajdować się skompilowane biblioteki natywne na daną platformę na przykład: \verb|armeabi|, \verb|x86|, \verb|mips|.
+%
+\item \verb|AndroidManifest.xml| - dodatkowy plik manifestu, który zawiera między innymi nazwy, wersję i prawa aplikacji. Plik ten jest binarnym XML, który łatwo zamienić na formę czytelną dla człowieka.
+%
+\item \verb|resources.arsc| - plik zawierający prekompilowane zasoby takie jak binarne XML.
+%
+\item Folder \verb|assets| - folder zawierający zasoby, które nie są poddane dodatkowym obróbkom przez proces budowania APK.
+%
+\item folder \verb|res| - folder zawierający zasoby, które nie zostały przetworzone i dołączone do pliku \verb|resources.arsc|.
+%
+\item \verb|classes.dex| - skompilowane pliki Java do formatu \verb|.dex|, które rozumie maszyna wirtualna Dalvika.
+%
 \end{itemize}
-
-
+%
+%
 %https://en.wikipedia.org/wiki/Dalvik_(software)
 %https://source.android.com/devices/tech/dalvik/dex-format
-
+%
 \section{Format .dex}
-
+%
 W pliku \verb|classes.dex| są przechowywane definicje naszych klas\cite{AndroidSourceDexFormat} i wszystkich innych danych im towarzyszących.
-Format ten służy do przenoszenia danych wejściowych dla Dalvik bajtkodu. 
-
-Istnieją wymogi\cite{DalvikConstrains}, które musi spełniać plik .dex, aby zostać uznany za prawidłowy.
+Format ten służy do przenoszenia danych wejściowych dla Dalvik bajtkodu.
+Istnieją wymogi\cite{DalvikConstrains}, które musi spełniać plik \verb|.dex|, aby zostać uznany za prawidłowy.
 % https://source.android.com/devices/tech/dalvik/constraints
-
-
-W zapisie binarnym pliku na samym początku musi pojawić się tak zwany \verb|DEX_FILE_MAGIC|, który jest zdefiniowany w następujący sposób:
+%
+W zapisie binarnym pliku na samym początku musi pojawić się tak zwany \verb|DEX_FILE_MAGIC|, który jest zdefiniowany w następujący sposób:\cite{AndroidSourceDexFormat}
 \begin{lstlisting}
 ubyte[8] DEX_FILE_MAGIC = { 0x64 0x65 0x78 0x0a 0x30 0x33 0x38 0x00 }
                         = "dex\n038\0"
 }
 \end{lstlisting}
-Jest on po to by mieć pewność, że odczytywany plik jest plikiem typu .dex.\\
+Jest on po to by mieć pewność, że odczytywany plik jest plikiem typu \verb|.dex.|\\
 W tym identyfikatorze jest zawarty znak nowej lini \verb|'\n' (0x0a)| i znak końca tekstu \verb|'\0' (0x00)|. Służy to tylko dodatkowym zabezpieczeniom, by wykryć uszkodzenie danych.
 \\
 Wartość ta zawiera także numer wersji formatu. Są to 3 cyfry pomiędzy nową linią a znakiem \verb|null|. Oczywiście służą w celach ewolucji danego formatu.
 \\
-Plik .dex jest podzielony na sekcje określone przez nagłówek.
+Plik \verb|.dex| jest podzielony na sekcje określone przez nagłówek.
+%
 \begin{itemize}
-\item\verb|string_ids|  W tej sekcji znajdują się wszystkie identyfikatory dla wszystkich stringów w tym pliku. Lista tych stringów musi być posortowana po nazwie przy użyciu \verb|UTF-16|, nie uwzględniając ustawień lokalnych komputera. Lista jest unikatowa, czyli nie zawiera powtórzeń.
-\item\verb|type_ids| Lista wszystkich typów występujących w pliku (zdefiniowanych i zadeklarowanych), tj. klasy, tablice, typy prymitywne. Lista ta jest posortowana po \verb|string_id| index i nie zawiera duplikatów.
-\item\verb|proto_ids|	
+\item\verb|string_ids| - w tej sekcji znajdują się wszystkie identyfikatory dla wszystkich stringów w tym pliku. Lista tych stringów musi być posortowana po nazwie przy użyciu \verb|UTF-16|, nie uwzględniając ustawień lokalnych komputera. Lista jest unikatowa, czyli nie zawiera powtórzeń.
+%
+\item\verb|type_ids| - lista wszystkich typów występujących w pliku (zdefiniowanych i zadeklarowanych), tj. klasy, tablice, typy prymitywne. Lista ta jest posortowana po \verb|string_id| index i nie zawiera duplikatów.
+%
+\item\verb|proto_ids|
 Opis:
 	Lista wszystkich prototypów metod znajdujących się w tym pliku.
 Specyfika danych:
@@ -415,13 +416,15 @@ Specyfika danych:
 	Lista jest posortowana po:
 		typie zwracanym (jego indeksie w \verb|type_id|
 		po liście argumentów i ich \verb|type_id|\\
-Lista wszystkich prototypów metod znajdujących się w tym pliku. Lista jest posortowana. 
+Lista wszystkich prototypów metod znajdujących się w tym pliku. Lista jest posortowana.
+% 
 \item\verb|field_ids|
 Opis:
 	Lista wszystkich identyfikatorów pól.	
 Specyfika danych:
 	Lista jest posortowana po typie (jego indeksie \verb|type_id|), następnie po nazwie pola (jego indeksie \verb|string_id|)
 	Lista nie zawiera duplikatów.	
+%
 \item\verb|method_ids|
 Opis:
 	Lista wszystkich identyfikatorów metod.
@@ -429,87 +432,15 @@ Specyfika danych:
 	Lista nie zawiera duplikatów.
 	Lista jest posortowana po definiowanym typie (jego indeksie \verb|type_id|),
 	następnie po nazwie (jego indeksie \verb|string_id|) i na koniec po prototypie metody (jego indeksie \verb|proto_id|)
-
+%
 \end{itemize}
-Rozszerzenie nazwy pliku bierze się z \emph{Android Package Kit (APK)}.
-Format pliku przypomina ten znany z plików .jar
-Pliki oznaczone tym rozszerzeniem służą do rozpowszechniania aplikacji na system android. Na skład paczki \verb|.apk| wchodzą:
-
-\begin{itemize}
-\item skompilowany kod Java w formacie .dex
-\item zasoby takie jak .png czy .mp3
-\item certyfikaty
-\item plik manifestu
-\end{itemize}
-Nazwa pliku jest dowolna pod warunkiem, że jest zakończona przez \verb|.apk|
-Pliki \verb|.apk| są pewnego rodzaju archiwum, które bazuje na formacie \verb|.zip|.
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=1\textwidth]{img/apk_content_as_zip.png}
-	\caption{Otwarty plik .apk za pomocą programu ark. \emph{Źródło: Opracowanie własne}}
-\end{figure}
-
-Szczegółowa budowa paczki \verb|.apk|:
-\begin{itemize}
-\item \texttt{Katalog META\_INF}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=1\textwidth]{img/apk_content_as_zip_meta_inf.png}
-	\caption{META INF w ark. \emph{Źródło: Opracowanie własne}}
-\end{figure}
-
-W katalogu znajduje się plik MANIFEST.MF. Plik ten zawiera metadane dotyczące zawartości paczki:
-
-Przykład:
-
-\begin{lstlisting}
-Manifest-Version: 1.0
-Built-By: Generated-by-ADT
-Created-By: Android Gradle 2.3.3
-
-Name: res/drawable-hdpi-v4/abc_list_longpressed_holo.9.png
-SHA1-Digest: KQunCQh0E4bP0utgN0cHdQr9OwA=
-
-Name: res/drawable-xxhdpi-v4/abc_ic_star_half_black_16dp.png
-SHA1-Digest: EikVyBT5I7pmbJO2k8qF0V5hUc0=
-
-Name: res/drawable-hdpi-v4/com_facebook_tooltip_black_background.9.png
-SHA1-Digest: +DxTpyUKpT11iz68MG1Q0iB2EvA=
-
-Name: res/drawable/common_google_signin_btn_icon_dark_normal.xml
-SHA1-Digest: Qa00to2cn7JphS3q33GWp3lxTUs=
-\end{lstlisting}
-
-\item CERT.RSA - certyfikat aplikacji
-\item CERT.SF
-Lista zasobów i ich SHA-1. Skład jest taki sam jak w przypadku MANIFEST.MF
-
-
-\item Folder lib
-Katalog opcjonalny, w którym powinny znajdować się skompilowane biblioteki natywne na daną platformę np. armeabi, x86, mips
-
-\item AndroidManifest.xml - dodatkowy plik manifestu, który zawiera między innymi nazwy, wersję i prawa aplikacji. Plik ten często jest binarnym XML, który łatwo zamienić na formę czytelną dla człowieka.
-
-\item resources.arsc - plik zawierający prekompilowane zasoby takie jak binarne XML.
-
-\item folder assets
-Folder zawierający zasoby, które nie są poddane dodatkowym obróbką przez proces budowania apk.
-
-\item folder res
-Folder zawierający zasoby, które nie zostały przetworzone i dołączone do pliku resources.arsc
-
-\item classes.dex Skompilowane pliki Java do formatu .dex, które rozumie Dalvik virtual machine
-
-\end{itemize}
-
+%
 \todo{Dokończyć tę sekcję}
-
+%
 \chapter{Narzędzia do dekompilacji}
-
+%
 \section{apktool}
-
+%
 Narzędzie to służy do przeprowadzenia odwrotnej inżynierii na wskazanym pliku \verb|.apk|. Potrafi zdekodować źródła aplikacji do formy zbliżonej przed jej zbudowaniem. Wiele procesów zostało zautomatyzowanych, takich jak zbudowanie ponowne aplikacji ze zdekompilowanych źródeł. \\
 \lstinline|apktool| jest otwarto źródłowym oprogramowaniem na licencji \mbox{Apache 2.0 License.} \\
 \\
