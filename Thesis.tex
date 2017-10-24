@@ -273,7 +273,7 @@ Na początku poznamy budowę aplikacji androidowej. Korzystając z tej wiedzy na
 
 %Abstrakt w języku angielskim.
 \begin{abstract}{english}
-The main point of this paper is to explain process of decompilation android application. On the start I will introduce how application is build. Using this knowledge we will review tools that can help us with this task. Thanks to those tools we will receive smali code and we will learn how to read and modify smali code. We will describe how Android system is identyfying applications. On the end I will show why we should care about securing our aps and what harm it could make us when we don't do it. We will get know-how how dissasembly process looks like.
+The main point of this paper is to explain process of decompilation Android application. At the beginning I will introduce how application is build. We will use this knowledge  to review tools that can help us with this task. Thanks to those tools we will receive smali code and we will learn how to read and modify smali code. We will describe how Android system is identyfying applications. In the end I will show why we should care about securing our apps and how harmful it could be for us, when we don't do it. We will get knowledge how dissasembly process looks like.
 \end{abstract}
 \smallskip
 \noindent \textbf{Keywords:} RE, reverse engineering, decompilation, android, dalvik, apk, apktool, smali, obfuscation, disassembly, objdump, assembler, release, debug, dex, hash, C++, Java
@@ -323,12 +323,12 @@ Pliki oznaczone tym rozszerzeniem służą do rozpowszechniania aplikacji na sys
 \item plik manifestu
 \end{itemize}
 %
-Nazwa pliku jest dowolna pod warunkiem, że jest zakończona przez \verb|.apk|
+Nazwa pliku jest dowolna pod warunkiem, że jest zakończona przez \verb|.apk|.
 Pliki \verb|.apk| są pewnego rodzaju archiwum, które bazuje na formacie ZIP.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]{img/apk_content_as_zip.png}
-	\caption{Otworzony plik apk za pomocą programu ark. \emph{Źródło: Opracowanie własne}}
+	\caption{Otwarty plik .apk za pomocą programu ark. \emph{Źródło: Opracowanie własne}}
 \end{figure}
 %
 \subsection{Szczegółowa budowa paczki apk}
@@ -386,7 +386,7 @@ SHA1-Digest: Qa00to2cn7JphS3q33GWp3lxTUs=
 \section{Format .dex}
 %
 W pliku \verb|classes.dex| są przechowywane definicje naszych klas\cite{AndroidSourceDexFormat} i wszystkich innych danych im towarzyszących.
-Format ten służy do przenoszenia danych wejściowych dla Dalvik bajtkodu.
+Format ten służy do przenoszenia danych wejściowych dla bajtkodu Dalvika.
 Istnieją wymogi\cite{DalvikConstrains}, które musi spełniać plik \verb|.dex|, aby zostać uznany za prawidłowy.
 % https://source.android.com/devices/tech/dalvik/constraints
 %
@@ -399,7 +399,7 @@ ubyte[8] DEX_FILE_MAGIC = { 0x64 0x65 0x78 0x0a 0x30 0x33 0x38 0x00 }
 Jest on po to by mieć pewność, że odczytywany plik jest plikiem typu \verb|.dex.|\\
 W tym identyfikatorze jest zawarty znak nowej lini \verb|'\n' (0x0a)| i znak końca tekstu \verb|'\0' (0x00)|. Służy to tylko dodatkowym zabezpieczeniom, by wykryć uszkodzenie danych.
 \\
-Wartość ta zawiera także numer wersji formatu. Są to 3 cyfry pomiędzy nową linią a znakiem \verb|null|. Oczywiście służą w celach ewolucji danego formatu.
+Wartość ta zawiera także numer wersji formatu. Są to 3 cyfry pomiędzy nową linią a znakiem \verb|null|. Oczywiście, służą w celach ewolucji danego formatu.
 \\
 Plik \verb|.dex| jest podzielony na sekcje określone przez nagłówki\cite{AndroidSourceDexFormat}.
 %
@@ -576,19 +576,19 @@ Metoda ta dostępna jest od Androida 7.0. Zawartość naszego \verb|.apk| przech
 %
 \chapter{Wynik deasemblacji}
 %
-Nasz kod w formie skompilowanej jest zapisany w bajt kodzie.
-Dzięki bajt kodowi i maszynie wirtualnej która go przetwarza zbudowana tak aplikacja jest w stanie  uruchomić się na dowolnym środowisku. Pod warunkiem, że posiadamy maszynę wirtualną działającą pod ów środowiskiem.
-Całą ideą języka Java jest \say{Zbuduj raz, działaj wszędzie} (ang. \say{"Write once, run anywhere"})(WORA)\cite{WORA}. W przypadku Androida jednak mamy do czynienia ze specjalnym bajt kodem. Wynika to z pewnej specyfiki urządzeń mobilnych i ograniczeń praw patentowych. W rozdziale \ref{apk_dex_how_to} został opisany proces kompilacji aplikacji.
+Nasz kod w formie skompilowanej jest zapisany w bajtkodzie.
+Dzięki bajtkodowi i maszynie wirtualnej, która go przetwarza, zbudowana tak aplikacja jest w stanie uruchomić się na dowolnym środowisku pod warunkiem, że posiadamy maszynę wirtualną działającą pod ów środowiskiem.
+Całą ideą języka Java jest \say{Zbuduj raz, działaj wszędzie} (ang. \say{"Write once, run anywhere"})(WORA)\cite{WORA}. W przypadku Androida  mamy jednak do czynienia ze specjalnym bajtkodem. Wynika to z pewnej specyfiki urządzeń mobilnych i ograniczeń praw patentowych. W rozdziale \ref{apk_dex_how_to} został opisany proces kompilacji aplikacji.
 %
 \section{SMALI}
 \label{smali}
 %
-Smali w tłumaczeniu islandzkim to właśnie asembler\cite{SmaliWiki}. Smali nie jest skomplikowanym językiem składniowo. Konstrukcje są prymitywne i bardzo czytelne. Częściowo słowa kluczowe pokrywają się z tymi które znajdziemy w opkodach maszyny Dalivik jak i bezpośrednio w słowach kluczowych języka Java.  Poniżej znajduje się kod smali który wyświetli na ekranie \say{Hello World!}
+Smali w tłumaczeniu islandzkim to właśnie asembler\cite{SmaliWiki}. Smali nie jest skomplikowanym językiem składniowo. Konstrukcje są prymitywne i bardzo czytelne. Częściowo słowa kluczowe pokrywają się z tymi, które znajdziemy w op-kodach maszyny Dalivik, jak i bezpośrednio w słowach kluczowych języka Java.  Poniżej znajduje się kod smali, który wyświetli na ekranie \say{Hello World!}
 \lstinputlisting[language=smali, captionpos=b, belowcaptionskip=4pt, caption={Przykładowy program w Smali. \emph{Źródło: \cite{HelloWorldSmali}}}]{src/smali/hello_world.smali}
 % 
 \subsection{Dyrektywy}
 %
-Dyrektywy służą do przekazania meta danych.
+Dyrektywy służą do przekazania metadanych.
 Parametry są umieszczane w tej samej linii po nazwie dyrektywy i są oddzielone spacją.
 Wszystkie nazwy dyrektyw zaczynają się od kropki \verb|"."|.
 %
@@ -602,8 +602,8 @@ Wszystkie nazwy dyrektyw zaczynają się od kropki \verb|"."|.
 %
 \subsection{Instrukcje}
 %
-Na instrukcję składa się jej nazwa i argumenty podzielane spacjami i nową linią.
-Smali używa mnemonik - \verb|opkodów| z instrukcji dalvika\cite{DalvikOpCodes}.
+Na instrukcję składa się jej nazwa i argumenty oddzielone spacjami i nową linią.
+Smali używa mnemonik - \verb|op-kodów| z instrukcji Dalvika\cite{DalvikOpCodes}.
 %
 \subsection{Etykiety}
 %
@@ -625,7 +625,7 @@ Etykieta składa się z dwukropka i nazwy po nim.
 %
 \subsection{Nazwy klas}
 %
-Jeśli chcemy zapisać nazwę klasy w smali to musimy to zrobić zgodnie z konwencją skompilowanej klasy.
+Jeśli chcemy zapisać nazwę klasy w smali, to musimy to zrobić zgodnie z konwencją skompilowanej klasy.
 \begin{lstlisting}
 Java: java.lang.String
 Smali: java/lang/String
@@ -633,7 +633,7 @@ Smali: java/lang/String
 %
 \subsection{Typy danych}
 %
-Typy możemy podzielić na dwie kategorię. Typu złożone i typy prymitywne. Typy złożone to na przykład klasy jak \verb|String|. Typem prymitywnym jest na przykład \verb|int|\cite{DexFormat,SmaliTypes}\\
+Typy możemy podzielić na dwie kategorie: typ złożony i typ prymitywny. Typy złożone to na przykład klasy jak \verb|String|. Typem prymitywnym jest na przykład \verb|int|\cite{DexFormat,SmaliTypes}\\
 Deskryptory typów danych:
 \begin{itemize}
 \item \verb|boolean| - \verb|Z|
@@ -662,7 +662,7 @@ Smali: [Ljava/lang/String;
 %
 \subsection{Metody}
 %
-Metody są tworzone z nazwy klasy i nazwy metody po której następuje lista argumentów. Wykorzystujemy tutaj sposób zapisu klasy i argumentów z poprzednich sekcji.
+Metody są tworzone z nazwy klasy i nazwy metody, po której następuje lista argumentów. Wykorzystujemy tutaj sposób zapisu klasy i argumentów z poprzednich sekcji.
 %
 \begin{lstlisting}[language=Java,captionpos=b,caption={Java}]
 public boolean onCreateOptionsMenu(android.view.Menu menu);
@@ -686,9 +686,8 @@ private android.content.Context mContext;
 %
 \subsection{Rejestry}
 %
-W bajt kodzie dalvika rejestry zawsze są 32 bitowe\cite{SmaliWiki} i mogą przechowywać dowolną wartość. Aby przechowywać \verb|long| czy \verb|double| używane są dwa rejestry.
-Do dyspozycji mamy dwa sposoby nazywania rejestrów.
-Z prefixem \verb|v| i \verb|p|. Prefix \verb|v| służy do ogólnego zastosowania natomiast \verb|p| dla parametrów.
+W bajtkodzie Dalvika rejestry zawsze są 32 bitowe\cite{SmaliWiki} i mogą przechowywać dowolną wartość. Aby przechowywać \verb|long| czy \verb|double| używane są dwa rejestry.
+Do dyspozycji mamy dwa sposoby nazywania rejestrów: z prefixem \verb|v| lub \verb|p|. Prefix \verb|v| służy do ogólnego zastosowania, natomiast \verb|p| dla parametrów.
 Dla przykładu:
 %
 \begin{lstlisting}[language=smali,captionpos=b,caption={}]
@@ -698,8 +697,8 @@ v2 # trzeci lokalny rejestr
 ...
 \end{lstlisting}
 %
-Dodatkowo nazwy rejestrów \verb|v| i \verb|p| \say{nachodzą} na siebie.
-Jeśli nasza metoda przyjmuje dwa argumenty i chcemy mieć dwie zmienne lokalne to rozłoży się to w następujący sposób:\\
+Dodatkowo, nazwy rejestrów \verb|v| i \verb|p| \say{nachodzą} na siebie.
+Jeśli nasza metoda przyjmuje dwa argumenty i chcemy mieć dwie zmienne lokalne, to rozłoży się to w następujący sposób:\\
 \begin{tabular}{|l | c | r |}
 \hline 
 \verb|v0| & & Pierwszy lokalny rejestr\\
@@ -718,7 +717,7 @@ Nazwy \verb|p| zostały wprowadzone jako ułatwienie.\\
 Określić liczbę użytych rejestrów możemy na dwa sposoby. \\
 \begin{itemize}
 \item Za pomocą dyrektywy \verb|.registers| określamy ile w sumie mamy do dyscpozycji rejestrów.
-\item Za pomocą dyrektywy \verb|.locals| określimy ile nie parametrowych rejestrów chcemy zarezerwować. Do tej liczby zostaną dodane rejestry z parametrów.
+\item Za pomocą dyrektywy \verb|.locals| określamy ile nieparametrowych rejestrów chcemy zarezerwować. Do tej liczby zostaną dodane rejestry z parametrów.
 \end{itemize}
 %
 \begin{lstlisting}[language=smali,captionpos=b,caption={Smali}]
@@ -750,10 +749,10 @@ Na początku każdego pliku \verb|.smali| możemy zobaczyć dodatkowe informacje
 %
 \begin{itemize}
 \item \verb|.source| - zawiera informację z jakiego pliku ów kod pochodzi. Taka informacja częściowo też jest zawarta w nazwie zdekompilowanego pliku. Głównie ma to zastosowane do debugowania. Jest to opcjonalna dyrektywa.
-\item \verb|.super| - maszyna wirtualna wie z jakiej klasy dziedziczymy. Jest to wymagana dyrektywa.
-\item \verb|.class| - mówi maszynie wirtualnej na jaką klasę składa się ów plik. Jest to wymagana dyrektywa.
-\item \verb|.interface| - alternatywa dla \verb|.class| jeśli tworzymy interfejs.
-\item \verb|.implements| - sygnalizujemy jakie interfejsy zostały zaimplementowane.
+\item \verb|.super| - maszyna wirtualna wie, z jakiej klasy dziedziczymy. Jest to wymagana dyrektywa.
+\item \verb|.class| - mówi maszynie wirtualnej, na jaką klasę składa się ów plik. Jest to wymagana dyrektywa.
+\item \verb|.interface| - alternatywa dla \verb|.class|, jeśli tworzymy interfejs.
+\item \verb|.implements| - sygnalizujemy, jakie interfejsy zostały zaimplementowane.
 \end{itemize}
 %%%%%
 %%%%%
@@ -761,7 +760,7 @@ Na początku każdego pliku \verb|.smali| możemy zobaczyć dodatkowe informacje
 %%%%%
 \verb|.dex| - Dalvik Executable\cite{DexFormat} \\
 \verb|.odex| - Optimized Dalvik Executable\cite{ART} \\
-Dalvik i ART to dwie maszyny wirtualne działające na systemie Android. Dalvik był domyślną maszyną dla Androida do wersji 4.4. Od wersji 5.0 nową domyślną maszyną jest ART. Nowa maszyna jest wstecznie kompatybilna i działa z starszymi wersjami aplikacji które zostały zbudowane zanim był dostępny ART. Istotną różnicą między typową maszyna wirtualną Javy a Dalvikiem jest to, że Dalvik posiada architekturę nastawioną na rejestry a nie stos. Podczas procesu budowania aplikacji na system Android kompilujemy kod za pomocą kompilatora Java do plików \verb|.class| a następnie za pomocą narzędzia \verb|dx| następuje konwersja plików \verb|.class| do jednego pliku \verb|.dex|. Podczas tej konwersji odpowiednie instrukcje Java bajtkodu są zamieniane na odpowiadające im instrukcje w Dalvik bajtkodzie.
+Dalvik i ART to dwie maszyny wirtualne działające na systemie Android. Dalvik był domyślną maszyną dla Androida do wersji 4.4. Od wersji 5.0 nową domyślną maszyną jest ART. Nowa maszyna jest wstecznie kompatybilna i działa ze starszymi wersjami aplikacji, które zostały zbudowane zanim był dostępny ART. Istotną różnicą między typową maszyna wirtualną Javy a Dalvikiem jest to, że Dalvik posiada architekturę nastawioną na rejestry, a nie stos. Podczas procesu budowania aplikacji na system Android kompilujemy kod za pomocą kompilatora Javy do plików \verb|.class|, a następnie za pomocą narzędzia \verb|dx| następuje konwersja plików \verb|.class| do jednego pliku \verb|.dex|. Podczas tej konwersji odpowiednie instrukcje bajtkodu Javy są zamieniane na odpowiadające im instrukcje w bajtkodzie Dalvika.
 %https://en.wikipedia.org/wiki/File:ART_view.png
 \begin{figure}[H]
 	\centering
@@ -770,8 +769,8 @@ Dalvik i ART to dwie maszyny wirtualne działające na systemie Android. Dalvik 
 	\caption{Porównanie architektury Dalvika i ART. \emph{Źródło: \cite{ARTWiki}}}
 \end{figure}
 %
-Jedną z istotnych zmian jakie wprowadził ART to \verb|AOT| czyli \say{Ahead-of-time compilation}. Dzięki temu zabiegowi aplikacja dodatkowo jest optymalizowana w trakcie instalacji na urządzeniu użytkownika. Kosztem jest dłuższy czas instalacji. Jednak warto poświęcić na to jednorazowa czas i zyskać wydajniejszą aplikację.
-Tak zoptymalizowana aplikacja jest zapisywana w formacie \verb|.odex|. Format ten nie jest przenośny miedzy wirtualnymi maszynami. Z założenia zoptymalizowany plik jest tworzony na tej wirtualnej maszynie na której będzie wykonywany.\\
+Jedną z istotnych zmian jakie wprowadził ART to \verb|AOT|, czyli \say{Ahead-of-time compilation}. Dzięki temu zabiegowi aplikacja dodatkowo jest optymalizowana w trakcie instalacji na urządzeniu użytkownika. Kosztem jest dłuższy czas instalacji, jednak warto poświęcić na to jednorazowo czas i zyskać wydajniejszą aplikację.
+Tak zoptymalizowana aplikacja jest zapisywana w formacie \verb|.odex|. Format ten nie jest przenośny między wirtualnymi maszynami. Z założenia zoptymalizowany plik jest tworzony na tej wirtualnej maszynie, na której będzie wykonywany.\\
 %
 Opis budowy pliku \verb|.apk| jak i \verb|.dex| można znaleźć w rozdziale \ref{apk_dex_how_to}.
 %
