@@ -20,3 +20,12 @@ Or clone normally and then
 - `pdflatex Thesis.tex` - again to add bibliography...
 
 Command `latex Thesis.tex` also should work for generating `.div` file
+
+## Use `make`
+
+```
+# For build pdf
+make
+# For clean
+make clean
+```
