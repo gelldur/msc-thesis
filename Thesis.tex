@@ -63,7 +63,6 @@
 \usepackage{package/lstlangsmali}
 
 \frenchspacing
-
 \newcommand{\myAuthorName}{Dawid Patryk Drozd}
 \author{\myAuthorName{}}
 \title{Dekompilacja aplikacji działających w systemie Android OS.}
@@ -308,7 +307,7 @@ Proces inżynierii wstecznej jest dodatkowo utrudniany przez programistów, któ
 
 Celem tej pracy jest przedstawienie narzędzi i procesu dekompilacji zbudowanych aplikacji oraz ponownej kompilacji zmodyfikowanej aplikacji na system operacyjny Android.
 
-\chapter{Jak zbudowana jest aplikacja na Android'a}
+\chapter{Jak zbudowana jest aplikacja na Androida}
 \label{apk_dex_how_to}
 % https://en.wikipedia.org/wiki/Android_application_package
 \section{Format .apk}
@@ -597,7 +596,7 @@ baksmali ../../sample-android-app/Thesis/app/app-release.apk -> app-release-out
 W taki sposób uzyskamy nasze zdekompilowane pliki \verb|.smali|. Narzędzie to umożliwia również odzyskanie plików \verb|.class|, które później mogą posłużyć do analizy przez inne programy np. \verb|JD-GUI|
 %
 \section{Inne}
-Oczywiście narzędzi istnieje znacznie więcej. Ja w mojej pracy jednak skupiłem się na \verb|apktool| ze względu na przyjemne użytkowanie i duże społeczeństwo zebrane wokół tego narzędzia.\\
+Oczywiście narzędzi istnieje znacznie więcej. Ja w mojej pracy jednak skupiłem się na \verb|apktool| ze względu na przyjemne użytkowanie i duża społeczność zebrana wokół tego narzędzia.\\
 Jednym z narzędzi wartych zainteresowania, może być \href{http://vaibhavpandey.com/apkstudio/}{apkstudio}. Narzędzie to działa we współpracy z \verb|apktool| i daje nam łatwy edytor dla developera.\\
 Kolejnym narzędziem graficznym wartym sprawdzenia jest \href{https://github.com/ajitsing/apkToJava}{apkToJava}.
 
@@ -632,7 +631,7 @@ Podsumowując, nazwa paczki służy tylko identyfikacji, tak jak w bazie danych 
 % https://source.android.com/security/apksigning/
 % Różnica między certyfikatem a kluczem 
 % https://pl.wikipedia.org/wiki/Certyfikat_klucza_publicznego
-Wymogiem Android'a jest, by aplikacje były cyfrowo podpisane certyfikatem\cite{ApkSigning} przed ich zainstalowaniem. Mamy dwa klucze: publiczny i prywatny. Klucz publiczny jest dołączany do naszego \verb|.apk|. Dzięki temu, w przyszłości będzie łatwo stwierdzić od kogo pochodzi nowa aplikacja czy aktualizacja. Narzędzie do podpisywania aplikacji (\lstinline|apksigner|) na Android'a pracuje na pliku \lstinline|.keystore|. Jest to binarny format, który zawiera jeden lub wiele prywatnych kluczy. 
+Wymogiem Androida jest, by aplikacje były cyfrowo podpisane certyfikatem\cite{ApkSigning} przed ich zainstalowaniem. Mamy dwa klucze: publiczny i prywatny. Klucz publiczny jest dołączany do naszego \verb|.apk|. Dzięki temu, w przyszłości będzie łatwo stwierdzić od kogo pochodzi nowa aplikacja czy aktualizacja. Narzędzie do podpisywania aplikacji (\lstinline|apksigner|) na Androida pracuje na pliku \lstinline|.keystore|. Jest to binarny format, który zawiera jeden lub wiele prywatnych kluczy. 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth,keepaspectratio]
@@ -657,7 +656,7 @@ Metoda ta bazuje na innej metodzie podpisywaniu pliku JAR\cite{JarSigning}. Plik
 % https://docs.oracle.com/javase/8/docs/technotes/guides/jar/jar.html#Signed_JAR_File
 Wadą tej metody jest to, że nie chroni przed modyfikacjami pewnych obszarów APK, takich jak metadane. Dodatkowo, program odpowiedzialny za weryfikację musi przetworzyć sporo danych, aby je zweryfikować. Takie podeście tworzy furtkę do ataku. Dodatkowo, trzeba odpakować wszystkie zasoby, co niestety jest też czasochłonne.
 \item{APK Signature Scheme v2 (v2 scheme)}
-Metoda ta dostępna jest od Android'a 7.0. Zawartość naszego \verb|.apk| przechodzi przez funkcję hashującą, której hash zostaje podpisany. Taki blok zostanie następnie dodany do naszego \verb|.apk|. Podczas walidacji \verb|.apk| jest traktowane jako kontener i sprawdza hash'e wszystkich plików wewnątrz \verb|.apk|, łącznie z metadanymi. Nowy format jest kompatybilny wstecz. Starsze urządzenia zignorują dodatkowe dane i wykonają sprawdzanie według metody v1. Oczywiście, aplikacja musi być podpisana dwoma sposobami.
+Metoda ta dostępna jest od Androida 7.0. Zawartość naszego \verb|.apk| przechodzi przez funkcję hashującą, której hash zostaje podpisany. Taki blok zostanie następnie dodany do naszego \verb|.apk|. Podczas walidacji \verb|.apk| jest traktowane jako kontener i sprawdza hash'e wszystkich plików wewnątrz \verb|.apk|, łącznie z metadanymi. Nowy format jest kompatybilny wstecz. Starsze urządzenia zignorują dodatkowe dane i wykonają sprawdzanie według metody v1. Oczywiście, aplikacja musi być podpisana dwoma sposobami.
 \end{itemize}
 %
 \begin{figure}[H]
@@ -871,7 +870,7 @@ Opis budowy pliku \verb|.apk| jak i \verb|.dex| można znaleźć w rozdziale \re
 %
 \chapter{Sposoby ochrony przed deasemblacją}
 % https://www.owasp.org/images/0/08/OWASP_SCP_Quick_Reference_Guide_v2.pdf
-Naturalną odpowiedzią na atak, jest obrona. Mając takie proste w użyciu narzędzia do RE, naturalne jest, że powstały techniki utrudniające RE\cite{OWASP}. Oczywiście, wykorzystano w tym kierunku wiedzę z innych technologi, gdzie ów problemy występują od dziesiątek lat. Temat jest na tyle szeroki, że poruszę tylko te sposoby, które są powszechnie stosowane w tworzeniu aplikacji na Android'a i są stosunkowo tanie/proste do wdrożenia. Większą bazę wiedzy na temat zabezpieczenia kodu przez inżynierią odwrotną można znaleźć na stronie \hyperlink{https://www.owasp.org/index.php/OWASP_Reverse_Engineering_and_Code_Modification_Prevention_Project}{OWASP}.
+Naturalną odpowiedzią na atak, jest obrona. Mając takie proste w użyciu narzędzia do RE, naturalne jest, że powstały techniki utrudniające RE\cite{OWASP}. Oczywiście, wykorzystano w tym kierunku wiedzę z innych technologi, gdzie ów problemy występują od dziesiątek lat. Temat jest na tyle szeroki, że poruszę tylko te sposoby, które są powszechnie stosowane w tworzeniu aplikacji na Androida i są stosunkowo tanie/proste do wdrożenia. Większą bazę wiedzy na temat zabezpieczenia kodu przez inżynierią odwrotną można znaleźć na stronie \hyperlink{https://www.owasp.org/index.php/OWASP_Reverse_Engineering_and_Code_Modification_Prevention_Project}{OWASP}.
 % https://stackoverflow.com/questions/43601498/protect-android-app-from-reverse-engineering
 % http://resources.infosecinstitute.com/android-hacking-and-security-part-18-introduction-to-reverse-engineering/
 \section{Zaciemnianie kodu}
@@ -945,7 +944,7 @@ Kody zostały przeze mnie lekko zmodyfikowane. Poprawiłem formatowanie kodu, ab
 % http://www.javadecompilers.com
 % https://en.wikipedia.org/wiki/ProGuard_(software)
 Progauard\cite{Proguard} jest narzędziem, które potrafi zmniejszyć, zoptymalizować i zaciemnić kod w języku Java. Jest darmowym narzędziem na licencji \href{https://en.wikipedia.org/wiki/GNU_General_Public_License#Version_2}{GPL v2}. Potrafi zoptymalizować kod bajtowy np. poprzez usunięcie nie używanego kodu.
-\par Proguard jest częścią narzędzi do budowania aplikacji na Android'a i domyślnie jest włączony dla aplikacji w trybie \verb|release|. Oczywiście, w naszym projekcie możemy skonfigurować to narzędzie za pomocą plików konfiguracyjnych tak, aby realizowało powierzone mu zadania np. zaciemniania kodu.\par
+\par Proguard jest częścią narzędzi do budowania aplikacji na Androida i domyślnie jest włączony dla aplikacji w trybie \verb|release|. Oczywiście, w naszym projekcie możemy skonfigurować to narzędzie za pomocą plików konfiguracyjnych tak, aby realizowało powierzone mu zadania np. zaciemniania kodu.\par
 Wadą tego narzędzia, jak i zarazem powodem, dla którego developerzy je wyłączają, jest modyfikowanie stosu wywołań (ang. \emph{stack trace}) przez zmiany nazw naszych metod czy klas.
 %
 \begin{lstlisting}[captionpos=b,caption={Przykładowy wyjątek dla nie zaciemnionego kodu.}]
