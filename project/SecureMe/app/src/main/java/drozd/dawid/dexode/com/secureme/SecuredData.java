@@ -60,6 +60,10 @@ public class SecuredData {
         }
     }
 
+    public static String getPassword() {
+        return _password;
+    }
+
     ///My secret field
     private static final String _password = "my_secret_password";
 
