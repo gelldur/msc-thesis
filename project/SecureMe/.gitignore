@@ -1,0 +1,50 @@
+.gradle/
+app/build/
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+/.idea/compiler.xml
+/.idea/copyright/profiles_settings.xml
+/.idea/gradle.xml
+/.idea/libraries/appcompat_v7_23_1_1.xml
+/.idea/libraries/support_annotations_23_1_1.xml
+/.idea/libraries/support_v4_23_1_1.xml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/runConfigurations.xml
+/.idea/vcs.xml
+/.idea/workspace.xml
+SecureMe.iml
+/app/app.iml
+/local.properties
+/.idea/libraries/
+build/
+/Resources/lastprocess
+/Resources/res/
+/.idea/encodings.xml
