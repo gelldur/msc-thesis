@@ -3,9 +3,10 @@ package drozd.dawid.dexode.com.secureme;
 /**
  * Created by gelldur on 25.10.17.
  */
-public class SecuredData {
+public class SecuredData implements Secured {
 
     /// My secret algorithm implementation
+    @Override
     public void sort(int[] array) {
         this._numbers = array;
         _count = array.length;
@@ -60,7 +61,8 @@ public class SecuredData {
         }
     }
 
-    public static String getPassword() {
+    @Override
+    public String getPassword() {
         return _password;
     }
 
