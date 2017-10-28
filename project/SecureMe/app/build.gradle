@@ -28,3 +28,36 @@ dependencies {
     compile 'com.android.support:design:26.+'
     testCompile 'junit:junit:4.12'
 }
+
+task encrypt(type: JavaExec) {
+    classpath "build/intermediates/classes/debug/"
+    main = "drozd.dawid.dexode.com.secureme.Encrypter"
+    args "-encrypt", "build/intermediates/classes/debug/", "drozd/dawid/dexode/com/secureme/SecuredData.dex"
+}
+
+task finalize() {
+    doFirst {
+        println('Encrypting!')
+        println("${projectDir}")
+
+        exec {
+            workingDir "${projectDir}/build/intermediates/classes/debug"
+            commandLine "/home/gelldur/Android/Sdk/build-tools/26.0.0/dx"             \
+            , "--dex"             \
+            , "--output=drozd/dawid/dexode/com/secureme/SecuredData.dex"             \
+            , "drozd/dawid/dexode/com/secureme/SecuredData.class"
+        }
+        //We don't want in our APK this .class
+        project.delete "build/intermediates/classes/debug/drozd/dawid/dexode/com/secureme/SecuredData.class"
+
+        // Encrypt our .dex file
+        encrypt.execute()
+
+        copy {
+            from "build/intermediates/classes/debug/drozd/dawid/dexode/com/secureme/SecuredData.dex"
+            into "src/main/assets/"
+        }
+    }
+}
+
+tasks.withType(JavaCompile) { compileTask -> compileTask.finalizedBy finalize }
