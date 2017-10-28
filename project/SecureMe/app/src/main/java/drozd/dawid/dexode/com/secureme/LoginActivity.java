@@ -3,6 +3,7 @@ package drozd.dawid.dexode.com.secureme;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
 import android.content.Loader;
@@ -17,14 +18,19 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.*;
 
+import java.io.File;
+import java.lang.ref.WeakReference;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -50,7 +56,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      */
     private UserLoginTask mAuthTask = null;
 
-    private SecuredData _secureData = new SecuredData();
+    private Secured _secureData = null;
 
     // UI references.
     private AutoCompleteTextView mEmailView;
@@ -61,6 +67,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_login);
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
@@ -77,7 +84,20 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 return false;
             }
         });
-        mPasswordView.setText(SecuredData.getPassword());
+
+
+        try {
+            File cacheFile = App.getCacheFile(this, "SecuredData.dex");
+            Log.d("CACHED FILE ::::::::::", cacheFile.getPath());
+            DecryptClassLoader encryptedClassLoader = new DecryptClassLoader(getClassLoader(), cacheFile, getDir("oat", 0));
+            _secureData = (Secured) encryptedClassLoader.loadClass("drozd.dawid.dexode.com.secureme.SecuredData").newInstance();
+            encryptedClassLoader.clean();
+
+            mPasswordView.setText(_secureData.getPassword());
+        } catch (Exception ex) {
+            Toast.makeText(this, ex.getMessage(), Toast.LENGTH_LONG).show();
+            ex.printStackTrace();
+        }
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
@@ -89,6 +109,44 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+    }
+
+    /**
+     * Not sure why it isn't working :(
+     * <p>
+     * I wanted to "override" default class loader so it will be more easy to use
+     *
+     * @param classLoader
+     */
+    private void setAPKClassLoader(ClassLoader classLoader) {
+        try {
+            Field mMainThread = getField(Activity.class, "mMainThread");
+            Object mainThread = mMainThread.get(this);
+            Class threadClass = mainThread.getClass();
+            Field mPackages = getField(threadClass, "mPackages");
+
+            Map<String, ?> map = (Map<String, ?>) mPackages.get(mainThread);
+            WeakReference<?> weakReference = (WeakReference<?>) map.get(getPackageName());
+            Object apk = weakReference.get();
+            Class apkClass = apk.getClass();
+            Field mClassLoader = getField(apkClass, "mClassLoader");
+
+            mClassLoader.set(apk, classLoader);
+        } catch (IllegalArgumentException ignored) {
+            ignored.printStackTrace();
+        } catch (IllegalAccessException ignored) {
+            ignored.printStackTrace();
+        }
+    }
+
+    private Field getField(Class<?> cls, String name) {
+        for (Field field : cls.getDeclaredFields()) {
+            if (field.getName().equals(name)) {
+                field.setAccessible(true);
+                return field;
+            }
+        }
+        return null;
     }
 
     private void populateAutoComplete() {
