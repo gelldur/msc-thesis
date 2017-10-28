@@ -410,6 +410,34 @@ Plik \verb|.dex| jest podzielony na sekcje określone przez nagłówki\cite{Andr
 \end{figure}
 %
 %
+\section{Przebieg budowania aplikacji}
+\label{prepare_process}
+%
+%GradleBuildProcess2
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{img/build_flow.png}
+	\caption{\emph{Źródło: \cite{GradleBuildProcess}}}
+\end{figure}
+%
+\begin{itemize}
+\item \verb|aapt| - kompiluje zasoby z \verb|AndroidManifest.xml| i generuje \verb|R.java|.
+%
+\item \verb|aidl| - konwertuje interfejsy \verb|.aidl| na odpowiedniki w języku Java.
+%
+\item \verb|javac| (Java Compiler) - kompiluje pliki. Wynikiem są \verb|.class|.
+%
+\item \verb|dex| - konwertuje \verb|.class| na bajtkod Dalivika (\verb|.dex|).
+%
+\item \verb|apkbuilder| - pakuje nie skompilowane zasoby (obrazki), skompilowane zasoby i pliki \verb|.dex| do pliku \verb|.apk|.
+%
+\item \verb|jarsigner| - podpisuje \verb|.apk|
+%
+\item \verb|zipalign| - optymalizuje ostateczny \verb|.apk|
+\end{itemize}
+%
+%%%%%%%%%%
+%
 \chapter{Narzędzia do dekompilacji}
 %
 \section{apktool}
