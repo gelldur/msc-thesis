@@ -982,10 +982,32 @@ Dzięki prostemu wyszukaniu, gdzie jest używany komunikat, jesteśmy w stanie p
 Tego typu blokady tyczą się również sprawdzania, czy użytkownik używa płatnej aplikacji oraz czy dana funkcjonalność powinna być odblokowana.
 
 \chapter{Projekt}
-\todo{Opisać projekt dot. szyfrowanego class loadera}
-\section{Założenia projektu}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\section{Cel projektu}
+%
+Celem projektu jest zaprezentowanie jednej z technik jaką możemy się
+posłużyć by zabezpieczyć nasz kod źródłowy. W projekcie został wykorzystany sposób przez zaszyfrowanie kodu skompilowanego kodu i w trakcie działania odszyfrowanie go. Dzięki takiemu rozwiązaniu w naszym 
+\verb|.apk| nie znajdują się bezpośrednio wrażliwe dane tylko zostają 
+bardziej ukryte. Oczywiscie ta metoda nie daje 100% gwarancji bezpieczeństwa a jedynie znacząco utrudnia napastnikowi wydobycie naszych
+cennych danych.\\
+Projekt został zrealizowany w języku Java z wykorzystaniem Android SDK\cite{AndroidSDK}
+%
+%
+%%%%%%%%%%%
 \section{Uruchomienie projektu}
+%
+Projekt jest dostępny pod linkiem: \url{https://github.com/gelldur/msc-thesis}\\
+Aby urochomic projekt należy zainstalować na swoim systemie Android Studio\cite{AndroidStudio} wraz z Android API 26. Następnie wystarczy z poziomu Android Studio uruchomić projekt. Projekt został przygotowany w taki sposób aby nie trzeba było wykonać skomplikowanej inicjalizacji projektu.
+%
+%
+%
+%
 \section{Opis działania}
+%
+W źródłach aplikacji mamy plik \verb|project/SecureMe/app/src/main/java/drozd/dawid/dexode/com/secureme/Encrypter.java| który jest odpowiedzialny za szyfrowanie plików wejściowych. Wykorzystane jest tam proste szyfrowanie z wykorzystaniem operacji \verb|XOR|.\\
+W trakcie budowania aplikacji w pliku \verb|project/SecureMe/app/build.gradle| zaraz po skompilowaniu plików źródłowych naszej aplikacji do postaci \verb|.class|, wykonujemy konwersję z \verb|.class| do \verb|.dex| tych plików których będziemy chceli zabezpieczyć. W tym przypadku jest to plik: \verb|SecuredData.java|. Następnie przekonwertowany tak plik szyfrujemy i przenosimy nasz plik do zasobów \verb|assets|. Na koniec usuwamy plik \verb|.class| który zaszyfrowaliśmy tak by nie trafił do ostatecznej aplikacji.\\
+Proces który przeprowadziliśmy na pliku wynika bezpośrednio z sposobu w jaki Android SDK przygotowywuje aplikację który był poruszony w: \ref{prepare_process}.\\
 %
 %
 %
