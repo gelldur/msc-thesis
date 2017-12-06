@@ -41,3 +41,5 @@ make
 # For clean
 make clean
 ```
+
+Link: https://apd.amu.edu.pl/diplomas/118819/
